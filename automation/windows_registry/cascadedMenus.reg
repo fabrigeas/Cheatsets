@@ -1,0 +1,17 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\Background\Shell\Menu1]
+"MUIVerb"="Docss"
+"SubCommands"="Desktop;Documents"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\Desktop]
+@="Desktop"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\Desktop\command]
+@="C:\Users\fabrigeas\Documents\batch\desktop.bat"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\Documents]
+@="Documents"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\Documents\command]
+@="C:\Users\fabrigeas\Documents\batch\documents.bat"

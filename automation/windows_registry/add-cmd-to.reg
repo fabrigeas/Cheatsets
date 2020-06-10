@@ -1,0 +1,9 @@
+#adds cmd in to folder context menus
+
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\fabrigeas-cmdIn]
+@="cmd in"
+
+[HKEY_CLASSES_ROOT\Directory\shell\fabrigeas-cmdIn\command]
+@="C:\Windows\System32 /s /k pushd \"%V\""

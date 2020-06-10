@@ -1,0 +1,5 @@
+desktop
+documents
+fabrigeas
+downloads
+workspace
