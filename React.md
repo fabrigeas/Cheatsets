@@ -473,6 +473,21 @@ Lreact.lazy with named exports
 [Back to top](#Content)
 
 ## [Context](https://reactjs.org/docs/context.html)
+```
+import ApplicationContext, {
+  ApplicationContextType,
+} from "../../ApplicationContext";
+import { UserType } from "../User/User.model";
+
+export default () => (
+  <ApplicationContext.Consumer>
+    {({ user }: ApplicationContextType) => (
+      <nav >
+      </nav>
+    )}
+  </ApplicationContext.Consumer>
+);
+```
 
 ### React Components
 
