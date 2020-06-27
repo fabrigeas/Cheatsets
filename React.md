@@ -12,7 +12,7 @@
   - [Lifting-State-up](#Lifting-State-up)
   - [Composition-VS-Inheritance](#Composition-VS-Inheritance)
   - [Accessibility](#Accessibility)
-  - [Code-Spliting](#Code-Spliting)
+  - [Code-Splitting](#Code-Splitting)
   - [Context](#Context)
   - [Error Boundaries](#Error-Boundaries)
   - [Refs & DOM](#Refs-&-DOM)
@@ -419,7 +419,7 @@ React supports all aria-* HTML attrs, and must be hyphen-cased (kebap-case, lisp
 
 [Back to top](#Content)
 
-## Code Spliting
+## Code Splitting
 
 React.lazy (default exports only)
 
@@ -1479,3 +1479,17 @@ package.json
     npm login || npm whoamI
     npm version 2.0.1
     npm publish --access=public
+  
+## Typescript
+
+### Context
+
+[ApplicationContext.tsx`](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/blob/master/src/ApplicationContext.tsx)
+
+[ClassComponent.receiver.tsx](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/blob/master/src/components/Project/Project.tsx)
+
+[FunctionalComponent.receiver](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/blob/master/src/components/Template/Template.tsx)
+
+[ErrorBoundary](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/blob/master/src/components/ErrorBoundary/ErrorBoundary.tsx)
+
+### [Redux](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/tree/master/src/redux)

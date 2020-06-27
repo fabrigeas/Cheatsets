@@ -24,6 +24,7 @@
   + [State Management with Vuex](#Vuex)
   + [Vue Router](#Vue-Router)
   + [Vue Publish package](#Publish-Package)
+  + [Typescript](#Typescript)
 
 ## Hello
 
@@ -2903,4 +2904,23 @@ package.json
 
     npm install --save [myLibName]
 
+## Typescript
+
+```
+npm install typescript ts-loader --save-dev
+npm install vue-property-decorator vue-class-component --save
+<!-- npm install vue-loader --save-dev -->
+npm i ts-loader
+```
+
+vue.shims.d.ts
+
+```
+declare module "*.vue" {
+  import Vue from "vue;
+  export default Vue
+}
+```
+
+rename main.js -> main.ts
 ## 

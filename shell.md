@@ -1,33 +1,38 @@
+# Shell cheatset
 [http://www.freeos.com/guides/lsst/](http://www.freeos.com/guides/lsst/)
-[Advabced scripting guide](http://www.tldp.org/LDP/abs/html/)
+[Advanced scripting guide](http://www.tldp.org/LDP/abs/html/)
 
+Execute batch file: type the following in the shell
 
-Execute batchfile: type the following in the shell
-
-    sh batchfile.sh
-     bash batchfile.sh
-    ./batchfile.sh
+``` 
+    sh file.sh
+     bash file.sh
+    ./file.sh
+```
 
 ### Parameters
 
-./myprogram a b c d e f
+./file.sh a b c d e f
 
     echo $0 //myprogram
     echo $1 //a
     echo $5 //f
     
+
 ## Misc
 
 append the scripts pwd to path
 
     export PATH=$PATH:/path/to/script/
       
+
 Display Information
 
     echo "user: ";whoami
     echo "date ";date
     exit 0
     
+
 System variables
 
     $BASH
@@ -43,11 +48,13 @@ System variables
     $SHELL
     $USERNAME
     
+
 Set user defined variables (no space between variable=value)
 
     name=feugang
     surname=fabrice
     
+
 Read users input
 
     echo "Your first name please:"
@@ -111,7 +118,7 @@ break
             then
          break
          fi
-         a=`expr $a + 1`
+         a= `expr $a + 1` 
       done
 
 continue
@@ -127,6 +134,7 @@ continue
             fi
             echo "Found odd number"
          done     
+
 ## switch
 
     while :
@@ -145,7 +153,7 @@ continue
         read yourch
         case $yourch in
           1) echo "Today is `date` , press a key. . ." ; read ;;
-          2) echo "Files in `pwd`" ; ls -l ; echo "Press a key. . ." ; read ;;
+          2) echo "Files in `pwd` " ; ls -l ; echo "Press a key. . ." ; read ;;
           3) cal ; echo "Press a key. . ." ; read ;;
           4) vi ;;
           5) exit 0 ;;
@@ -153,7 +161,6 @@ continue
              echo "Press a key. . ." ; read ;;
      esac
     done
-
 
 ## Conditions
 
@@ -174,8 +181,10 @@ if
          echo "None of the condition met"
       fi
            
+
    or
    
+
       a=10
       b=20
       if [ $a == $b ]; then
@@ -215,11 +224,13 @@ interface 2
       OF=home-$(date +%Y%m%d).tgz
       tar -cZf $TGTD$OF $SRCD
       
+
 Arithmetic evaluation
 
       echo "1 +1 $((1+1))"
       echo "1 + 1 =$[1+1]"
       
+
 Operators(comparators)
 
       -eq	is equal to	5 == 6	if test 5 -eq 6	if [ 5 -eq 6 ]
@@ -229,6 +240,7 @@ Operators(comparators)
       -gt	is greater than	5 > 6	if test 5 -gt 6	if [ 5 -gt 6 ]
       -ge	is greater than or equal to	5 >= 6	if test 5 -ge 6	if [ 5 -ge 6 ]
       
+
 Functions
 
       Hello () {
@@ -282,7 +294,6 @@ Redirection
     redirect stderr and stdout to a file
     rm -f $(find / -name core) &> /dev/null 
 
-
 Substitutions
 
     echo ${var:-"Variable is not set"}
@@ -301,6 +312,7 @@ Substitutions
     
     echo ${var:?"Print this message"}
     echo "5 - Value of var is ${var}"
+
     Upon execution, you will receive the following result −
     
     Variable is not set
@@ -328,6 +340,7 @@ Arrays{
 	${array_name[*]}
 	${array_name[@]}
     
+
 Binary operators
 
       -eq (arg1 is equal to arg2)
@@ -337,7 +350,6 @@ Binary operators
       -le (arg1 is less than or equal to arg2)
       -gt (arg1 is greater than arg2)
       -ge (arg1 is greater than or equal to arg2)
-
 
 [string formating](https://www.tutorialspoint.com/unix/unix-shell-substitutions.htm)
 
@@ -358,9 +370,10 @@ Binary operators
     echo ${var:?"Print this message"}
     echo "5 - Value of var is ${var}"
 
-
 Special Characters
 
 ## , (Comma) 
+
    
+
     let "t2 = ((a = 9, a / 3))" # executes comma separated expression and return only the last comma expression
