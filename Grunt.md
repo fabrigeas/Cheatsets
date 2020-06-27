@@ -1,15 +1,13 @@
 # Grunt cheatsets
 
-
 [Getting started](https://gruntjs.com/getting-started)
 [API](https://gruntjs.com/api/grunt)
-[gunt plug ins](https://gruntjs.com/plugins)
+[grunt plug ins](https://gruntjs.com/plugins)
 
 ## [Automate: publish ReactComponent to npm](https://github.com/fabrigeas/react-formg-group/blob/master/Gruntfile.js)
 
     module.exports = function (grunt) {
       // https://www.npmjs.com/package/grunt-shell
-
 
       const pkg = grunt.file.readJSON("package.json");
 
@@ -23,10 +21,10 @@
         const patch = Number(c);
 
         return patch + 1 < 10
-          ? `${major}.${minor}.${patch + 1}`
+          ? `${major}.${minor}.${patch + 1}` 
           : minor + 1 < 10
-          ? `${major}.${minor + 1}.${0}`
-          : `${major + 1}.${0}.${0}`;
+          ? `${major}.${minor + 1}.${0}` 
+          : `${major + 1}.${0}.${0}` ;
       };
 
       grunt.loadNpmTasks("grunt-shell");
@@ -48,13 +46,14 @@
           pushMaster: "git push origin master",
           pushTags: "git push --tags",
           version: "npm view",
-          unpublish: `npm unpublish ${pkg.name} -f`,
+          unpublish: `npm unpublish ${pkg.name} -f` ,
           publish: "npm publish --access=public",
           copy: {
-            command: (src, dest) => `cp ${src} ${dest}`,
+            command: (src, dest) => `cp ${src} ${dest}` ,
           },
-          upgradeVersion: `npm version ${generateVersion()}`,
+          upgradeVersion: `npm version ${generateVersion()}` ,
         },
+
       });
 
       grunt.registerTask("publish", "Publish the library to npm.", function () {
@@ -71,11 +70,11 @@
           "shell:pushTags",
           "shell:publish",
         ]);
+
       });
 
       grunt.registerTask('default', ['shell:version']);
     };
-
 
 ## Dive in
 
@@ -193,15 +192,17 @@ Gruntfile.js
       //Custom tasks
 
       grunt.registerTask("myTask1", "task description...", function() { 
-        grunt.log.writeln("Currently running task 1");
+        grunt.log.writeln("Currently running task 1"); 
+
       });
 
       grunt.registerTask("myTask3", "task description...", function(fname, lname) {
         if (arguments.length === 0) {
-          grunt.log.writeln(this.name + ", no args");
+          grunt.log.writeln(this.name + ", no args"); 
         } else {
-          grunt.log.writeln(this.name + ", " + fname + " " + lname);
+          grunt.log.writeln(this.name + ", " + fname + " " + lname); 
         }
+
       });
 
       //Default tasks.
@@ -222,4 +223,3 @@ Execution: In cmd, run
     grunt watch:sass
     grunt sass
     grunt eslint
-

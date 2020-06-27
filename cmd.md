@@ -2,7 +2,6 @@
 
 [Windows_Batch_Scripting](https://en.wikibooks.org/wiki/Windows_Batch_Scripting)
 
-
 @echo off
 
 Comment
@@ -13,6 +12,7 @@ Comment
 [Environmental variables](https://ss64.com/nt/syntax-variables.html)
 
 Set variables 
+
 	
 	set name=Fabrice
 	set name=Fabrice Feugang Kemegni #no space between variable=value
@@ -36,9 +36,9 @@ SETLOCAL
 	cd %here%
 
 @echo off|on 
+
 	
 	#hide/show path
-
 
 Change PROMPT
 
@@ -66,8 +66,6 @@ Change PROMPT
 
 Functions
 
-
-
 String processing
 
 	set a=abcd
@@ -83,6 +81,7 @@ String processing
 	echo %a:~1,-1% =>Result: bc
 
 <<<<<<< HEAD
+
 ## Sample programs
 
 Read filename from stdin and delete file GOTO
@@ -97,7 +96,9 @@ Read filename from stdin and delete file GOTO
 	IF EXIST %filename% (
 	DEL /P %filename%
 	GOTO prompt
+
 	)
+
 	IF /I "%filename%"=="q" GOTO :door
 
 	::By this point an error must have occurred as all
@@ -113,10 +114,13 @@ Read filename from stdin and delete file GOTO
 Loop
 
 	for /L %%i in (1,1,10) do (
+
   		echo %%i
+
 	)
 
 functions
+
 		
 	# batfile.bat 2 5 => 32
     call :raiseToPower %1 %2
@@ -148,4 +152,5 @@ functions
         set /a %1=%2 *3
     exit /b
 	
+
 >>>>>>> 381a5483de24d04e1c094e891396b95620e112a0

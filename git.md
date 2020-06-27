@@ -1,7 +1,6 @@
 # Tutorials
 [edit commit](https://github.com/k88hudson/git-flight-rules#i-wrote-the-wrong-thing-in-a-commit-message)
 
-
 SUMMARY
 
     - The most important commands
@@ -18,9 +17,6 @@ SUMMARY
     #files/folders that are GRENEN in color have been modified and need to be commited, run:
     git commit -am "a short description of the changes that you have made to these files"
 
-
-
-
 Exercise
 
     - Create a repository( folder) called HelloRepository
@@ -35,6 +31,7 @@ Exercise
     - commit with a message (you dont need to add myFile again because you have already added it)
     - write something to myFile2.txt and commit it
     - compress helloRepository as zip and email it to me (fabrigeas@gmail.com)
+
 -------------------------------------------------------------------------------------
 
     git log --oneline //to view commits with hashcodes on the side.
@@ -56,7 +53,6 @@ REVERT ALL CHANGES TILL LAST COMMIT
     
     edit file: "def"
     commit: -am "def added to file"
-
 
     git log --oneline
     aaaaaa file added
@@ -86,10 +82,10 @@ Undo -checkout
     #to revert(cancel) last commit.
     git revert HEAD 
 
-
     git reset fileX
     # equivalent to git remove fileX
     
+
 Time machine
 
     git reflog # list indexed commits
@@ -98,7 +94,6 @@ Time machine
 move to 2 commits before
 
     git reset --hard HEAD~2
-
 
 RENAME BRANCH (CURRENT)
 
@@ -110,7 +105,6 @@ RENAME BRANCH (CURRENT)
     git push origin :old_branch                 # Delete the old branch    
     git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
 
-
 DELETE REMOTE BRANCH
 
     git push origin --delete <branchName>
@@ -119,8 +113,6 @@ DELETE REMOTE BRANCH
     
     DELETE ALL ALREADY MERGED BRANCHES
     git branch --merged | grep -v "\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d
-
-
 
 git autocomplete
 
@@ -132,13 +124,12 @@ git autocomplete
     5 paste git-flow-completion.bash,.bashrc in ~/
     use tab to auto complete
 
-
 CHANGING A REMOTE'S URL
 
     git remote set-url origin git@github.com:fabrigeas/Notes.git(the copied rss url from remote repo)
 
-
 [ssh add key to bitbucket | push without login](https://confluence.atlassian.com/bitbucket/set-up-an-ssh-key-728138079.html)
+
 	
     //Open Git Bash.
 	
@@ -160,7 +151,6 @@ CHANGING A REMOTE'S URL
 	clone repo using ssh
 	//summary
 
-
 shortcut to push
 
     rm *~
@@ -172,13 +162,11 @@ shortcut to push
 	git remote add origin https://github.com/fabrigeas/Notes.git
 	git push -u origin master
 
-
 remove file from commit
 
     git checkout HEAD^ myfile
     git add myfile
     git commit --amend --no-edit
-
 
 Delete last commit
 
@@ -191,6 +179,7 @@ Delete last commit
     // if you had pushed
     git revert SHAofBadCommit
     
+
 Delete an arbitrary commit
 
     $ git rebase --onto SHA1_OF_BAD_COMMIT^ SHA1_OF_BAD_COMMIT

@@ -2860,11 +2860,13 @@ router.replace(location, onComplete?, onAbort?)
 
     // webpack.config.js -> module.rules
     
+
     {
-      test: /\.less$/,
+
+      test: /\.less$/, 
       use: [
-        'vue-style-loader',
-        'css-loader',
+        'vue-style-loader', 
+        'css-loader', 
         'less-loader'
       ]
     }
@@ -2906,7 +2908,7 @@ package.json
 
 ## Typescript
 
-```
+``` 
 npm install typescript ts-loader --save-dev
 npm install vue-property-decorator vue-class-component --save
 <!-- npm install vue-loader --save-dev -->
@@ -2915,7 +2917,7 @@ npm i ts-loader
 
 vue.shims.d.ts
 
-```
+``` 
 declare module "*.vue" {
   import Vue from "vue;
   export default Vue

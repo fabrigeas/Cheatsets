@@ -2,7 +2,7 @@
 
 ## Container
 
- A running proccess + encapsulation features to keep it autonomous (isolated from host and containers).
+ A running process + encapsulation features to keep it autonomous (isolated from host and containers).
  Each container interacts with it's own filesystem provided by a Docker Image.
  Runs natively on Linux and shares the kernel of the host machine with other containers.
 
@@ -59,8 +59,8 @@ Docker Hub - A registry of Docker images. You can think of the registry as a dir
   oficial images: officially maintained by docker eg python, ubuntum busybox hello-world ...
   user image: mainained by users eg fabrigeas/golfpace
 
-- Create your webapp
-- create Dockerfile
+* Create your webapp
+* create Dockerfile
 
 ### Dockerfile
 
@@ -85,9 +85,11 @@ Dockerfile
 
     # run the command
     CMD ["python", "./app.py"]
+
   
 ruin 
   
+
     # build the image
     docker build -t fabrigeas/catnip .
 
@@ -113,7 +115,6 @@ ruin
 ## Dockerizing a Node.js web app
 
     cd your-nodejs-app
-
 
 Dockerfile
 

@@ -7,29 +7,27 @@
  * @param {String} method GET, POST ...
  * @param {Object} data The Object
  */
-function httpRequest (url, method, data) {
-
-	return fetch(url, {
-		body: JSON.stringify(data),
-		cache: "no-cache",
-		credentials: "same-origin",
-		headers: {
-			// 'user-agent': 'Mozilla/4.0 MDN Example',
-			"content-type": "application/json",
-		},
-		method: method,
-		mode: "cors",
-		redirect: "follow",
-		referrer: "no-referrer",
-	}).then(response => response.json() );
-    
+function httpRequest(url, method, data) {
+  return fetch(url, {
+    body: JSON.stringify(data),
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      // 'user-agent': 'Mozilla/4.0 MDN Example',
+      "content-type": "application/json",
+    },
+    method: method,
+    mode: "cors",
+    redirect: "follow",
+    referrer: "no-referrer",
+  }).then((response) => response.json());
 }
 
 /** Make a get request. Returns a promise
  * @param {String} url
  */
-function get (url) {
-	return fetch(url).then( response => response.json());
+function get(url) {
+  return fetch(url).then((response) => response.json());
 }
 
 /** Event handler for image selected
@@ -41,18 +39,17 @@ function get (url) {
  *  * input(type='file' accept="image/*" data-preview="book-detail-preview" onchange='onImageSelectionComplete(event)')
  *  * img(id="book-detail-preview.preview")
  */
-function onImageSelectionComplete (event) {
+function onImageSelectionComplete(event) {
+  let fileReader = new FileReader(),
+    file = event.target.files[0];
 
-	let fileReader = new FileReader(),
-		file       = event.target.files[0];
-		
-	if(file) {
-		fileReader.readAsDataURL(file);
-	}
-		
-	fileReader.onload = function (e) {
-		document.getElementById(event.target.dataset.preview).src = e.target.result;
-	};
+  if (file) {
+    fileReader.readAsDataURL(file);
+  }
+
+  fileReader.onload = function (e) {
+    document.getElementById(event.target.dataset.preview).src = e.target.result;
+  };
 }
 
 /** This function takes a file input, and uploads the input's files to the server
@@ -60,90 +57,84 @@ function onImageSelectionComplete (event) {
  * @param {HTMLElement} input the Input containing the files: o ..* files
  * @param {String} path The destination folder, where the files should be saved. The backend will create one if it doesn't exist
  */
-function uploadFiles (input, path) {
+function uploadFiles(input, path) {
+  let formData = new FormData();
 
-	let formData = new FormData();
+  for (let file of input.files) {
+    formData.append("file", file);
+  }
 
-	for (let file of input.files ) {
-		formData.append("file", file);
-	}
+  formData.append("path", path);
 
-	formData.append("path", path);
-
-	return new Promise(function (resolve, reject) {
-		$.ajax({
-			type: "POST",
-			url: "/files",
-			processData : false,
-			contentType : false,
-			data : formData,
-			succes : resolve,
-			error  : reject
-		});
-	});
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      type: "POST",
+      url: "/files",
+      processData: false,
+      contentType: false,
+      data: formData,
+      succes: resolve,
+      error: reject,
+    });
+  });
 }
 
 /** Returns and object containing all the attributes of the form
  * @param {HTMLElement} form The html form:
  */
-function formToObject (form) {
-	
-	let item = {
-	};
+function formToObject(form) {
+  let item = {};
 
-	for(let element of form.querySelectorAll("[name]")) {
+  for (let element of form.querySelectorAll("[name]")) {
+    if (element.type == "checkbox") {
+      item[element.name] = element.checked;
+    } else if (element.type == "file") {
+      let attribute = [element.name];
 
-		if(element.type == "checkbox") {
-			item[element.name] = element.checked;
+      item[attribute] = [];
+      for (let file of element.files) {
+        item[attribute].push(file.name);
+      }
+    } else {
+      item[element.name] = element.value;
+    }
+  }
 
-		} else if(element.type == "file") {
-			let attribute = [element.name];
-
-			item[attribute] = [];
-			for( let file of element.files) {
-				item[attribute].push(file.name);
-			}
-		} else {
-			item[element.name] = element.value;
-		}
-	}
-
-	return item;
+  return item;
 }
 
 /** Fills the form's inputs with the values of the object
  * @param {HTMLElement} form The form to be filled: documen.querySelector("selector")
  * @param {Object} object The Object containing the values: {,,}
  */
-function populateForm (form, object) {
+function populateForm(form, object) {
+  for (let attribute in object) {
+    let element = form.querySelector(`[name=${attribute}]`);
 
-	for(let attribute in object) {
-		let element =  form.querySelector(`[name=${attribute}]`);
-
-		if( element) {
-			if(element.type == "select-one") {
-				let e = element.querySelector(`[value='${object[attribute]}']`);
-				if(e) {
-					e.selected = true;
-				}
-			} else  if(element.type == "checkbox") {
-				element.checked = object[attribute];
-			} else {
-				if(element.type != "file") {
-					element.value = object[attribute];
-				}
-			}
-		}
-	}
+    if (element) {
+      if (element.type == "select-one") {
+        let e = element.querySelector(`[value='${object[attribute]}']`);
+        if (e) {
+          e.selected = true;
+        }
+      } else if (element.type == "checkbox") {
+        element.checked = object[attribute];
+      } else {
+        if (element.type != "file") {
+          element.value = object[attribute];
+        }
+      }
+    }
+  }
 }
 
 /** This function clears all the values of the form by setting the to null
  * @param {HTMLElement} form The form to be cleard
  */
-function resetForm (form) {
-	for(let element of form.querySelectorAll("[name]")) {
-		element.value = null;
-	}
+function resetForm(form) {
+  for (let element of form.querySelectorAll("[name]")) {
+    element.value = null;
+  }
 }
 
 /** Makes an ajax call and returns a promise
@@ -153,30 +144,27 @@ function resetForm (form) {
  * @param {JSON} data
  * @param {function} callback
  */
-function ajax (url, type, data) {
-
-	return new Promise(function (resolve, reject) {
-		$.ajax({
-			url  : url,
-			type : type,
-			data : data,
-			success: resolve,
-			error: reject
-		});
-	});
+function ajax(url, type, data) {
+  return new Promise(function (resolve, reject) {
+    $.ajax({
+      url: url,
+      type: type,
+      data: data,
+      success: resolve,
+      error: reject,
+    });
+  });
 }
 
-
 /** Get an entry document.cookie
- * 
- * @param {String} name 
- * 
+ *
+ * @param {String} name
+ *
  * @returns {String}
  */
 const readCookie = (name) => {
   let nameEQ = name + "=",
     ca = document.cookie.split(";");
-
 
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
@@ -184,24 +172,27 @@ const readCookie = (name) => {
       c = c.substring(1, c.length);
     }
     if (c.indexOf(nameEQ) == 0) {
-      return decodeURIComponent(c.substring(nameEQ.length, c.length)).replace("j:", "");
+      return decodeURIComponent(c.substring(nameEQ.length, c.length)).replace(
+        "j:",
+        ""
+      );
     }
   }
   return null;
 };
 
 /** Add an entry to the cookies. This can be retrived using @readCookie
-	 * @param {String} name The attribute name
-	 * @param {*} value can be any data type: String, number, boolean ...
-	 * @param {Date} days a Date or number
-	 */
+ * @param {String} name The attribute name
+ * @param {*} value can be any data type: String, number, boolean ...
+ * @param {Date} days a Date or number
+ */
 const createCookie = (name, value, days) => {
   let date;
-  let expires = ""
+  let expires = "";
 
   if (days) {
     date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = "; expires=" + date.toGMTString();
   }
 
@@ -209,12 +200,12 @@ const createCookie = (name, value, days) => {
 };
 
 /** Helper function to read and parse document.cookie
-	 * 
-	 * @param {String} cname 
-	 * 
-	 * @return {String}
-	 * 
-	 */
+ *
+ * @param {String} cname
+ *
+ * @return {String}
+ *
+ */
 const getCookie = (cname) => {
   const name = cname + "=";
   const decodedCookie = decodeURIComponent(document.cookie);
@@ -235,23 +226,22 @@ const getCookie = (cname) => {
 };
 
 /** Delete an entry from document.cookies
- * 
- * @param {String} name 
+ *
+ * @param {String} name
  */
 const eraseCookie = (name) => createCookie(name, "", -1);
 
 /** Makes a http fetch request (Without using the access-token)
-* NB This function takes a SINGLE parameter object
-*
-* @param {Object} param
-* @param {String} param.url  - default= get
-* @param {String} [param.method = GET]  - default= get
-* @param {Object} param.body
-* 
-* @return {Promise}
-*/
+ * NB This function takes a SINGLE parameter object
+ *
+ * @param {Object} param
+ * @param {String} param.url  - default= get
+ * @param {String} [param.method = GET]  - default= get
+ * @param {Object} param.body
+ *
+ * @return {Promise}
+ */
 function httpRequest({ url, method = "GET", body, uri } = {}) {
-
   const href = uri ? uri : `${baseUrl}/${url}`;
 
   return new Promise((resolve) => {
@@ -284,9 +274,11 @@ function secureHttpRequest({ url, method = "GET", body, uri } = {}) {
   const accessToken = getCookie("access-token");
 
   if (!accessToken) {
-    Promise.reject(Error("Your session has expired. you need to sign in again! !!"));
+    Promise.reject(
+      Error("Your session has expired. you need to sign in again! !!")
+    );
     alert("Your session has expired. you need to sign in again! !!");
-    this.$router.history.push('/sign-in');
+    this.$router.history.push("/sign-in");
   }
 
   if (body) {
@@ -299,11 +291,10 @@ function secureHttpRequest({ url, method = "GET", body, uri } = {}) {
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
-        "access-token": accessToken
-      }
+        "access-token": accessToken,
+      },
     })
-      .then(response => {
-        
+      .then((response) => {
         const accessToken = response.headers.get("access-token");
         const expirationDate = response.headers.get("expirationDate");
 
@@ -311,7 +302,7 @@ function secureHttpRequest({ url, method = "GET", body, uri } = {}) {
 
         return response.json();
       })
-      .then(response => {
+      .then((response) => {
         if (
           response.name === "InvalidAccessTokenError" ||
           response.name === "MissingAccessTokenError"
@@ -321,7 +312,7 @@ function secureHttpRequest({ url, method = "GET", body, uri } = {}) {
         }
         resolve(response);
       })
-      .catch(error => reject(error));
+      .catch((error) => reject(error));
   });
 }
 
@@ -334,36 +325,34 @@ const patterns = {
   phone: /^[+0][0-9-]{5,}$/,
   password: /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
   date: /^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/,
-}
-
+};
 
 /** This function takes a path and makes a delete request to back end to delete this file,
  *
  * @param {String} path relative path to the file to be deleted
  */
-function deleteFile (path) {
-	return new Promise( (resolve, reject) =>{
-		ajax("/files", "DELETE", {path})
-			.then( resolve)
-			.catch("file deletion error: ", path);
-	});
-
+function deleteFile(path) {
+  return new Promise((resolve, reject) => {
+    ajax("/files", "DELETE", { path })
+      .then(resolve)
+      .catch("file deletion error: ", path);
+  });
 }
 
 /** Read and parse a file */
 
 function readFileContent(fileName) {
-    fetch('resources/data.json')
-        .then(response => response.json())
-        .catch(error => alert(error))
+  fetch("resources/data.json")
+    .then((response) => response.json())
+    .catch((error) => alert(error));
 }
 
 /** Removes all children nested within a node
  * eg remove all the li in a ul
  * @param {Element} element the parent element
  */
-function removeAllChildren (element) {
-    while(element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
+function removeAllChildren(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }

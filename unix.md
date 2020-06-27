@@ -1,7 +1,11 @@
-find
+# Unix Cheatset
+
+Hello human!
+
+## find
 
 	find * -name hello.c
-	
+
 	find ~inf2606			//from directory (~inf266)
 		 -name "filename.ext" 	//filename
 		 -type -f -ls		//type f =file then ls the result
@@ -19,29 +23,29 @@ find and execute
 	-exec  head -20 "{}" ";"
 	-exec  rm -rf -f "{}" ";"
 	-exec cp -r "{}" . \;//copy -r "{}" what you found, \ 
-	
-tar
-	
+
+## tar
+
 	//created
 	tar -c -f "destNAme.tar" ~progbau/path/to/dir
-	
+
 	//extract
 	tar -x -f unix.tar
 	tar -xvzf community_images.tar.gz
 	tar -t -f unix.tar
-	}
-	
-gzip
+
+## gzip
 
 	gzip filename			//returns.tar.gz
 	gunzip filename.tar.gz	//returns .tar
 
-scp between computers
-	
+## scp between computers
+
 	scp "filename" inf@obelix:.
 	scp "filename" inf@obelix:.
 
 ## emacs
+
 	//SAVE
 	C-x C-s
 
@@ -72,7 +76,6 @@ scp between computers
 
 	//display line numbers (under)
 	M x "column-number-mode"
-
 
 	//go to line 17 
 	M x goto-line
@@ -143,24 +146,36 @@ MOUNTING (SUDO for each command)
 
 	//list device labels and UUID
 	blkid 	
+
 	
+
 	//label returned from bklid
 	mkdir "/media/label of drive"  
+
 	
+
 	//backup the fstab file before editing it
 	cp /etc/fstab path/to/ackup/fstab.orig
+
 	
+
 	//edit the file
 	gedit /etc/fstab 
 	UUID=519CB82E5888AD0FOBTAINEDABOVE  "/media/label obtained above"  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
+
 	
+
 	mount /media/C 
 	mount -a 
 	mount "/media/label " -o remount,ro,noatime # readonly(ro)
+
 	
+
 	#unmount
 	umound label 
+
 	
+
 	//straight forward
 	{
 		ls -al /media/username/
@@ -176,6 +191,7 @@ EXIT SU
 
 	su fabrigeas //log back to fabrigeas
 	su guest
+
 HISTORY
 
 	Ctrl R 'string'
@@ -225,25 +241,37 @@ PS
 	//list processes to obtain the PID
 	ps -ef
 	ps -f #all processes started by user me (my terminal)
+
 	
+
 	//processes of user fab
 	 ps -f -u fab |  
 	 ps -f -u fab,jenny,guest
+
 	
+
 	//processes sorted by cpu usag and memory usage
 	ps aux --sort=-pcpu,+pmem
 	ps aux --sort=-pcpu
 	ps aux --sort=+pmem
+
 	
+
 	//ps as process viewer | process viewer
 	 watch -n 1 'ps -e -o pid,uname,cmd,pmem,pcpu --sort=-pmem,-pcpu | head -15'
+
 	
+
 	//friendly end a process ginven the PID obtained fromps -ef
 	kill PID | TERM PID | 9 PID
+
 	
+
 	//forcefully kill
 	kill -KILL PID
+
 	
+
 	//kill using process names
 	{
 		pkill geany
@@ -254,7 +282,9 @@ PS
 		//KILLALL kill all process and its children
 		killall firefox
 	}
+
 	
+
 	//NI | PRIORITY | NICENESS
 	{
 		//start geany with highest priority
@@ -264,10 +294,13 @@ PS
 		//alter the NI(nice) value of an already running process
 		renice 0 geany
 	}
+
 	
 
 SORT
+
 	
+
 	sort 
 		-n //numeric by default is alphabetic
 		-r //reversed
@@ -283,9 +316,13 @@ fgrep | grep
 	-o //
 	-v //return lines NOT containing pattern
 	-H //append fileName too
+
 	
+
 	//!ALWAYS USE -E to enable regExp
+
 	
+
 	fgrpp "main" file1 file2 //seach in file1 and file2
 	fgrep -i "hello  world" main.c //search "hello world " in main (case insensitie)
 	fgrep -v "" data //search 
@@ -294,160 +331,137 @@ fgrep | grep
 
 ## SED
 
-	sed s/pattern/replace/ig //i ignore case, g all occurences
-	sed s/at/@/ig //i ignore case, g all occurences
+	sed s/pattern/replacement/ig //i ignore case, g all occurrences
+	sed s/at/@/ig //i ignore case, g all occurrences
 	sed 's/man/woman/; s/tiger/wolf/'  // 2 commands, replace man by woman and tiger by wolf
 	sed "2,131 d" < file // delete lines 2...131 in file
 	sed "/<script>/,/<\script>/ d" < file //delete all found within the tag
-	
-EXECUTE MILTIPLE COMMANDS
-	
+	sed "/^$/d" => delete all empty lines+
+
+Execute multiple commands
+
 	sed -Ee s/man/woman/g -e /Author/d -e /Date/d
-	
-DELETE LINE MATCHING WORD
+
+Delete lines containing pattern
 
 	sed -e /Date/d -e /Commit/d 
-	
 	sed -E 's;pattern;;'	//delete only first match PER LINE
 	sed -E 's;pattern;;5'	//delete 5 first match(word not line) /PER LINE
 	sed -E 's;pattern;;g'	//delete all matches (word not line)
+	sed -e /commit:/ -/Author/d  -e s/man/woman/g
+	sed /patter/d
+	sed s/<[^>]*>//  #delete html tags and content
 
-	
-SORROUND NUMBERS &
+Surround numbers &
 
-sed -E 's/([0-9]+)/(&)/g' // match replaces the &
-	
-delete html tags and content
+		sed -E 's/([0-9]+)/(&)/g' // match replaces the &
 
-	s/<[^>]*>//
-	
-DUPLICATION
+Duplicate lines
 
 	sed p file //dup all lines
 	sed 3p file //dup line 3
-	sed 3,9p file //dup line 3..9
-	sed 3,+9p file //dup from line 3, 9 lines
-	
-EXTRACT LINS -n
+	sed 3, 9p file //dup line 3..9
+	sed 3, +9p file //dup from line 3, 9 lines
+
+Extract lines -n
 
 	sed -n 3p
-	sed -n 3,4p
-	
-	
+	sed -n 3, 4p
+
 edit input file, 
 
 	-i
-	sed -i.bak s/// file //creae a backup before altering the file
-	
-	
-DELETE LINE WHERE PATTERN MATCHED
+	sed -i.bak s/// file //create a backup before altering the file
 
-	sed /patter/d
-
-SED MULTIPLE MATTERNS
-
-	sed -e /commit:/ -/Author/d  -e s/man/woman/g
-
-TRANSLATE
+## tr
 
 	tr -d 
 	tr -d "\n" //delete all lines
 	tr ab 56 //replace a=5, b=6
-	tr "\n" "" < file //remove all newline 
+	tr "\n" "" < file //remove all newline chars
 	tr a5-7 6C-E //
 	tr "[:upper:]" "[:lower:]"
 
-UNIQ
+## UNIQ
 
 	-c 
 	-d
 	-i
-	
+
 	//
-	uniq -c file.ext	
-
-praktikum
-
-	//find all files and folders belonging to root
-	find / -user root
+	uniq -c file.ext
 
 ## RegExp
 
 	meta ^ $ . * + ?  [] () {} | \
 	 
 	 ^$//empty lines
-	
+
 	[] ^ - 
-	[a-zäüßö]//german alphabet
-	
-	{n,m} //atleast n occ, atmost m 
-	[1-9]{2,5}abc //2-5 digit int followed by abc
-	
+	[a-zäüßö] => german alphabet
+	[1-9]{2,5}abc => 2-5 digit followed by abc
+
 equivalents separated by |
 
-	abc{c,} //no effect
-	a? | {0,1} //
-	a+ | {1,} //a,aa,aaa
-	*  | {0,} //none or any number of occ
-	
-	1234[abc]{3} //1234 followed by 3 char
-	[+-]? //optional sign
-	[+-]?[0-9]+ //integers
-	<[^]*> // all tags + content
-	
-	+12355 //match longest pattern : 1, 12, 123, 1235, 12355
+	abc{c, } => no effect
+	a? | a{0, 1}
+	a+ | a{1, } => a, aa, aaa
+
+  a+ | a{0, } => none or any number of occurrences
+
+	1234[abc]{3} => 1234 followed by 3 char
+	[+-]? => optional sign
+	[+-]?[0-9]+ => integers
+	<[^]*> => all tags + content
+	+12355 => match the longest pattern : 1, 12, 123, 1235, 12355
 	<.*> eg <a href="#top">>asdasd asdasd</a>  //match the whole
-	
-	
+
 alternative |
 
-	ab|cd|ef ab or cd or ef, returns the first occurence ie  abcded=> ab
+	ab|cd|ef => ab or cd or ef, returns the first occurrence ie  abcded=> ab
 	[0-9]{3}|[a-z]{4} z9abcd388cc => abcd
-	{a-z}{4}=>any string with 4 letters
+	{a-z}{4}c=> any string with 4 letters
 	grep -E '(fabrice|feugang)' file
 	egrep  '(fabrice|feugang)' file
-	
+
 	//1-31
 	[1-9]|[12][0-9]|3[01]
-	
 	[1-9]|[12][0-9]|3[01]\.[1-9]|1[0-2]\.[0-9]+
-	
+
 optional
 
-	java(script)? =>java or javascript
-	javascript?	  =>javascrip or javascript
-	Da[Da]+	=>DaaaDa  //[xy]+ is not repetition [xx or yy] of instead {x or y}infitint number {x,xx,y,yy,xy,yyx,xxy,yxyx ...}
+	java(script)? => java or javascript
+	javascript?	  => javascript or javascript
+	Da[Da]+	=> DaaaDa  //[xy]+ is not repetition [xx or yy] of instead {x or y} infinite number {x, xx, y, yy, xy, yyx, xxy, yxyx ...}
 	Da(Da) => DaDa, DaDaDa, !{DaaD}
-	
-	()=>//select the whole of what is inside the braces
-	(jean|john)	//=>{jean,john}
-	jean (pierre|paule)	//=>{jean pierre, jean paul}
+	(jean|john)	=>{jean, john}
+	jean (pierre|paul)	=> {jean pierre, jean paul}
 	[A-Z][a-z]+(-[A-Z][a-z])? //=> all names and or surnames
-	
+
 sub pattern
 
 	\1 repeat the last pattern
-	[a-z]+([0-9]+)b\1 //=>{ab37b37 =>37  because first match was 37 }ab37b47=>noMatch
+	[a-z]+([0-9]+)b\1 =>{ab37b37 => 37, ab37b47 =>noMatch
 	//(['"])[^]
-	(.)\1 //=> aa,bb,cc
-	([a-zA-Z]+) +\1 //=> doubled words {555ba ba555 => ba} {!555ba 555ba no match because the word must be followed by space before r}
-	
+	(.)\1 => aa, bb, cc
+	([a-zA-Z]+) +\1 555ba ba555 => ba, !555ba 555ba => no match because the word must be followed by space before r
+
 Anchors ^ $
 
-	^Worms Hbf$ //=> lines containing only string worms Hbf and nothing else
-	^(Hund|Katze)$ => //all lines Hund or Katze and nothing else
-	sed "/^$/d" //delete all empty lines+
-	
-BACK REFERENCING
+	^Worms Hbf$ => lines containing only 'worms Hbf'
+	^(Hund|Katze)$ => lines Hund or Katze and nothing else
 
-	grep -E '([a-z])\1' //aa,bb, aaa => repeating xter
+Back referencing
+
+	grep -E '([a-z])\1' //aa, bb, aaa => repeating
 	sed -E 's/(pattern)\1/(&)/g' //mark the match with \1, reuse it with &
-	
+
 Match empty lines
 
 	/((\r\n|\n|\r)$)|(^(\r\n|\n|\r))|^\s*$
 
 ## Misc
+
 RUN MULTIPLE COMMANDS
 
 	A; B    Run A and then B, regardless of success of A
@@ -457,30 +471,31 @@ RUN MULTIPLE COMMANDS
 
 MORE| less | head | tail
 
-	-p | -c //do not scroll, instead clean scree
+	-p | -c => do not scroll, instead clean scree
 	+3 start at line 3
 	-7 show 7lines per page
-	+/fabrice 	//show from fist occurence of fabrice
-	
+	+/fabrice 	//show from fist occurrence of fabrice
+
 	head |tail -n 7 //firstlast seven lines
 		-s sqeeze
 
 prompt
 
-	export PS1=; //prompt becomes => ;
-	
+	export PS1=; //prompt becomes => ; 
+
 	//change prompt permanently
 	/etc/bash.bashrc
 	PS1='$(command)string'
 	PS1="[\u is awesome: \w ]"
-	PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$'
-	PS1=':\[\033[01;34m\]\w\[\033[00m\]'
-	'€\[\033[01;34m\]'
+	PS1='\[\033[01; 32m\]\u@\h\[\033[00m\]:\[\033[01; 34m\]\w\[\033[00m\]\$'
+	PS1=':\[\033[01; 34m\]\w\[\033[00m\]'
+	'€\[\033[01; 34m\]'
 	'\w\[\033[00m\]'
 
 chmod | chown 
 
 	drrwxrwxrwx=>uuugggooo
+
 	-R recurssive
 	 r4, w2, x1
 	 chmod -R 777
@@ -488,25 +503,23 @@ chmod | chown
 			  a=rwx
 			  a+rwx
 			  ugo+rwx
-			  u+7,g+7,o+7
+			  u+7, g+7, o+7
 			  file
-	 chmod 641| u+rw,g+r,0+x| file
-	 chmod 7|u+0,g+0,o+7|u-rwx,g-rwx,o+rwx file
+
+	 chmod 641| u+rw, g+r, 0+x| file
+	 chmod 7|u+0, g+0, o+7|u-rwx, g-rwx, o+rwx file
 	 
-	 //chown
 	 chown -R oldUser:newUser file
 
 advanced
 
 	//lines where match occured more than once
-	awk '{print $0,gsub(/pattern/,"")}' file |
+	awk '{print $0, gsub(/pattern/, "")}' file |
 		 grep -E -w ([2-9]|1[0-9]+)$	//w or c both correct
 		 
 	//prepend line numbers
-	awk '{printf "%d %s\n", NR,$0}' < sed.txt 
-	
-	//xas
- 
+	awk '{printf "%d %s\n", NR, $0}' < sed.txt 
+
 users
 
 	//add user
@@ -522,7 +535,7 @@ users
 	sudo deluser --remove-all-files obsolete
 
 	#To modify the username of a user:
-	
+
 		usermod -l new_username old_username
 
 	//To change the password for a user:
@@ -543,6 +556,7 @@ number of processors
 	cat /proc/cpuinfo | grep processor | wc -l
 
 ## some
+
 	chown, chgrp, chroot, id: Disambiguating user names and IDs
 	coreutils: Multi-call program
 	cat: Concatenate and write files
@@ -651,15 +665,21 @@ number of processors
 	seq: Print numeric sequences
 
 reload shell
+
 	
+
 	source source ~/.bash_profile #unix
 	source source ~/.bash_profile #gitshell
 
 add fabrigeas as sudoer
+
 	
+
 	sudo adduser fabrigeas sudo>
 	getent group sudo
+
 	
+
 ## ssh
 
 !sudo apt-get install openssh-client
@@ -669,7 +689,7 @@ add fabrigeas as sudoer
 	sudo chmod a-w /etc/ssh/sshd_config.original
 
 check that ssh server is running on this computer
-	
+
 	sudo netstat -anp | grep sshd
 
 connect
@@ -696,8 +716,8 @@ scp copy files between computers
 	//without ssh login to the remte host
 	// cd to your dest
 	scp fabrigeas@remote:/path/to/file/file.ext  /path/in/local/computer
-	scp jenny@192.168.2.113:C:/Users/feugang/Desktop/install-ssh-win8.txt .
-	
+	scp jenny@192.168.2.113: C:/Users/feugang/Desktop/install-ssh-win8.txt .
+
 	//already ssh logged in to the remote
 	scp /path/to/file/file.ext  username@theOtherComputer:/path/to/dest
 

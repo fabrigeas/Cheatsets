@@ -4,7 +4,7 @@ this repository contains my notes from different subjects.
 I perefered a distributted approach so as to be able to acces my data everewhre with no need to transport it.
 
 A good practice is to clone, or pull, then branch and edit.
-after editing,checkout the master back and merge, then pull and push.
+after editing, checkout the master back and merge, then pull and push.
 
 NB Use geany editor to read the notes files because 
 it enables easya wrap and expand of notes that are organized as blocks
@@ -53,6 +53,7 @@ generate in bash
 		ssh-add ~/.ssh/id_rsa
 		clip < ~/.ssh/id_rsa.pub
 	
+
 ## Environmental variables
 
 	
@@ -90,7 +91,6 @@ generate in bash
 	"Icon"="\"C:\\Program Files\\Microsoft VS Code\\Code.exe\",0"
 	[HKEY_CLASSES_ROOT\Directory\shell\vscode\command]
 	@="\"C:\\Program Files\\Microsoft VS Code\\Code.exe\" \"%1\""
-
 
 	; This will make it appear when you right click INSIDE a folder
 	; The "Icon" line can be removed if you don't want the icon to appear
@@ -159,6 +159,7 @@ generate in bash
 	netsh wlan connect name=jenny
 
 ## Firewall
+
 	
 	[#https://support.microsoft.com/en-us/kb/947709](#https://support.microsoft.com/en-us/kb/947709)
 
@@ -172,12 +173,12 @@ generate in bash
 	netsh advfirewall set domainprofile state on 
 	netsh advfirewall set privateprofile state on
 	
+
 misc
 
 	netsh advfirewall firewall set rule group="remote desktop" new enable=Yes profile=domain 
 	netsh advfirewall firewall set rule group="remote desktop" new enable=Yes profile=private
 	netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
-
 
 Create new firewall rules
 
@@ -187,12 +188,11 @@ Create new firewall rules
 	netsh advfirewall firewall add rule name="All ICMP V4" protocol=icmpv4:any,any dir=in action=allow
 	netsh advfirewall firewall add rule name="My Application" dir=in action=allow program="C:\MyApp\MyApp.exe" enable=yes remoteip=157.60.0.1,172.16.0.0/16,LocalSubnet profile=domain
 
-
 modify existing rules 'SET' and 'NEW' keywords eg disble ping replying
+
 	
 	netsh advfirewall firewall set rule name="File and Printer Sharing (Echo Request - ICMPv4-In)" new enable=no
 	netsh advfirewall firewall set rule name="File and Printer Sharing (Echo Request - ICMPv6-In)" new enable=no
-
 
 #eg enable ping replying
 
@@ -200,6 +200,7 @@ modify existing rules 'SET' and 'NEW' keywords eg disble ping replying
 	netsh advfirewall firewall set rule name="File and Printer Sharing (Echo Request - ICMPv6-In)" new enable=yes
 
 show startup programs
+
 	
 	wmic startup get caption,command
 
@@ -207,10 +208,12 @@ disable a service from autostart
 
 	sc config  serviceName start=disabled
 	
+
 List or services
 
 	sc query
 	
+
 [Find service by name](https://technet.microsoft.com/en-us/library/bb490907.aspx?f=255&MSPPError=-2147217396)
 
 sc query | Findstr /i "Adob*
@@ -223,6 +226,7 @@ Remove login screen
 	
 	mv C://windows/SystemApps/MicrosoftLockApp_cw5... C://windows/SystemApps/MicrosoftLockApp_cw5...bak
 	
+
 Rename Users folder
 
 	regedit.Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-"ProfileImagePath".("C:\Users\old").Data = "C:\Users\new"
@@ -230,6 +234,7 @@ Rename Users folder
 	restart with temporary account then rename the old C:\Users\old = C:\Users\new 
 
 Search file 
+
 	
 	dir /s "filename"
 
@@ -288,6 +293,7 @@ Kill Port already running
 	netstat -ano | findstr 3000 
 	taskkill/PID 8856 /F
 	
+
 Find and rename files After downloading a file tree of android drawable
 
 	find . -iname "*.png" -execdir cp {} "list.png" \;
@@ -301,3 +307,5 @@ Find and rename files After downloading a file tree of android drawable
 	Windows+R
 	shell:startup
 	paste the logo of your app in the startup folder
+
+### 

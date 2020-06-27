@@ -45,7 +45,6 @@ Static class-side properties and prototype data properties must be defined outsi
     Rectangle.staticWidth = 20;
     Rectangle.prototype.prototypeWidth = 25;
 
-
     const square = new Rectangle(10, 10);
     let a = new Rectangle(10, 10);
     let b = new Rectangle(5, 5);
@@ -60,6 +59,7 @@ Static class-side properties and prototype data properties must be defined outsi
       constructor(name){
         super(name)
       }
+
     }
 
 ## Typescript
@@ -87,22 +87,30 @@ Tuple
 Enum
 
     # An array where indexes are named instead
+
     
+
     enum Colors {Red, Green, Yellow}
     Colors.Red; //0
     Colors.Yellow; //2
+
     
+
     # Indexes chaged
     enum Colors {Green = 1, Red, Yellow}
     Colors.Red; // 1 instead of the default 0
+
     
+
     enum Colors {Green = 2, Red = 4, Yellow = 0]
     Colors.Yellow; // 0
     Colors[0]; // 'Yellow'
+
 Void
 
     # Has no type, and can only be undefined or nulll
     let unusable: void = undefined; 
+
 [Never: Function returning never must have unreachable end point eg infinit loop, throw](https://www.typescriptlang.org/docs/handbook/basic-types.html)
 
 Type assertions(cast): <type>, as 
@@ -129,45 +137,66 @@ The solutions
         ...
     function calculateBMI( paerson: Person){}
     calculateBMI({weight: 1, height: 2}); // ok
+
     
+
 ReadonlyArray
 
     let constArray ReadonlyArray<number> = [01, 2, 3]; // the array, elements can be init but not reassigned;
+
     
+
 Excess Property Checks
+
     
+
     calculateBMI({weight: 1, height: 2, age: 23}); // error: 'age' not expected in type 'Person'
     calculateBMI( {weight: 1, age: 23} as Person ); // would do the trick
+
     
+
     # index signature # The better solution 
     interface Person {
         weight?: number,
         height?: number,
         [propName: string]: any
+
     }
+
     // This means, a person can have weight, height, then any number of other properties
 
 Function types (using interfaces as function signature)
 
     interface SearchFunction { 
         (source: string, substring: string): boolean; 
+
     }
+
     
+
     //The parameter names do not need to match. Only their types need to.
     let mySearch: SearchFunction = function ( src: string, sub: string) {
         return srs === sub;
+
     }
+
     
+
     //Because the function implements the interface, the types need tot be given.
     let mySearch: SearchFunction = function ( src, sub) {
         return srs === sub;
+
     }
+
 Indexable Types
 
     interface StringArray {
         [index: number]: string;
+
     }
+
     
+
     let myArray: StringArray = ["A", "B"];
     myArray[0]; //
 
@@ -176,6 +205,7 @@ Indexable Types
     interface ClockInterface {
       currentTime: Date;
       setTime(d: Date);
+
     }
 
     class Clock implements ClockInterface {
@@ -184,6 +214,7 @@ Indexable Types
         this.currentTime = d;
       }
       constructor(h: number, m: number) { }
+
     }
 
 Extending Interfaces (allwos the child class to onherit/copy properties of the parent)
@@ -191,7 +222,9 @@ Extending Interfaces (allwos the child class to onherit/copy properties of the p
     interface Person {name: string, gender: boolean}
     interface Man extends Person {height: number}
     interface Mixed extends A, B, C;
+
     
+
     let fab = <Mixed> {};
     fab.height: 180;
     fab.name: "fabrice"; //Man inerits gender and name from its parent Person.
@@ -207,6 +240,7 @@ Interfaces Extending Classes
     // Error: Property 'state' is missing in type 'Image'. because Image must implement all members of the interface
     class Image implements SelectableControl {
     select() { }
+
     }
 
     class Location {
@@ -216,29 +250,37 @@ Interfaces Extending Classes
 ### Classes
 
     class Animal {
-      name: string;
-      protected gender: boolean;
+      name: string; 
+      protected gender: boolean; 
       onstructor(name:string) { this.name = name; }
       getInformation() { return this.name; }
+
     }
+
     
-    let man = new Animal("lkjasdlkja");
+
+    let man = new Animal("lkjasdlkja"); 
 
 Inheritance
 
     class Human extends Animal {
-      walk() {console.log("lkölkö");}
-      constructor(name: string) {super.name(name);}
-      getInformation() {super.getInformation();}
-      dance() {return this.gender;} //protected parent members can be accessed in the child class
+      walk() {console.log("lkölkö"); }
+      constructor(name: string) {super.name(name); }
+      getInformation() {super.getInformation(); }
+      dance() {return this.gender; } //protected parent members can be accessed in the child class
+
     }
+
     
-    const man = new Human();
-    man.walk();
-    man.getInformation();
-    man.name = "ölkajda";
+
+    const man = new Human(); 
+    man.walk(); 
+    man.getInformation(); 
+    man.name = "ölkajda"; 
     man.gender = false; //error: protected cannot be accessed by objects
+
     
+
     //protected superconstructor can only be accessed by child but not by Instance (grand child) 
 
 Parameter property (enables to create and initialize class members in one place)
@@ -271,8 +313,9 @@ Parameter property (enables to create and initialize class members in one place)
       employee.fullName = "Bob Smith";
 
       if (employee.fullName) {
-        console.log(employee.fullName);
+        console.log(employee.fullName); 
       }
+
     }
 
 Here you find my summarized javascript notes
@@ -283,16 +326,22 @@ Here you find my summarized javascript notes
 
     [a, b] = [10, 20]; // a=10, b=20
     [a, b, ...rest] = [10, 20, 30, 40, 50];// a=10, b=20, rest = [20, 40, 50]
+
     
+
     var x = [1, 2, 3, 4, 5];
     var [y, z] = x; // y=1, z=2
+
     
+
     var foo = ['one', 'two', 'three'];
     var [one, two, three] = foo;
 
     var a, b;
     [a, b] = [1, 2];
+
     
+
     var a, b;
     [a=5, b=7] = [1]; // 5, 7 are default values
     console.log(a); // 1
@@ -300,22 +349,28 @@ Here you find my summarized javascript notes
 
 swap
 
-    var a = 1;
-    var b = 3;
-    [a, b] = [b, a];
+    var a = 1; 
+    var b = 3; 
+    [a, b] = [b, a]; 
+
     
+
     function f() {
-      return [1, 2];
+      return [1, 2]; 
+
     }
+
     var a, b; 
-    [a, b] = f();
+    [a, b] = f(); 
 
 ignore some returned values
 
     function f() {
-      return [1, 2, 3];
+      return [1, 2, 3]; 
+
     }
-    var [a, , b] = f();
+
+    var [a, , b] = f(); 
 
 assign the rest of an array to a var
 
@@ -325,55 +380,67 @@ assign the rest of an array to a var
 #### With objects
 
     var {a, b} = {a:10, b:20}
+
     
+
     #paranthesis required when assigning undefinned values
     ({a, b, ...rest} = {a: 10, b: 20, c: 30, d: 40});  // rest = {c: 30, d: 40}
 
 Assigning to new variable names
 
-    var o = {p: 42, q: true};
-    var {p: foo, q: bar} = o;
+    var o = {p: 42, q: true}; 
+    var {p: foo, q: bar} = o; 
     console.log(foo); // 42 
     console.log(bar); // true
+
     
+
     const metadata ={
-        name: "asdlkas",
+        name: "asdlkas", 
         address : {
-            street: "asdas",
+            street: "asdas", 
             number: 100
         }
         otherAttributes: {}
+
     }
+
     
+
     let {
         address{
             street: "renamed"
         }
-    } = metadata;
+    } = metadata; 
 
 for iteration and destructuring
 
     let people = [
         {
-            name: "asda",
+            name: "asda", 
             address: {
-                street: "Bessemerstr",
+                street: "Bessemerstr", 
             }
-        },
+        }, 
     ]
+
     
+
     for( var {name:n, address: {street: s}} of people ){
         console.log(n, s) //asda, Bessemerstr
+
     }
 
 unpackaging object acttributes
 
     function userId({id}) { //extract only the id of the given object
-      return id;
+      return id; 
+
     }
 
     function whois({displayName, fullName: {firstName: name}}) { // extract only the displayName and fullName.firstName and ignore the others
-      console.log(displayName + ' is ' + name);
+      console.log(displayName + ' is ' + name); 
+
     }
 
     console.log('userId: ' + userId(user)); // "userId: 42"
@@ -388,10 +455,12 @@ unpackaging object acttributes
 Prperty is the this of js
 
     let parent = function () {
-      this.a = 1;
-      this.b = 2;
+      this.a = 1; 
+      this.b = 2; 
+
     }
-    let child = new parent();
+
+    let child = new parent(); 
 
     // add properties to parent using prototype
     parent.prototype.b = 3;
@@ -409,7 +478,9 @@ Prperty is the this of js
     Event queue is a queue of messages, each executed in disorder but according to the message received.
     Every event in js 
     Each message is completed before an other can be processed, ef a click event will be handled till the end before location.reload.
+
     
+
     (function() {
 
       console.log('executes immediately becuase it is the only message in the queue');
@@ -436,7 +507,6 @@ Prperty is the this of js
 
     })();
 
-
 References:
 
 [https://javascript.info/](https://javascript.info/)
@@ -455,19 +525,23 @@ References:
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         credentials: 'same-origin', // include, same-origin, *omit
         headers: {
-          'user-agent': 'Mozilla/4.0 MDN Example',
-          'content-type': 'application/json',
-        },
+          'user-agent': 'Mozilla/4.0 MDN Example', 
+          'content-type': 'application/json', 
+        }, 
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, cors, *same-origin
         redirect: 'follow', // manual, *follow, error
         referrer: 'no-referrer', // *client, no-referrer
       }).then(response => response.json()); // parses response to JSON
+
     }
+
     
 
 ### Select image files and preview them
+
     
+
 Single file
 
     /** 
@@ -491,7 +565,9 @@ Single file
 		fileReader.readAsDataURL(event.target.files[0]);
 
 	}
+
     
+
 Multiple files
 
     input#item-preview-input.form-control(type='file' value='click here to select images' accept="image/*" multiple=true onchange='onImageSelectionComplete(event)')
@@ -532,7 +608,9 @@ Multiple files
     let countdown = (n) => {
       while (n --> 0)  // "n goes to zero"
         console.log(n)
+
     }
+
     countdown(5)
 
 ## New JS
@@ -541,90 +619,120 @@ var
 
     ## var is a scopeless variable
     if (true) {
-      var x = 5;
+      var x = 5; 
+
     }
-    console.log(x);  // x is 5
+
+    console.log(x); // x is 5
+
 const 
 
     is a block scoped variable that can be assigned only once
+
     
+
 let
+
     
+
     # a block scoped local variable that overwrites the previously created variable.
     if (true) {
-      let y = 5;
+      let y = 5; 
+
     }
-    console.log(y);  // ReferenceError: y is not defined  
+
+    console.log(y); // ReferenceError: y is not defined  
+
     
+
     
+
 ### Hoisting| Lifting | floating (only for vars. Does not work for const and let)
 
     #A var used before being declared.
-    # This doesnot cause an exception, however even thaugh the hoisted value is post initialized,
+    # This doesnot cause an exception, however even thaugh the hoisted value is post initialized, 
     # it's value cannot be pre used.
+
     
+
     
-    var myvar = 'my value';
+
+    var myvar = 'my value'; 
+
     (function() {
+
       console.log(myvar); // undefined because during lifting, only the declaration is lifted; the initialization remains in its position.
-      var myvar = 'local value';
+      var myvar = 'local value'; 
+
     })();
+
     
+
 function hoisting
 
     foo(); // "bar"
 
     function foo() {
-      console.log('bar');
-    }
+      console.log('bar'); 
 
+    }
 
     baz(); // TypeError: baz is not a function. (it is a variable)
 
     var baz = function() {
-      console.log('bar2');
-    };
+      console.log('bar2'); 
+    }; 
+
     
+
 string interpolation
 
-    let result = `${variable} / ${variable} / ${variable}`
+    let result = `${variable} / ${variable} / ${variable}` 
     let result = variable + ' / ' + variable + ' / ' + variable
 
 literal notation
 
-    var myBooks = {};
+    var myBooks = {}; 
     var mango = {
-        color: "yellow",
+        color: "yellow", 
         howSweetAmI: function () {
-            console.log("Hmm Hmm Good");
+            console.log("Hmm Hmm Good"); 
         }
+
     }
 
 Object Notation
+
     
-    var mango =  new Object ();
-    mango.color = "yellow";
+
+    var mango =  new Object (); 
+    mango.color = "yellow"; 
     mango.howSweetAmI = function () {
-        console.log("Hmm Hmm Good");
+        console.log("Hmm Hmm Good"); 
+
     }
 
 class declaration
+
     
+
     function Fruit (theColor) {
-        this.color = theColor;
+        this.color = theColor; 
         this.showColor = function () {
-            console.log("This is a " + this.color);
+            console.log("This is a " + this.color); 
         }
+
     }
 
 instantiate the class Fruit
-    
-    var mangoFruit = new Fruit ("Yellow", 8, "Mango", ["South America", "Central America", "West Africa"]);
-    mangoFruit.showName(); // This is a Mango.
-    mangoFruit.nativeTo();
-    var pineappleFruit = new Fruit ("Brown", 5, "Pineapple", ["United States"]);
-    pineappleFruit.showName(); // This is a Pineapple.
 
+    
+
+    var mangoFruit = new Fruit ("Yellow", 8, "Mango", ["South America", "Central America", "West Africa"]); 
+    mangoFruit.showName(); // This is a Mango.
+    mangoFruit.nativeTo(); 
+    var pineappleFruit = new Fruit ("Brown", 5, "Pineapple", ["United States"]); 
+    pineappleFruit.showName(); // This is a Pineapple.
 
 Accessing Objects attributes
 
@@ -636,18 +744,22 @@ Accessing Objects attributes
     console.log ( book.title); // Ways to Go
     console.log ( book["title"]); //Ways to Go
 
-    var bookTitle = "title";
+    var bookTitle = "title"; 
+
     
+
     console.log ( book[bookTitle]); // Ways to Go
     console.log ( book["bookMark" + 1]); // Page 20
 
     var school = {
         schoolName: "MIT"
-    };
+    }; 
+
     
-    console.log("schoolName" in school);  // true because schoolName is an own property on the school object
-    console.log("schoolType" in school);  // false false because we did not define a schoolType property on the school object, and neither did the object inherit a schoolType property from its prototype object Object.prototype.​
-    console.log("toString" in school);  // true because the school object inherited the toString method from Object.prototype. 
+
+    console.log("schoolName" in school); // true because schoolName is an own property on the school object
+    console.log("schoolType" in school); // false false because we did not define a schoolType property on the school object, and neither did the object inherit a schoolType property from its prototype object Object.prototype.​
+    console.log("toString" in school); // true because the school object inherited the toString method from Object.prototype. 
 
 loop through object's properties can also be done using Object.entries
 
@@ -672,26 +784,36 @@ loop through object's properties can also be done using Object.entries
 
 dom navigaion
 
-    # these are collections, not arrays,
+    # these are collections, not arrays, 
     Array.from(document.body.childNodes)//convert collection to array
+
     
+
     for (let node of document.body.children) {
         console.log(node); // shows all nodes from the collection
+
     }
+
     
+
     for (let node of document.body.childNodes) {
         console.log(node); // shows all nodes from the collection including texts
+
     }
 
 Searching: getElement* and querySelector*
 
     <div id='alpha'>
     <div id='alpha-beta'>
+
     
+
     console.log( alpha )
     console.log( window.alpha )
     console.log( window['alpha-beta'] )
+
     
+
 selectors ! they return collections, not variables, thus uses index [0] to acces ur element
 
     document.getElementById('alpha')
@@ -701,16 +823,21 @@ selectors ! they return collections, not variables, thus uses index [0] to acces
     elem.querySelectorAll('css selector') // returns all nodes as collection
     elem.matches('a[href$="zip"]') // returns true or false if the element matches the parameter
     elem.closest(css) // find the ancestors that match the css query
+
     
+
     window.alpha //where id is alpha
     window['alpha-beta'] // when id contains a slash
 
 Node properties: type, tag and contents
 
     
+
     console.log( document.body) // print the html element
     console.dir( document.body) // print body as json
+
     
+
     // for comment
     alert( document.body.firstChild.tagName ); // undefined (no element)
     alert( document.body.firstChild.nodeName ); // #comment
@@ -731,53 +858,72 @@ Attributes and properties
     elem.getAttribute(name) //gets the value.
     elem.setAttribute(name, value) // sets the value.
     elem.removeAttribute(name)// removes the attribute.
+
     
+
     #custom attributes        
     <div show-info="name"></div>
     <div show-info="age"></div>
-    let user = {name: "Pete", age: 25 };
+    let user = {name: "Pete", age: 25 }; 
     for(let div of document.querySelectorAll('[show-info]')) {
-        let field = div.getAttribute('show-info');
+        let field = div.getAttribute('show-info'); 
         div.innerHTML = user[field]; // Pete, then age
+
     }
+
     
+
     #custom atrributes and selectors
     // use custom attributes istead of normal classes beacause the earlier are a bit simpler than removing old/adding a new class
-    div.setAttribute('order-state', 'canceled');
+    div.setAttribute('order-state', 'canceled'); 
+
     
+
     <style>
       .order[order-state="new"] {color: green; }
       .order[order-state="pending"] {color: blue; }
-      .order[order-state="canceled"] {color: red;}
+      .order[order-state="canceled"] {color: red; }
     </style>
     <div class="order" order-state="new">A new order.</div>
     <div class="order" order-state="pending">A pending order.</div>
     <div class="order" order-state="canceled">A canceled order.</div>
+
     
+
     #data- attribute reserved 
     <body data-about="Elephants"> // document.body.dataset.about: Elephantes
     <div data-order-state/> //document.body.dataset.dataset.orderState : elephants
+
     
+
 Modifying the document
 
-    node.append(...nodes or strings) – append nodes or strings at the end of node,
-    node.prepend(...nodes or strings) – insert nodes or strings into the beginning of node,
-    node.before(...nodes or strings) –- insert nodes or strings before the node,
-    node.after(...nodes or strings) –- insert nodes or strings after the node,
+    node.append(...nodes or strings) – append nodes or strings at the end of node, 
+    node.prepend(...nodes or strings) – insert nodes or strings into the beginning of node, 
+    node.before(...nodes or strings) –- insert nodes or strings before the node, 
+    node.after(...nodes or strings) –- insert nodes or strings after the node, 
     node.replaceWith(...nodes or strings
+
     
-    div.insertAdjacentHTML('beforebegin', '<p>Hello</p>');
-    div.insertAdjacentHTML('afterend', '<p>Bye</p>');
+
+    div.insertAdjacentHTML('beforebegin', '<p>Hello</p>'); 
+    div.insertAdjacentHTML('afterend', '<p>Bye</p>'); 
+
     
+
 Styles and classes
+
     
+
     elem.classList.add/remove("class") // adds/removes the class.
     elem.classList.toggle("class") //if the class exists, then removes it, otherwise adds it.
     elem.classList.contains("class") // returns true/false, checks for the given class.
+
     
+
     elem.style.left = left; // e.g '123px'
     elem.style.top = top; // e.g '456px'
-    document.body.classList.add('article');
+    document.body.classList.add('article'); 
     document.body.className  // main page article
 
 ElementStyle
@@ -785,23 +931,29 @@ ElementStyle
     background-color  => elem.style.backgroundColor
     z-index           => elem.style.zIndex
     border-left-width => elem.style.borderLeftWidth
-    document.body.style.backgroundColor = prompt('background color?', 'green');
+    document.body.style.backgroundColor = prompt('background color?', 'green'); 
     elem.style.display = "" //reset display to it's default value
+
     
+
     div.style="color: red; width: 100px" // set multiple properties
-        div.style.cssText='color: red !important;
-        background-color: yellow;
-        width: 100px;
-        text-align: center;
-      ';
+        div.style.cssText='color: red !important; 
+        background-color: yellow; 
+        width: 100px; 
+        text-align: center; 
+      '; 
       
     #getComputedStyle(node).rule: rule must be detailed eg marginTop instead of margin
     document.body.style.color  //empty
     document.body.style.marginTop // empty
+
     
+
     getComputedStyle(document.body).colr
     getComputedStyle(document.body).marginTop
+
     
+
 [Element size and scrolling](https://javascript.info/size-and-scroll)
 
 ## [Events](https://javascript.info/event-details)
@@ -812,58 +964,75 @@ Browser Events
     form events: submit, focus, 
     kyebpard:keydown, keyup
     css: transitioned
+
     
+
 html Event Handlers: add an attribute prepend on: onclick, ocontextmenu, onsubmit ...
 
 Dom Property Event Handlre
 
     selecor.onclick = function {}
+
     
-    elem.addEventListener( "click" , (event) => itemClicked);
-    elem.removeEventListener( "click", () => alert('Thanks!'));
+
+    elem.addEventListener( "click" , (event) => itemClicked); 
+    elem.removeEventListener( "click", () => alert('Thanks!')); 
+
     
-    input.addEventListener("click", handler);
-    input.removeEventListener("click", handler);
+
+    input.addEventListener("click", handler); 
+    input.removeEventListener("click", handler); 
 
     #object handler
     elem.addEventListener('click', {
       handleEvent(event) {
-        alert(event.type + " at " + event.currentTarget);
+        alert(event.type + " at " + event.currentTarget); 
       }
-    });
+
+    }); 
+
     
+
         class Menu {
       handleEvent(event) {
         switch(event.type) {
           case 'mousedown':
-            elem.innerHTML = "Mouse button pressed";
-            break;
+            elem.innerHTML = "Mouse button pressed"; 
+            break; 
           case 'mouseup':
-            elem.innerHTML += "...and released.";
-            break;
+            elem.innerHTML += "...and released."; 
+            break; 
         }
       }
+
     }
-    let menu = new Menu();
-    elem.addEventListener('mousedown', menu);
-    elem.addEventListener('mouseup', menu);
+
+    let menu = new Menu(); 
+    elem.addEventListener('mousedown', menu); 
+    elem.addEventListener('mouseup', menu); 
 
 ## [Closure | inner function accessing outer function's variables](https://javascript.info/closure)
 
-    let name = "John";
+    let name = "John"; 
     function sayHi(){
-      alert("Hi, " + name);
+      alert("Hi, " + name); 
+
     }
-    name = "Pete";
+
+    name = "Pete"; 
     sayHi(); //hi pete
+
     
+
 A function gets outer variables as they are now; it uses the most recent values.
  
+
      function makeWorker() {
-      let name = "Pete";
+      let name = "Pete"; 
       return function() {
-        alert(name);
-      };
+        alert(name); 
+      }; 
+
     }
 
     let name = "John";
@@ -874,76 +1043,96 @@ Nested functions
 
     function User(name) {
       this.sayHi = function() {
-        alert(name);
-      };
+        alert(name); 
+      }; 
+
     }
-    let user = new User("John");
+
+    let user = new User("John"); 
     user.sayHi(); //john
 
     function makeCounter() {
-      let count = 0;
+      let count = 0; 
       return function() {
         return count++; // has access to the outer counter
-      };
+      }; 
+
     }
+
     
-    let counter = makeCounter();
+
+    let counter = makeCounter(); 
     alert( counter() ); // 0
     alert( counter() ); // 1
     alert( counter() ); // 2
+
  
 immediately-invoked function expressions (IIFE)| functions that run immediately, without being called
 
     (function(){
-      let message = "Hello";
-      alert(message);
+      let message = "Hello"; 
+      alert(message); 
+
     })();
+
     
 
     (function() {
-      alert("Brackets around the function");
+
+      alert("Brackets around the function"); 
+
     })();
 
     (function() {
-      alert("Brackets around the whole thing");
-    }());
+
+      alert("Brackets around the whole thing"); 
+    }()); 
 
     !function() {
       alert("Bitwise NOT operator starts the expression");
     }();
 
     +function() {
-      alert("Unary plus starts the expression");
-    }();
+      alert("Unary plus starts the expression"); 
+    }(); 
+
     
+
     ## errors
     // Error: Unexpected token (
     function() { // <-- JavaScript cannot find function name, meets ( and gives error
-      let message = "Hello";
+      let message = "Hello"; 
       alert(message); // Hello
-    }();
+    }(); 
+
     
+
     // syntax error because of brackets below
     function go() {
     }(); // <-- can't call Function Declaration immediately
 
 ## [Global object | Window](https://javascript.info/global-object)
-    alert("Hello");
+
+    alert("Hello"); 
     // the same as
-    window.alert("Hello");
+    window.alert("Hello"); 
+
     
-    var phrase = "Hello";
+
+    var phrase = "Hello"; 
     function sayHi() {
-      alert(phrase);
+      alert(phrase); 
+
     }
+
     alert( window.phrase ); // Hello (global var)
     alert( window.sayHi ); // function (global function declaration)
-    window.test = 5;
+    window.test = 5; 
     alert(test); // 5
-    
+
 But the global object does not have variables declared with let/const!
-    
-    let user = "John";
+
+    let user = "John"; 
     alert(user); // John
     alert(window.user); // undefined, don't have let
     alert("user" in window); // false
@@ -953,39 +1142,48 @@ But the global object does not have variables declared with let/const!
 The 'name' property
 
     function sayHi() {
-      alert("Hi");
+      alert("Hi"); 
+
     }
+
     alert(sayHi.name); // sayHi
+
     
+
     ## this differs from the top function 'assignment'
     let sayHi = function() {
-      alert("Hi");
+      alert("Hi"); 
+
     }
+
     alert(sayHi.name); // sayHi (works!)
 
 bind 
 
     var module = {
-      x: 42,
+      x: 42, 
       getX: function() { return this.x; }
+
     }
 
-    var unboundGetX = ;
+    var unboundGetX = ; 
     alert(unboundGetX()); // 'undefined': The function gets invoked at the global scope
-    var boundGetX = unboundGetX.bind(module);
+    var boundGetX = unboundGetX.bind(module); 
     alert(boundGetX()); // 42
+
     
+
     #
-    this.x = 9;    // this refers to global "window" object here in the browser
+    this.x = 9; // this refers to global "window" object here in the browser
     var module = {
-      x: 81,
+      x: 81, 
       getX: function() { return this.x; }
-    };
+    }; 
     module.getX(); // 81
-    var retrieveX = module.getX;
-    retrieveX();  // 9: The function gets invoked at the global scope
+    var retrieveX = module.getX; 
+    retrieveX(); // 9: The function gets invoked at the global scope
     // Create a new function with 'this' bound to module New programmers might confuse the global var x with module's property x
-    var boundGetX = retrieveX.bind(module);
+    var boundGetX = retrieveX.bind(module); 
     boundGetX(); // 81
 
 ## [Scheduling: setTimeout and setInterval](https://javascript.info/settimeout-setinterval)
@@ -993,52 +1191,74 @@ bind
 calls sayHi() after one second: 
 
     function sayHi() {
-      alert('Hello');
+      alert('Hello'); 
+
     }
-    setTimeout(sayHi, 1000);
+
+    setTimeout(sayHi, 1000); 
+
     
+
     ## with parameters
     function sayHi(phrase, who) {
-      alert( phrase + ', ' + who );
+      alert( phrase + ', ' + who ); 
+
     }
+
     setTimeout(sayHi, 1000, "Hello", "John"); // Hello, John
+
     
-    //If the first argument is a string, JavaScript creates a function from it.So, this will also work:
-    setTimeout("alert('Hello')", 1000);
+
+    //If the first argument is a string, JavaScript creates a function from it. So, this will also work:
+    setTimeout("alert('Hello')", 1000); 
+
     
+
     // use this instead
-    setTimeout(() => alert('Hello'), 1000);
+    setTimeout(() => alert('Hello'), 1000); 
+
     
+
     // wrong!, don't add (), cuz setTimeout awats a function reference 
-    setTimeout(sayHi(), 1000);
+    setTimeout(sayHi(), 1000); 
+
     
+
 Canceling with clearTimeout
 
     //schedule the function and then cancel it (changed our mind). As a result, nothing happens:
-    let timerId = setTimeout(() => alert("never happens"), 1000);
+    let timerId = setTimeout(() => alert("never happens"), 1000); 
     alert(timerId); // timer identifier
-    clearTimeout(timerId);
+    clearTimeout(timerId); 
     alert(timerId); // same identifier (doesn't become null after canceling)
+
     
+
 setInterval: runs the function not only once, but regularly after the given interval of time.
 
     // repeat with the interval of 2 seconds
     let timerId = setInterval(() => alert('tick'), 2000);
 
     // after 5 seconds stop
-    setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000);
+    setTimeout(() => { clearInterval(timerId); alert('stop'); }, 5000); 
+
     
+
 Recursive setTimeout
 
     // instead of:
-    let timerId = setInterval(() => alert('tick'), 2000);
+    let timerId = setInterval(() => alert('tick'), 2000); 
+
     
+
     // u may also use
     let timerId = setTimeout(function tick() {
-      alert('tick');
+      alert('tick'); 
       timerId = setTimeout(tick, 2000); // (*)
-    }, 2000);
+    }, 2000); 
+
     
+
 run the code as soon as everything is complete
 
     setTimeout(() => alert("World"), 0); // will be executed as soon as alert has been executed
@@ -1050,8 +1270,9 @@ Transparent caching: this enables the results a function to be cached so that th
 
     function slow(x) {
       // there can be a heavy CPU-intensive job here
-      alert(`Called with ${x}`);
-      return x;
+      alert( `Called with ${x}` ); 
+      return x; 
+
     }
 
     function cachingDecorator(func) {
@@ -1065,8 +1286,9 @@ Transparent caching: this enables the results a function to be cached so that th
         let result = func(x); // otherwise call func
 
         cache.set(x, result); // and cache (remember) the result
-        return result;
-      };
+        return result; 
+      }; 
+
     }
 
     slow = cachingDecorator(slow);
@@ -1076,60 +1298,84 @@ Transparent caching: this enables the results a function to be cached so that th
 
     alert( slow(2) ); // slow(2) is cached
     alert( "Again: " + slow(2) ); // the same as the previous line
+
     
+
 Using 'func.call' for the context
 
     let worker = {
-      someMethod() { return 1;},
+      someMethod() { return 1; }, 
       slow(x) {return x * this.someMethod(); // (*) }
-    };
+    }; 
+
     
+
     function cachingDecorator(func) {
       let cache = new Map();
+
       return function(x) {
         if (cache.has(x)) { return cache.get(x); }
         let result = func(x); # this will fail based on the output below, th context is wrong
      // let result = func.call(this, x); # "this" is passed correctly now
-        cache.set(x, result);
-        return result;
-      };
+        cache.set(x, result); 
+        return result; 
+      }; 
+
     }
+
     
+
     alert( worker.slow(1) ); // the original method works
     worker.slow = cachingDecorator(worker.slow); // now make it caching
     alert( worker.slow(2) ); // Whoops! Error: Cannot read property 'someMethod' of undefined (only .slow method was passed. no context)
+
     
+
 func.call
 
     # example 1
     function sayHi() {
       alert(this.name); // 'this' will be provided by caller
+
     }
+
     
-    let user = { name: "John" };
-    let admin = { name: "Admin" };
+
+    let user = { name: "John" }; 
+    let admin = { name: "Admin" }; 
     sayHi.call( user ); // this = John
     sayHi.call( admin ); // this = Admin
+
     
+
     # example 2
     function say(phrase) {
-      alert(this.name + ': ' + phrase);
+      alert(this.name + ': ' + phrase); 
+
     }
-    let user = { name: "John" };
+
+    let user = { name: "John" }; 
     say.call( user, "Hello" ); // John: Hello
+
     
+
 func.apply works like func.call but takes a context and a list of parameters
 
     #example
-    func(1, 2, 3);
+    func(1, 2, 3); 
     func.apply(context, [1, 2, 3])
+
     
+
     #
     function say(time, phrase) {
-      alert(`[${time}] ${this.name}: ${phrase}`);
+      alert( `[${time}] ${this.name}: ${phrase}` ); 
+
     }
-    let user = { name: "John" };
+
+    let user = { name: "John" }; 
     say.apply(user, ['10:00', 'Hello']); // [10:00] John: Hello (this=user)
+
   
 The spread operator ... allows to pass iterable args as the list to call. The apply accepts only array-like args.
 
@@ -1143,59 +1389,76 @@ the problem
 
     //loads a script and appends it to the head of the doc
     function loadScript(src) {
-      let script = document.createElement('script');
-      script.src = src;
-      document.head.append(script);
+      let script = document.createElement('script'); 
+      script.src = src; 
+      document.head.append(script); 
+
     }
-    loadScript('/my/script.js');
+
+    loadScript('/my/script.js'); 
     newFunction(); // no such function! because this function is in the loaded script, but load script is not complete yet
 
 the solution
 
     function loadScript(src, callback) {
-      let script = document.createElement('script');
-      script.src = src;
-      script.onload = () => callback(script);
-      document.head.append(script);
+      let script = document.createElement('script'); 
+      script.src = src; 
+      script.onload = () => callback(script); 
+      document.head.append(script); 
+
     }
+
     loadScript('/my/script.js', function() {
       newFunction(); // so now it works
-    });
+
+    }); 
+
     loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
-       alert(`Cool, the ${script.src} is loaded`);
+       alert( `Cool, the ${script.src} is loaded` ); 
        alert( _ ); // function declared in the loaded script
-     });
+     }); 
      
+
 Callback in callback
 
     loadScript('/my/script.js', function(script) {
       loadScript('/my/script2.js', function(script) {
         loadScript('/my/script3.js', function(script) {
-        });
+        }); 
       })
-    });
+
+    }); 
+
     
+
 Handling errors
 
     function loadScript(src, callback) {
-      let script = document.createElement('script');
-      script.src = src;
-      script.onload = () => callback(null, script);
-      script.onerror = () => callback(new Error(`Script load error for ${src}`));
-      document.head.append(script);
+      let script = document.createElement('script'); 
+      script.src = src; 
+      script.onload = () => callback(null, script); 
+      script.onerror = () => callback(new Error( `Script load error for ${src}` )); 
+      document.head.append(script); 
+
     }
+
     loadScript('/my/script.js', function(error, script) {
       if (error) {
         // handle error
       } else {
         // script loaded successfully
       }
-    });
+
+    }); 
+
     
+
 Pyramid of doom | callback hell is solved by replacing anonymous functions with real ones 
 
 ## [Promise](https://javascript.info/promise-basics)
+
     
+
     see utils below
 
 ## [Promises, async/await](https://javascript.info/async-await)
@@ -1203,56 +1466,82 @@ Pyramid of doom | callback hell is solved by replacing anonymous functions with 
 'Async' ensures that a function returs a promise
 
     async function f() {
-      return 1;
-    }
-    f().then(alert); // 1
-    
-    async function f() {
-      return Promise.resolve(1);
+      return 1; 
+
     }
 
     f().then(alert); // 1
+
     
+
+    async function f() {
+      return Promise.resolve(1); 
+
+    }
+
+    f().then(alert); // 1
+
+    
+
 'Await' runs inside an async function, forces the executor to wait the promise resolution before proceeding#
 If we try to use await in non-async function, that would be a syntax error:
 
     async function f() {
       let promise = new Promise((resolve, reject) => {
         setTimeout(() => resolve("done!"), 2000)
-      });
+      }); 
+
     
+
       let result = await promise; // wait till the promise resolves (*)
       alert(result); // "done!" will be displayed after the 2 secs
+
     }
+
     
-    f();
+
+    f(); 
+
     
+
 example
 
     async function showAvatar() {
       // read our JSON
-      let response = await fetch('/article/promise-chaining/user.json');
-      let user = await response.json();
+      let response = await fetch('/article/promise-chaining/user.json'); 
+      let user = await response.json(); 
+
     
+
       // read github user
-      let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
-      let githubUser = await githubResponse.json();
+      let githubResponse = await fetch( `https://api.github.com/users/${user.name}` ); 
+      let githubUser = await githubResponse.json(); 
+
     
+
       // show the avatar
-      let img = document.createElement('img');
-      img.src = githubUser.avatar_url;
-      img.className = "promise-avatar-example";
-      document.body.append(img);
+      let img = document.createElement('img'); 
+      img.src = githubUser.avatar_url; 
+      img.className = "promise-avatar-example"; 
+      document.body.append(img); 
+
     
+
       // wait 3 seconds
-      await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-      img.remove();
-      return githubUser;
+      await new Promise((resolve, reject) => setTimeout(resolve, 3000)); 
+      img.remove(); 
+      return githubUser; 
+
     }
+
     
-    showAvatar();
+
+    showAvatar(); 
+
     
+
 await accepts thenables (objects that have then methods)
+
       
       constructor(num) {
           this.num = num;
@@ -1273,24 +1562,34 @@ await accepts thenables (objects that have then methods)
 rest pparameters
 
     function f(...[a, b, c]) {
-      return a + b + c;
+      return a + b + c; 
+
     }
+
     f(1)          // NaN (b and c are undefined)
     f(1, 2, 3)    // 6
     f(1, 2, 3, 4) // 6 (the fourth parameter is not destructured)
+
     
+
     function fun1(...theArgs) {
-      console.log(theArgs.length);
+      console.log(theArgs.length); 
+
     }
-    fun1();  // 0
+
+    fun1(); // 0
     fun1(5); // 1
     fun1(5, 6, 7); // 3
+
     
+
     function multiply(multiplier, ...theArgs) {
       return theArgs.map(function(element) {
-        return multiplier * element;
-      });
+        return multiplier * element; 
+      }); 
+
     }
+
     var arr = multiply(2, 1, 2, 3); 
     console.log(arr); // [2, 4, 6]
 
@@ -1298,7 +1597,6 @@ rest pparameters
 
 [chai assertions](http://www.chaijs.com/api/assert/)
 [chai:expect/should](http://www.chaijs.com/api/bdd/)
-
 
 	<head>
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
@@ -1322,68 +1620,92 @@ rest pparameters
 	  <script>
 		 describe("pow", function() {
 			it("raises to n-th power", function() {
-				assert.equal(pow(2, 3), 8);
-			});
-		});
+				assert.equal(pow(2, 3), 8); 
+			}); 
+		}); 
 		
-		mocha.run();
+		mocha.run(); 
 	  </script>
 	</body>
+
     
+
 automated tests
+
     
+
   describe("test", function() {
+
     
-      // before(() => console.log("Testing started – before all tests"));
-      // after(() => console.log("Testing finished – after all tests"));
+
+      // before(() => console.log("Testing started – before all tests")); 
+      // after(() => console.log("Testing finished – after all tests")); 
+
     
-      // beforeEach(() => console.log("Before a test – (after every  it)"));
-      // afterEach(() => console.log("After a test – ( after every it)"));
+
+      // beforeEach(() => console.log("Before a test – (after every  it)")); 
+      // afterEach(() => console.log("After a test – ( after every it)")); 
       
         function makeTest(x) {
-          let expected = x * x * x;
-          it(`${x} in the power 3 is ${expected}`, function() {
-            assert.equal(pow(x, 3), expected);
-          });
+          let expected = x * x * x; 
+          it( `${x} in the power 3 is ${expected}` , function() {
+            assert.equal(pow(x, 3), expected); 
+          }); 
          }
+
   
+
         for (let x = 1; x <= 5; x++) {
-          makeTest(x);
+          makeTest(x); 
         }
       
       it("for negative n the result is NaN", function() {
-        assert.isNaN(pow(2, -1));
-      });
+        assert.isNaN(pow(2, -1)); 
+      }); 
+
     
+
       it("for non-integer n the result is NaN", function() {
-        assert.isNaN(pow(2, 1.5));
-      });
+        assert.isNaN(pow(2, 1.5)); 
+      }); 
+
     
-    });
+
+    }); 
 
 ## karma jasmine testing
 
 init
+
     
+
     npm init
     npm install --save-dev jasmine
     npm install --save-dev jasmine-core
     npm install --save-dev karma
     npm install --save-dev karma-jasmine 
     npm install --save-dev karma-chrome-launcher
+
     
+
     npm install -g karma-cli
     npm install -g karma
     npm install -g jasmine
+
     
+
     karma init
+
     
+
 touch karma.conf.js [content here](https://raw.githubusercontent.com/Microsoft/cordova-samples/master/unit-testing/karma-jasmine-cli/karma.conf.js)
 
 [karma.config.js.parameters](http://karma-runner.github.io/0.12/config/configuration-file.html)
 
 js/main.js
+
     
+
     
 
 tests/main.test.js
@@ -1393,48 +1715,69 @@ tests/main.test.js
 Variable Destructuring
 
     const wolverine = {
-      firstName: 'James',
-      lastName: 'Howlett',
+      firstName: 'James', 
+      lastName: 'Howlett', 
       powers: [
-        'healing factor',
-        'adamantium skeleton',
-      ],
-    };
+        'healing factor', 
+        'adamantium skeleton', 
+      ], 
+    }; 
+
     
+
     // declare and init variables using values from the object
-    const { firstName, lastName, powers} = wolverine;
+    const { firstName, lastName, powers} = wolverine; 
     console.log(firstName, lastName, powers) 
+
     
-    const { powers: [power1, power2] } = wolverine;
+
+    const { powers: [power1, power2] } = wolverine; 
     console.log(power1, power2) // power1 : healing ...
+
     
+
     // desctructure array
-    const xMen = ['Storm', 'Cyclops', 'Beast', 'Phoenix', 'Wolverine', 'Mystique', 'Quicksilver'];
-    const [first, second, third] = xMen;
+    const xMen = ['Storm', 'Cyclops', 'Beast', 'Phoenix', 'Wolverine', 'Mystique', 'Quicksilver']; 
+    const [first, second, third] = xMen; 
     console.log(first, second, third); //Storm Cyclops Beast
+
     
+
 Iterators
-    anArray.entries() returns an array of [index,value]
+
+    anArray.entries() returns an array of [index, value]
+
     
+
     for ([index, value] of anArray.entries()) {
-      console.log(`index: ${index}, value: ${value}`);
+      console.log( `index: ${index}, value: ${value}` ); 
       
+
     }
+
     
+
     # for of loops through the array genting each value
     for (const entry of ['Starlord', 'Gamora', 'Rocket', 'Groot', 'Drax']) {
       console.log(entry)
+
     }
+
     
+
     # let in loops through the indexes
     for (const index in ['Starlord', 'Gamora', 'Rocket', 'Groot', 'Drax']) {
       console.log(index)
+
     }
+
 map
 
-    let temp = [1,2,3,4,5];
-    temp = temp.map( item => item *=2); // [2,4,6,8]
+    let temp = [1, 2, 3, 4, 5]; 
+    temp = temp.map( item => item *=2); // [2, 4, 6, 8]
+
     
+
 Rest Operator
 
     function logNames(name1, name2) {
@@ -1442,12 +1785,17 @@ Rest Operator
       console.log(name2); //Jen
       
       for (var i = 0; i < arguments.length; i++) {
-        console.log(arguments[i]);
+        console.log(arguments[i]); 
       }
+
     }
+
     logNames('Bob', 'Jen', 'Cam', 'Pratik') // Bob Jen Bob Jen Cam Pratik
+
     
+
     
+
     # you specify the first 2 parameters but still handle the remaining ones
     const logNames = (name1, name2, ...names) => {
       console.log(name1); //Bob
@@ -1456,51 +1804,73 @@ Rest Operator
        for (let name of names) {
         console.log(name); // Cam, Patrick
       }
+
     }
+
     logNames('Bob', 'Jen', 'Cam', 'Pratik'); // Bob Jen Cam Pratik
+
     
+
 Template Literals
 
-    const name = 'T\'Challa';
-    const country = 'Wakanda';
-    const numSiblings = 1;
-    const occupation = 'king';
+    const name = 'T\'Challa'; 
+    const country = 'Wakanda'; 
+    const numSiblings = 1; 
+    const occupation = 'king'; 
+
     
+
     
-    console.log(`Black Panther has ${numSiblings} ${ numSiblings === 1 ? 'sibling' : 'siblings' }.`);
-    console.log(`Black Panther has ${ numSiblings === 1 ? `${numSiblings} sibling` : `${numSiblings} siblings` }.`);
+
+    console.log( `Black Panther has ${numSiblings} ${ numSiblings === 1 ? 'sibling' : 'siblings' }.` ); 
+    console.log( `Black Panther has ${ numSiblings === 1 ? ` ${numSiblings} sibling ` : ` ${numSiblings} siblings ` }.` ); 
+
     
+
 Spread Operator ...myArray
 
-    const characters = ['Bojack', 'Todd', 'Princess Carolyn'];
-    const newCharacters = ['Diane', 'Mr. Peanutbutter'];
+    const characters = ['Bojack', 'Todd', 'Princess Carolyn']; 
+    const newCharacters = ['Diane', 'Mr. Peanutbutter']; 
+
     
-    let catList;
+
+    let catList; 
     castList = [characters, newCharacters]; // [ ["Bojack", "Todd", "Princess Carolyn"], ["Diane", "Mr. Peanutbutter"] ] # an array of the 2 arrays
-    castList = [...characters, ...newCharacters]; // ['Bojack', 'Todd', 'Princess Carolyn', 'Diane', 'Mr. Peanutbutter'];
-    castList = characters.push(...newCharacters);
+    castList = [...characters, ...newCharacters]; // ['Bojack', 'Todd', 'Princess Carolyn', 'Diane', 'Mr. Peanutbutter']; 
+    castList = characters.push(...newCharacters); 
     characters.push(...newCharacters) //["Bojack", "Todd", "Princess Carolyn", "Diane", "Mr. Peanutbutter", "Diane", "Mr. Peanutbutter"]
+
     
+
 Tenary operator replaces if...else
 
-    size = 10;
-    size === 10 ? doSomeThing(); : doSomeThingElse();
+    size = 10; 
+    size === 10 ? doSomeThing(); : doSomeThingElse(); 
+
     
+
     height===2 && width===2  ? doSomeThing(); : null; // doe something or nothing
+
     
+
 Object Shorthand
+
     
+
     // create an object by mapping the function's parameter name and value
     const createPerson = (Name, age, rank) => {
       const person = {
-        Name,
-        age,
-        rank,
-        enteredShimmer: true,
+        Name, 
+        age, 
+        rank, 
+        enteredShimmer: true, 
       }
-      return person;
+      return person; 
+
     }
+
     
+
     const kane = createPerson('Kane', 34, 'Sergeant'); // { name: 'Kane', age: 34, rank: 'Sergeant', enteredShimmer: true }
 
     shimmerParty = [
@@ -1511,37 +1881,42 @@ Object Shorthand
     });
 
 Array.prototype.reduce()
-    
-    numbers.reduce( (sum,i) => sum +i); //sum = number[0], i = number[1] in first loop, sum, number[i=1++] afterwards
 
+    
+
+    numbers.reduce( (sum, i) => sum +i); //sum = number[0], i = number[1] in first loop, sum, number[i=1++] afterwards
 
 [Modules: import and export](https://developers.google.com/web/fundamentals/primers/modules)
 
     // 📁 lib.mjs
-    export const repeat = (string) => `${string} ${string}`;
-    export shout = (string) => `${string.toUpperCase()}!`;
+    export const repeat = (string) => `${string} ${string}` ; 
+    export shout = (string) => `${string.toUpperCase()}!` ; 
+
     
+
     // 📁 main.mjs
-    import {repeat, shout} from './lib.mjs';
+    import {repeat, shout} from './lib.mjs'; 
     repeat('hello'); //'hello hello'
     shout('Modules in action'); //'MODULES IN ACTION!'
 
 ## AJAX
 
-    var xMLHttpRequest = new XMLHttpRequest();
-    xMLHttpRequest.open("POST", "/talks", true);
-    xMLHttpRequest.setRequestHeader('Content-type','application/json; charset=utf-8');
+    var xMLHttpRequest = new XMLHttpRequest(); 
+    xMLHttpRequest.open("POST", "/talks", true); 
+    xMLHttpRequest.setRequestHeader('Content-type', 'application/json; charset=utf-8'); 
     xMLHttpRequest.onload = function () {
         if (xMLHttpRequest.readyState == 4) {
-            xMLHttpRequest.responseText;
+            xMLHttpRequest.responseText; 
         }
          else{
              connsole.log(xMLHttpRequest.response)
         }
+
     }
+
     xMLHttpRequest.send( 
         JSON.stringify( {Object} )
-    );
+    ); 
 
 ### Select read and Parse file
 
@@ -1574,6 +1949,7 @@ Array.prototype.reduce()
             }
         }
         
+
 ### Read File
 
         function readTextFile(fileName, callback)
@@ -1610,19 +1986,20 @@ Array.prototype.reduce()
 	function httpRequest (url, method, data) {
 
 		return fetch(url, {
-			body: JSON.stringify(data),
-			cache: "no-cache",
-			credentials: "same-origin",
+			body: JSON.stringify(data), 
+			cache: "no-cache", 
+			credentials: "same-origin", 
 			headers: {
-				// 'user-agent': 'Mozilla/4.0 MDN Example',
-				"content-type": "application/json",
-			},
-			method: method,
-			mode: "cors",
-			redirect: "follow",
-			referrer: "no-referrer",
-		}).then(response => response.json() );
+				// 'user-agent': 'Mozilla/4.0 MDN Example', 
+				"content-type": "application/json", 
+			}, 
+			method: method, 
+			mode: "cors", 
+			redirect: "follow", 
+			referrer: "no-referrer", 
+		}).then(response => response.json() ); 
 		
+
 	}
 
 	/** Make a get request
@@ -1630,8 +2007,10 @@ Array.prototype.reduce()
 	 * @param {String} url
 	 */
 	function get (url) {
-		return fetch(url).then( response => response.json());
+		return fetch(url).then( response => response.json()); 
+
 	}
+
 	/** Event handler for image selected
 	 * This function takes the selected image and places it on an image preview
 	 * @param {event} event the input.file
@@ -1650,6 +2029,7 @@ Array.prototype.reduce()
 		};
 
 		fileReader.readAsDataURL(event.target.files[0]);
+
 	}
 
 	/** This function takes a file input, and uploads the input's files to the server
@@ -1669,15 +2049,16 @@ Array.prototype.reduce()
 
 		return new Promise(function (resolve, reject) {
 			$.ajax({
-				type: "POST",
-				url: "/files",
-				processData : false,
-				contentType : false,
-				data : formData,
-				succes : resolve,
+				type: "POST", 
+				url: "/files", 
+				processData : false, 
+				contentType : false, 
+				data : formData, 
+				succes : resolve, 
 				error  : reject
-			});
-		});
+			}); 
+		}); 
+
 	}
 
 	/** This function returns and object containing all the attributes of the form
@@ -1696,7 +2077,8 @@ Array.prototype.reduce()
 			}
 		}
 
-		return item;
+		return item; 
+
 	}
 
 	/** This function fills the form's inputs with the values of the object
@@ -1706,20 +2088,21 @@ Array.prototype.reduce()
 	function populateForm (form, object) {
 
 		for(let attribute in object) {
-			let element =  form.querySelector(`[name=${attribute}]`);
+			let element =  form.querySelector( `[name=${attribute}]` ); 
 			if( element) {
 				if(element.type == "select-one") {
-					let e = element.querySelector(`[value='${object[attribute]}']`);
+					let e = element.querySelector( `[value='${object[attribute]}']` ); 
 					if(e) {
-						e.selected = true;
+						e.selected = true; 
 					}
 				} else  if(element.type == "checkbox") {
-					element.checked = object[attribute];
+					element.checked = object[attribute]; 
 				} else {
-					element.value = object[attribute];
+					element.value = object[attribute]; 
 				}
 			}
 		}
+
 	}
 
 	/** This function clears all the values of the form by setting the to null
@@ -1727,8 +2110,9 @@ Array.prototype.reduce()
 	 */
 	function resetForm (form) {
 		for(let element of form.querySelectorAll("[name]")) {
-			element.value = null;
+			element.value = null; 
 		}
+
 	}
 
 ## ES7
@@ -1754,7 +2138,6 @@ Array.prototype.reduce()
 
     "fab".padStart(5,"?"); // "??fab"
     "f".padStart(3,"?") // "??f"
-
 
     "fab".padEnd(5,"?"); // "fab??"
     "f".padEnd(3,"?") // "f??"
@@ -1782,11 +2165,12 @@ Array.prototype.reduce()
 
     var fruits = {
       
-        apple: 10,
-        orange: 20,
-        grapes: 30,
+        apple: 10, 
+        orange: 20, 
+        grapes: 30, 
         pineapple: 40
       
+
     }
 
     Object.values(fruits) // (4) [10, 20, 30, 40]
@@ -1797,60 +2181,79 @@ Array.prototype.reduce()
         2: (2) ["grapes", 30]
         3: (2) ["pineapple", 40]
 
-
 ### Trailing commas in functions is now allowed
 
 ## ES9
 
-    Template literals: `Hello ${name}`
+    Template literals: `Hello ${name}` 
 
 ### Asynchronous iterator
 
     async function process(array) {
       for await (let i of array) {
-        doSomething(i);
+        doSomething(i); 
       }
+
     }
 
 ### Template string of non escape sequence
+
     function foo(str) {
-        return str[0].toUpperCase();
+        return str[0].toUpperCase(); 
+
     }
 
-    foo`justjavac`; // Output JUSTJAVAC
-    foo`Xyz`; // Output XYZ
+    foo `justjavac` ; // Output JUSTJAVAC
+    foo `Xyz` ; // Output XYZ
+
   
+
 ### Object expansion operator
-    let a = [1,2,3];
-    let b = [0, ...a, 4]; // [0,1,2,3,4]
+
+    let a = [1, 2, 3]; 
+    let b = [0, ...a, 4]; // [0, 1, 2, 3, 4]
+
     
-    let obj = { a: 1, b: 2 };
+
+    let obj = { a: 1, b: 2 }; 
     let obj2 = { ...obj, c: 3 }; // { a:1, b:2, c:3 }
     let obj3 = { ...obj, a: 3 }; // { a:3, b:2 }
 
-    let object = { a: '01', b: '02' };
+    let object = { a: '01', b: '02' }; 
     let newObject = { c: '03', ...object }; //{c: "03", a: "01", b: "02"}
+
     
+
 ## ES10 
 
 ### flat()
-    var arr1 = [1, 2, [3, 4]];
+
+    var arr1 = [1, 2, [3, 4]]; 
     arr1.flat(); // [1, 2, 3, 4]
+
     
-    var arr2 = [1, 2, [3, 4, [5, 6]]];
+
+    var arr2 = [1, 2, [3, 4, [5, 6]]]; 
     arr2.flat(); // [1, 2, 3, 4, [5, 6]]
+
     
-    var arr3 = [1, 2, [3, 4, [5, 6]]];
+
+    var arr3 = [1, 2, [3, 4, [5, 6]]]; 
     arr3.flat(2); // [1, 2, 3, 4, 5, 6]
+
     
+
     //Using Infinity as the depth, expand the nested array of any depth
     arr3.flat(Infinity); // [1, 2, 3, 4, 5, 6]
+
     
+
     //Remove null items
-    var arr4 = [1, 2, , 4, 5];
+    var arr4 = [1, 2, , 4, 5]; 
     arr4.flat(); // [1, 2, 4, 5]
 
 ### flatMap()
+
     var arr1 = [1, 2, 3, 4];
 
     arr1.map(x => [x * 2]); // [[2], [4], [6], [8]]
@@ -1861,10 +2264,12 @@ Array.prototype.reduce()
     arr1.flatMap(x => [[x * 2]]); // [[2], [4], [6], [8]]
 
 ### String.trimStart() String.trimEnd() 
+
     "    Hello World".trimStart(); // "Hello World"
     "Hello World    ".trimStart(); // "Hello World"
 
 ### Object.fromEntries()
+
     const map = new Map([ 
       ['foo', 'bar'], 
       ['baz', 42] 
@@ -1875,24 +2280,30 @@ Array.prototype.reduce()
       ['0', 'a'], 
       ['1', 'b'], 
       ['2', 'c'] 
-    ];
+    ]; 
     const obj = Object.fromEntries(arr); // { 0: "a", 1: "b", 2: "c" }
+
     
+
 ## generators (Serve values on demand rather )
 
 	function * iterableObj() {
-	  yield 1;
-	  yield 2;
-	  yield 3;
-	  yield 4;
-	  // return 10,
-	  yield 5;
-	  yield 6;
+	  yield 1; 
+	  yield 2; 
+	  yield 3; 
+	  yield 4; 
+	  // return 10, 
+	  yield 5; 
+	  yield 6; 
+
 	}
+
 	
 	for (const val of iterableObj() ) {
-	  console.log(val);
+	  console.log(val); 
+
 	}
+
 	
 	// 1
 	// 2
@@ -1902,5 +2313,5 @@ Array.prototype.reduce()
 	// 5
 	// 6
 	
-	console.log( iterableObj() );
+	console.log( iterableObj() ); 
 	// {value: undefined, done: true}
