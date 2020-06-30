@@ -41,6 +41,26 @@ examples
 
 	ssh fabrigeas@10.0.0.1 pwd
 	 ssh fabrigeas@10.0.0.1 (any command)
+	scp your_username@remotehost.edu:foobar.txt /some/local/directory
+	scp foobar.txt your_username@remotehost.edu:/some/remote/directory
+	scp -r foo your_username@remotehost.edu:/some/remote/directory/bar
+	scp your_username@rh1.edu:/some/remote/directory/foobar.txt \
+	your_username@rh2.edu:/some/remote/directory/
+	scp foo.txt bar.txt your_username@remotehost.edu:~
+	scp -P 2264 foobar.txt your_username@remotehost.edu:/some/remote/directory
+	scp your_username@remotehost.edu:/some/remote/directory/\{a,b,c\} .
+	scp your_username@remotehost.edu:~/\{foo.txt,bar.txt\} .
+	scp Performance
+	By default scp uses the Triple-DES cipher to encrypt the data being sent. Using the Blowfish cipher has been shown to increase speed. This can be done by using option -c blowfish in the command line.
+
+	scp -c blowfish some_file your_username@remotehost.edu:~
+	It is often suggested that the -C option for compression should also be used to increase speed. The effect of compression, however, will only significantly increase speed if your connection is very slow. Otherwise it may just be adding extra burden to the CPU. An example of using blowfish and compression:
+
+	$ scp -c blowfish -C local_file your_username@remotehost.edu:~
+
+
+ 
+
 
 install ssh on windows
 
@@ -74,3 +94,5 @@ install ssh on windows
 	Set-Service ssh-agent -StartupType Automatic
 	Set-Service sshd -StartupType Automatic 
 	netsh advfirewall firewall add rule name='SSH Port' dir=in action=allow protocol=TCP localport=22
+	
+	
