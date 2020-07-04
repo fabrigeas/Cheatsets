@@ -1,36 +1,40 @@
-  # [VueJs Tutorials](https://vuejs.org/v2/guide/)
+# [VueJs Tutorials](https://vuejs.org/v2/guide/)
 
-    npm install -g @vue/cli
+```bash
+npm install -g @vue/cli
+```
 
-## Content 
+## Content
 
-  + [Create new Project](#Create-new-Project)
-  + [Hello](#Hello)
-  + [The Vue Instance](#The-Vue-Instance)
-  + [Template Syntax](#Template-Syntax)
-  + [Computed Properties and Watchers](#Computed-Properties-and-Watchers)
-  + [Class and Style Bindings](#Class-and-Style-Bindings)
-  + [Conditional Rendering](#Conditional-Rendering)
-  + [List Rendering](#List-Rendering)
-  + [Event Handling](#Event-Handling)
-  + [Form Input Bindings](#Form-Input-Bindings)
-  + [Components Basics](#Components-Basics)
-  + [Components In-Depth](#Components-In-Depth)
-  + [Handling Edge Cases](#Handling-Edge-Cases)
-  + [Reusability & Composition](#Reusability-and-Composition)
-  + [Tooling](#Tooling)
-  + [](#)
-  + [Slot](#Slot)
-  + [State Management with Vuex](#Vuex)
-  + [Vue Router](#Vue-Router)
-  + [Vue Publish package](#Publish-Package)
-  + [Typescript](#Typescript)
+- [Create new Project](#Create-new-Project)
+- [Hello](#Hello)
+- [The Vue Instance](#The-Vue-Instance)
+- [Template Syntax](#Template-Syntax)
+- [Computed Properties and Watchers](#Computed-Properties-and-Watchers)
+- [Class and Style Bindings](#Class-and-Style-Bindings)
+- [Conditional Rendering](#Conditional-Rendering)
+- [List Rendering](#List-Rendering)
+- [Event Handling](#Event-Handling)
+- [Form Input Bindings](#Form-Input-Bindings)
+- [Components Basics](#Components-Basics)
+- [Components In-Depth](#Components-In-Depth)
+- [Handling Edge Cases](#Handling-Edge-Cases)
+- [Reusability & Composition](#Reusability-and-Composition)
+- [Tooling](#Tooling)
+- [](#)
+- [Slot](#Slot)
+- [State Management with Vuex](#Vuex)
+- [Vue Router](#Vue-Router)
+- [Vue Publish package](#Publish-Package)
+- [Typescript](#Typescript)
 
 ## Hello
 
-    npm install --global @vue/cli
-    vue create hello-world
-    npm run seve
+```bash
+npm install --global @vue/cli
+vue create hello-world
+npm run serve
+```
 
 [Vue](https://vuejs.org/)
 [Vue CLI](https://cli.vuejs.org/)
@@ -46,23 +50,21 @@
 
 ## The Vue Instance
 
-creation 
-
-    var vm = new Vue({
-
-    });
+```js
+var vm = new Vue({});
+```
 
 [Back to top](#Content)
 
-### Data and methods 
+### Data and methods
 
-Properties init in data become reative (view is re-rendered when they change)
+```js
+// Properties init in data become reactive (view is re-rendered when they change)
 
     var data = { a: 1 }
 
     var vm = new Vue({
-
-      data, 
+      data,
     })
 
     vm.a == data.a // => true
@@ -75,8 +77,7 @@ Properties init in data become reative (view is re-rendered when they change)
 
     vm.b = 'hi' will not re-render because 'b' is not part of the initial state
 
-Freezing (makind vm.data unreactive)
-
+    // Freezing (makes vm.data un-reactive)
     var data = {
       foo: 'bar'
     }
@@ -87,201 +88,191 @@ Freezing (makind vm.data unreactive)
       el: '#app',
       data,
     })
+```
 
-Instance properties ($)
+Instance properties (\$)
 
-    var data = { a: 1 }
+```js
+var data = { a: 1 };
 
-    var vm = new Vue({
+var vm = new Vue({
+  el: "#example",
+  data: data,
+});
 
-      el: '#example', 
-      data: data
-    })
+vm.$data === data; // => true
+vm.$el === document.getElementById("example"); // => true
 
-    vm.$data === data // => true
-    vm.$el === document.getElementById('example') // => true
-
-    // $watch is an instance method
-    vm.$watch('a', function (newValue, oldValue) {
-      // This callback will be called when `vm.a` changes
-    })
+// $watch is an instance method
+vm.$watch("a", function (newValue, oldValue) {
+  // This callback will be called when `vm.a` changes
+});
+```
 
 [Back to top](#Content)
 
 ### Instance Lifecycle Hooks
 
-    new Vue({
-      created: function () { },
-      mounted: function () { },
-      updated: function () { },
-      destroyed: function () { },
-    })
+```js
+new Vue({
+  created: function () {},
+  mounted: function () {},
+  updated: function () {},
+  destroyed: function () {},
+});
+```
 
 [Back to top](#Content)
 
 ## Template Syntax
 
-Moustache {{msg}}
+```html
+<!-- Moustache {{msg}} -->
 
-    <span>Message: {{ msg }}</span>
+<span>Message: {{ msg }}</span>
 
-    # one-time interpolations
-    <span v-once>This will never change: {{ msg }}</span>
+# one-time interpolations
+<span v-once>This will never change: {{ msg }}</span>
 
-Raw HTML (to bind textContent)
+<!-- Raw HTML (to bind textContent) -->
 
-    <p>Using mustaches: {{ rawHtml }}</p>
-    <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+<p>Using mustaches: {{ rawHtml }}</p>
+<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+```
 
 ### Attributes
 
 ### Directives (v-)
 
-Arguments
-
 ### Conditionals and Loops
 
-v-for
+```html
+<template>
+  <ol>
+    <li v-for="todo in todos">{{ todo.text }}</li>
+  </ol>
+</template>
 
-    <template>
-      <ol>
-        <li v-for="todo in todos"> {{ todo.text }} </li>
-      </ol>
-    </template>
+<script>
+  export default {
+    data: () => ({
+      todos: [
+        { text: "Learn JavaScript" },
+        { text: "Learn Vue" },
+        { text: "Build something awesome" },
+      ],
+    }),
+  };
+</script>
 
-    <script>
+<h1>Yes</h1>
+<div v-if="type === 'A'">A</div>
+<div v-else-if="type === 'B'">B</div>
+<div v-else-if="type === 'C'">C</div>
+<div v-else>Not A/B/C</div>
 
-    export default {
+<!-- Controlling Reusable Elements with key -->
+<template v-if="loginType === 'username'">
+  <label>Username</label>
+  <input placeholder="Enter your username" key="username-input" />
+</template>
+<template v-else>
+  <label>Email</label>
+  <input placeholder="Enter your email address" key="email-input" />
+</template>
 
-        data: () => ({
-            message: "This is a message",
-        }),
-        data: () => ({
-            todos: [
-                { text: 'Learn JavaScript' },
-                { text: 'Learn Vue' },
-                { text: 'Build something awesome' }
-            ]
-      })
-    }
-
-    </script>
-
-v-if
-
-    {{#if ok}}
-        <h1>Yes</h1>
-    {{/if}}
-
-    // if else if
-    <div v-if="type === 'A'"> A </div>
-    <div v-else-if="type === 'B'"> B </div>
-    <div v-else-if="type === 'C'"> C </div>
-    <div v-else> Not A/B/C </div>
-
-    // Controlling Reusable Elements with key
-    <template v-if="loginType === 'username'">
-        <label>Username</label>
-        <input placeholder="Enter your username" key="username-input">
-    </template>
-    <template v-else>
-        <label>Email</label>
-        <input placeholder="Enter your email address" key="email-input">
-    </template>
-
-    # v-show
-    <h1 v-show="ok">Hello!</h1>
+<!-- v-show -->
+<h1 v-show="ok">Hello!</h1>
+```
 
 ### Handling User Input ( v-on )
 
-    <template>
-        <div id="app-5">
-            <p>{{ message }}</p>
-            <button v-on:click="reverseMessage">Reverse Message</button>
-    </template>
+```html
+<template>
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Reverse Message</button>
+    <!-- shorthand -->
+    <button @click="reverseMessage">Reverse Message</button>
+</template>
 
-    <script>
+<script>
 
-    export default{
-      data: () =>({
-        message: 'Hello Vue.js!'
-      }), 
-      methods: {
-        reverseMessage: function () {
-          this.message = this.message.split('').reverse().join('')
-        }
+export default{
+  data: () =>({
+    message: 'Hello Vue.js!'
+  }),
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  }
+})
 
-      }
-    })
-
-    </script>
+</script>
+```
 
 ### v-model (2-way binding)
 
-    <div id="app-6">
-      <p>{{ message }}</p>
-      <input v-model="message"> # model is a data().message
-    </div>
+```html
+<div id="app-6">
+  <p>{{ message }}</p>
+
+  <!-- bind message to input -->
+  <input v-model="message" />
+</div>
+```
 
 ### Composing with Components
 
-Summary
+```html
+<!-- Summary -->
+  <div id="app">
+    <app-nav></app-nav>
+    <app-view>
+      <app-sidebar></app-sidebar>
+      <app-content></app-content>
+    </app-view>
+  </div>
 
-    <div id="app">
-      <app-nav></app-nav>
-      <app-view>
-        <app-sidebar></app-sidebar>
-        <app-content></app-content>
-      </app-view>
-    </div>
+<!-- parent-element.vue -->
+<template>
+  <div id="app">
+    <child-element msg="Hello world"/>
+    <h2>{{title}}</h2>
+  </div>
+</template>
 
- parent-element.vue
-
-    <template>
-      <div id="app">
-        <child-element msg="Hello world"/>
-        <h2>{{title}}</h2>
-      </div>
-
-    <script>
-
-    import child-element from './components/child-element.vue'
-
-    export default {
-
-      name: 'app',
-      components: {
-        child-element
-      },
-      data: function() {
-        return {
-          title: "This has functionned"
-        }
-
-      }
+<script>
+import child-element from './components/child-element.vue'
+export default {
+  name: 'app',
+  components: {
+    child-element
+  },
+  data: function() {
+    return {
+      title: "This has functionned"
     }
+  }
+}
+</script>
 
-    <style></style>
+<!-- child-component -->
+<template>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+  </div>
+</template>
+<script>
+export default {
+  name: 'child-element',
+  props: {
+    msg: String
+  }
+}
 
-child-element.vue
-
-    <template>
-      <div class="hello">
-        <h1>{{ msg }}</h1>
-      </div>
-
-    <script>
-
-    export default {
-
-      name: 'child-element',
-      props: {
-        msg: String
-
-      }
-    }
-
-    <style></style>
+```
 
 ### Template Syntax
 
@@ -347,7 +338,7 @@ v-on Shorthand
     <script>
 
       export default{
-        data: () =>({}), 
+        data: () =>({}),
         methods: {
           reverseMessage: function () {
             this.message = this.message.split('').reverse().join('')
@@ -444,14 +435,14 @@ Binding Inline Styles
     <script>
 
      data: {
-        newTodoText: '', 
-            todos: [], 
+        newTodoText: '',
+            todos: [],
             nextTodoId: todos.length
-        }, 
+        },
         methods: {
             addNewTodo: function () {
                 this.todos.push({
-                    id: this.nextTodoId++, 
+                    id: this.nextTodoId++,
                     title: this.newTodoText
                 })
                 this.newTodoText = ''
@@ -597,7 +588,7 @@ Passing Data to Child Components with Props
 
     <script>
 
-        props: ['post'], 
+        props: ['post'],
         template: '<h3>{{ post.title }}</h3>'
 
     // parent-component.js
@@ -605,10 +596,10 @@ Passing Data to Child Components with Props
 
     <script>
 
-    import child-component from './components/child-component.vue'; 
+    import child-component from './components/child-component.vue';
       components: {
         child-component
-    }, 
+    },
     data: () => ({posts: []})
 
 Listening to Child Components Events
@@ -733,10 +724,10 @@ Customizing Component v-model
     <script>
 
     model: {
-        prop: 'checked', 
+        prop: 'checked',
         event: 'change'
-    }, 
-    props: {checked: Boolean}, 
+    },
+    props: {checked: Boolean},
 
     <template>
     <input
@@ -766,28 +757,29 @@ Slot
 
 ### Computed Properties (computed caching)
 
-* Use computed properties to avoid doing computation on the template.
+- Use computed properties to avoid doing computation on the template.
 
     <div id="example">
       <p>Original message: "{{ message }}"</p>
       <p>Reversed message: "{{ reversedMessage }}"</p>
     </div>
 
-    var vm = new Vue({
+  var vm = new Vue({
 
       computed: {
         /*is reactive, will only render if message changes*/
         reversedMessage: function () {
           return this.message.split('').reverse().join('')
-        }, 
+        },
 
       }
-    })
 
-    #reversedMessage wil cache the result and  only re-render if the value of message changed
+  })
 
-    // vm.reversedMessage
-    // vm.reversedMessage
+  #reversedMessage wil cache the result and only re-render if the value of message changed
+
+  // vm.reversedMessage
+  // vm.reversedMessage
 
 ### Computed Caching vs Methods
 
@@ -801,9 +793,9 @@ Slot
       methods: {
         /*Works because methods is called for each render*/
         now: function {
-          return Date.now(); 
+          return Date.now();
         }
-      }, 
+      },
 
       computed: {
         /*Is a bad Idea, because Date is not reactive*/
@@ -822,16 +814,16 @@ It is tempting to use watchers to react to changes, but is it optimal?
 
     var vm = new Vue({
 
-      el: '#demo', 
+      el: '#demo',
       data: {
-        firstName: 'Foo', 
-        lastName: 'Bar', 
+        firstName: 'Foo',
+        lastName: 'Bar',
         fullName: 'Foo Bar'
-      }, 
+      },
       watch: {
         firstName: function (val) {
           this.fullName = val + ' ' + this.lastName
-        }, 
+        },
         lastName: function (val) {
           this.fullName = this.firstName + ' ' + val
         }
@@ -843,11 +835,11 @@ It is tempting to use watchers to react to changes, but is it optimal?
 
     var vm = new Vue({
 
-      el: '#demo', 
+      el: '#demo',
       data: {
-        firstName: 'Foo', 
+        firstName: 'Foo',
         lastName: 'Bar'
-      }, 
+      },
       computed: {
         fullName: function () {
           return this.firstName + ' ' + this.lastName
@@ -895,18 +887,18 @@ It is tempting to use watchers to react to changes, but is it optimal?
     <script>
 
     var watchExampleVM = new Vue({
-      el: '#watch-example', 
+      el: '#watch-example',
       data: {
-        question: '', 
+        question: '',
         answer: 'I cannot give you an answer until you ask a question!'
-      }, 
+      },
       watch: {
         // whenever question changes, this function will run
         question: function (newQuestion, oldQuestion) {
           this.answer = 'Waiting for you to stop typing...'
           this.debouncedGetAnswer()
         }
-      }, 
+      },
       created: function () {
         // _.debounce is a function provided by lodash to limit how
         // often a particularly expensive operation can be run.
@@ -916,7 +908,7 @@ It is tempting to use watchers to react to changes, but is it optimal?
         // more about the _.debounce function (and its cousin
         // _.throttle), visit: https://lodash.com/docs#debounce
         this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
-      }, 
+      },
       methods: {
         getAnswer: function () {
           if (this.question.indexOf('?') === -1) {
@@ -1048,7 +1040,7 @@ Conditional Groups with v-if on <template>
     <div v-else-if="type === 'C'"> C </div>
     <div v-else> Not A/B/C </div>
 
-### Controlling Reusable Elements with key 
+### Controlling Reusable Elements with key
 
 Add a ke so that the template is completely re-rendered rather than cached
 
@@ -1074,9 +1066,9 @@ The inputs have no keys so the placeholder will always be "Enter your username"
 
 ### v-show element will always be rendered but will be toggled
 
-* v-if only renders if condition is true and re-renders if condition changes
-* v-if also destroys and re-initializes all event listeners on re-render
-* v-is is lazy
+- v-if only renders if condition is true and re-renders if condition changes
+- v-if also destroys and re-initializes all event listeners on re-render
+- v-is is lazy
 
 v-for has higher precedence over v-if
 
@@ -1090,10 +1082,10 @@ v-for has higher precedence over v-if
       </li>
     </ul>
     var example1 = new Vue({
-      el: '#example-1', 
+      el: '#example-1',
       data: {
         items: [
-          { message: 'Foo' }, 
+          { message: 'Foo' },
           { message: 'Bar' }
         ]
 
@@ -1114,11 +1106,11 @@ v-for has higher precedence over v-if
       </li>
     </ul>
     new Vue({
-      el: '#v-for-object', 
+      el: '#v-for-object',
       data: {
         object: {
-          title: 'How to do lists in Vue', 
-          author: 'Jane Doe', 
+          title: 'How to do lists in Vue',
+          author: 'Jane Doe',
           publishedAt: '2016-04-10'
         }
 
@@ -1139,7 +1131,7 @@ v-for has higher precedence over v-if
 
     data: {
       numbers: [ 1, 2, 3, 4, 5 ]
-    }, 
+    },
     computed: {
       evenNumbers: function () {
         return this.numbers.filter(function (number) {
@@ -1175,7 +1167,7 @@ In situations where computed properties are not feasible (e.g. inside nested v-f
       <p>The button above has been clicked {{ counter }} times.</p>
     </div>
     var example1 = new Vue({
-      el: '#example-1', 
+      el: '#example-1',
       data: {
         counter: 0
 
@@ -1187,7 +1179,7 @@ In situations where computed properties are not feasible (e.g. inside nested v-f
     </div>
 
     var example2 = new Vue({
-      el: '#example-2', 
+      el: '#example-2',
       methods: {
         greet: function (event) {
         }
@@ -1200,7 +1192,7 @@ In situations where computed properties are not feasible (e.g. inside nested v-f
       <button v-on:click="say('what')">Say what</button>
     </div>
     new Vue({
-      el: '#example-3', 
+      el: '#example-3',
       methods: {
         say: function (message) {
           alert(message)
@@ -1209,7 +1201,7 @@ In situations where computed properties are not feasible (e.g. inside nested v-f
       }
     })
 
-$event variable
+\$event variable
 
     <button v-on:click="warn('Form cannot be submitted yet.', $event)">
       Submit
@@ -1336,7 +1328,7 @@ Multiple checkboxes, bound to the same Array:
     </div>
 
     new Vue({
-      el: '#example-3', 
+      el: '#example-3',
       data: {
         checkedNames: []
 
@@ -1357,13 +1349,13 @@ Multiple checkboxes, bound to the same Array:
 ## Components Basics
 
 Reusable Vue instances with a name.
-they accept the same options as new Vue, such as data, computed, watch, methods, and lifecycle hooks. 
+they accept the same options as new Vue, such as data, computed, watch, methods, and lifecycle hooks.
 The only exceptions are a few root-specific options like el.
 
     // Define a new component called button-counter
     Vue.component('button-counter', {
 
-      /* component's data must be function 
+      /* component's data must be function
       so as to each receive their copies
       because simple objects are passed by reference*/
       data: function () {
@@ -1380,8 +1372,8 @@ The only exceptions are a few root-specific options like el.
       <button-counter></button-counter>
     </div>
 
-    new Vue({ 
-      el: '#components-demo' 
+    new Vue({
+      el: '#components-demo'
     })
 
 // components must be registered to the vue instance
@@ -1408,12 +1400,12 @@ Passing Data to Child Components with Props
             v-for="post in posts"
             v-bind:key="post.id"
             v-bind:post="post"
-            v-on:enlarge-text="postFontSize += 0.1"  <-- await messages from 
+            v-on:enlarge-text="postFontSize += 0.1"  <-- await messages from
           ></blog-post>
         </div>
-      </div>`, 
+      </div>`,
       data: {
-        posts: [/* ... */], 
+        posts: [/* ... */],
         postFontSize: 1
 
       }
@@ -1468,13 +1460,13 @@ Using v-model on Components
 
       Vue.component("tab-home", {
         template: "<div>Home component</div>"
-      }); 
+      });
       Vue.component("tab-posts", {
         template: "<div>Posts component</div>"
-      }); 
+      });
       Vue.component("tab-archive", {
         template: "<div>Archive component</div>"
-      }); 
+      });
 
       new Vue({
         el: "#dynamic-component-demo",
@@ -1521,9 +1513,9 @@ Local Registration (Avoid global registration because it increases bundle size w
     var ComponentC = { /* ... */ }
 
     new Vue({
-      el: '#app', 
+      el: '#app',
       components: {
-        'component-a': ComponentA, 
+        'component-a': ComponentA,
         ComponentC, // is also the name of the component
 
       }
@@ -1628,28 +1620,28 @@ Prop Validation
     Vue.component('my-component', {
       props: {
         // Basic type check ( `null` and `undefined` values will pass any type validation)
-        propA: Number, 
+        propA: Number,
         // Multiple possible types
-        propB: [String, Number], 
+        propB: [String, Number],
         // Required string
         propC: {
-          type: String, 
+          type: String,
           required: true
-        }, 
+        },
         // Number with a default value
         propD: {
-          type: Number, 
+          type: Number,
           default: 100
-        }, 
+        },
         // Object with a default value
         propE: {
-          type: Object, 
+          type: Object,
           // Object or array defaults must be returned from
           // a factory function
           default: function () {
             return { message: 'hello' }
           }
-        }, 
+        },
         // Custom validator function
         propF: {
           validator: function (value) {
@@ -1661,7 +1653,7 @@ Prop Validation
       }
     })
 
-Non-Prop Attributes 
+Non-Prop Attributes
 
 These are attrs passed toi the component but not defined in the component's props.
 They will be appended to the component's template
@@ -1752,17 +1744,17 @@ Replacing/Merging with Existing Attributes
 
 ## [Handling Edge Cases](https://vuejs.org/v2/guide/components-edge-cases.html)
 
-### Accessing the Root Instance ($root) Use [Vuex](#Vuex) instead
+### Accessing the Root Instance (\$root) Use [Vuex](#Vuex) instead
 
-Each registered component can access the root istance 
+Each registered component can access the root istance
 
     new Vue({
       data: {
         foo: 1
-      }, 
+      },
       computed: {
         bar: function () { /* ... */ }
-      }, 
+      },
       methods: {
         baz: function () { /* ... */ }
 
@@ -1783,71 +1775,71 @@ any registered component
     // Call root methods
     this.$root.baz()
 
-### Accessing the Parent Component Instance ($parent)
+### Accessing the Parent Component Instance (\$parent)
 
     Vue.component("google-map", {
       data: function() {
         return {
           map: null
-        }; 
-      }, 
+        };
+      },
       mounted: function() {
         this.map = new google.maps. Map(this.$el, {
-          center: { lat: 0, lng: 0 }, 
+          center: { lat: 0, lng: 0 },
           zoom: 1
-        }); 
-      }, 
+        });
+      },
       methods: {
         getMap: function(found) {
-          var vm = this; 
+          var vm = this;
           function checkForMap() {
             if (vm.map) {
-              found(vm.map); 
+              found(vm.map);
             } else {
-              setTimeout(checkForMap, 50); 
+              setTimeout(checkForMap, 50);
             }
           }
-          checkForMap(); 
+          checkForMap();
         }
-      }, 
+      },
       template: '<div class="map"><slot></slot></div>'
 
     });
 
     Vue.component("google-map-marker", {
-      props: ["places"], 
+      props: ["places"],
       created: function() {
-        var vm = this; 
+        var vm = this;
         vm.$parent.getMap(function(map) {
           vm.places.forEach(function(place) {
             new google.maps. Marker({
-              position: place.position, 
+              position: place.position,
               map: map
-            }); 
-          }); 
-        }); 
-      }, 
+            });
+          });
+        });
+      },
       render(h) {
-        return null; 
+        return null;
       }
 
     });
 
     new Vue({
-      el: "#app", 
+      el: "#app",
       data: {
         vueConfCities: [
           {
-            name: "Wrocław", 
+            name: "Wrocław",
             position: {
-              lat: 51.107885, 
+              lat: 51.107885,
               lng: 17.038538
             }
-          }, 
+          },
           {
-            name: "New Orleans", 
+            name: "New Orleans",
             position: {
-              lat: 29.951066, 
+              lat: 29.951066,
               lng: -90.071532
             }
           }
@@ -1863,7 +1855,7 @@ any registered component
         ...
         <base-input ref="usernameInput"></base-input>
         ...
-        `, 
+        `,
       methods: {
         foo() {
           this.$refs.usernameInput
@@ -1877,10 +1869,10 @@ any registered component
     Vue.component('app-component', {
       template: `
         ...
-          <ul> 
+          <ul>
             <li v-for="i of items" $ref="items">
           </ul>
-        ...`, 
+        ...`,
       methods: {
         foo() {
           this.$refs.items.fofEach
@@ -1897,74 +1889,74 @@ any registered component
       provide: function() {          // <-- inject the following objects to sub components
         return {
           getMap: this.getMap
-        }; 
-      }, 
+        };
+      },
       data: function() {
         return {
           map: null
-        }; 
-      }, 
+        };
+      },
       mounted: function() {
         this.map = new google.maps. Map(this.$el, {
-          center: { lat: 0, lng: 0 }, 
+          center: { lat: 0, lng: 0 },
           zoom: 1
-        }); 
-      }, 
+        });
+      },
       methods: {
         getMap: function(found) {
-          var vm = this; 
+          var vm = this;
           function checkForMap() {
             if (vm.map) {
-              found(vm.map); 
+              found(vm.map);
             } else {
-              setTimeout(checkForMap, 50); 
+              setTimeout(checkForMap, 50);
             }
           }
-          checkForMap(); 
+          checkForMap();
         }
-      }, 
+      },
       template: '
         <div class="map">
-          <slot></slot>            // <-- These components  are provided with the 
+          <slot></slot>            // <-- These components  are provided with the
         </div>'
 
     });
 
     Vue.component("google-map-marker", {
       inject: ["getMap"], // <-- retrive the provided props (from parent)
-      props: ["places"], 
+      props: ["places"],
       created: function() {
-        var vm = this; 
+        var vm = this;
         vm.getMap(function(map) {
           vm.places.forEach(function(place) {
             new google.maps. Marker({
-              position: place.position, 
+              position: place.position,
               map: map
-            }); 
-          }); 
-        }); 
-      }, 
+            });
+          });
+        });
+      },
       render(h) {
-        return null; 
+        return null;
       }
 
     });
 
     new Vue({
-      el: "#app", 
+      el: "#app",
       data: {
         vueConfCities: [
           {
-            name: "Wrocław", 
+            name: "Wrocław",
             position: {
-              lat: 51.107885, 
+              lat: 51.107885,
               lng: 17.038538
             }
-          }, 
+          },
           {
-            name: "New Orleans", 
+            name: "New Orleans",
             position: {
-              lat: 29.951066, 
+              lat: 29.951066,
               lng: -90.071532
             }
           }
@@ -2045,8 +2037,8 @@ Complete code
         });
 
         this.$once("hook:beforeDestroy", function() {
-          picker.destroy(); 
-        }); 
+          picker.destroy();
+        });
       }
 
     });
@@ -2137,7 +2129,7 @@ Global Mixin
 
 ### Custom Directives
 
-// Register a global custom directive called `v-focus` 
+// Register a global custom directive called `v-focus`
 
     Vue.directive('focus', {
       // When the bound element is inserted into the DOM...
@@ -2170,9 +2162,9 @@ Global Mixin
 
 ### [Render Functions & JSX](https://vuejs.org/v2/guide/render-function.html)
 
-Create components using document.createElement 
+Create components using document.createElement
 
-Motivation 
+Motivation
 
     <script type="text/x-template" id="anchored-heading-template">
       <h1 v-if="level === 1">
@@ -2189,10 +2181,10 @@ Motivation
     </script>
 
     Vue.component('anchored-heading', {
-      template: '#anchored-heading-template', 
+      template: '#anchored-heading-template',
       props: {
         level: {
-          type: Number, 
+          type: Number,
           required: true
         }
 
@@ -2207,10 +2199,10 @@ The solution using render function
           'h' + this.level, // tag name
           this.$slots.default // array of children
         )
-      }, 
+      },
       props: {
         level: {
-          type: Number, 
+          type: Number,
           required: true
         }
 
@@ -2223,11 +2215,11 @@ add global-level functionality to Vue.
 Similar but better than plugins
 
     #plugin.js
-    
+
 
     export default {
 
-      // The install method will be called with the Vue constructor as         
+      // The install method will be called with the Vue constructor as
       // the first argument, along with possible options
       install(Vue, options) {
 
@@ -2254,14 +2246,14 @@ Similar but better than plugins
 
         // Add Vue instance methods by attaching them to Vue.prototype.
         Vue.prototype.$someMethod = () => ??;
-        Vue.prototype.$someOtherMethod = () => (props) => ??; // NB arrow functions have no `this` 
+        Vue.prototype.$someOtherMethod = () => (props) => ??; // NB arrow functions have no `this`
 
       }
     }
 
     import MyPlugin from './plugin.js'
 
-    // calls `MyPlugin.install(Vue)` 
+    // calls `MyPlugin.install(Vue)`
     Vue.use(MyPlugin)
 
     //with optional parameters
@@ -2334,7 +2326,7 @@ package.json
       "scripts": {
         "test": "jest --watch --config=./jest.config.js --coverage",
         "test:unit": "vue-cli-service test:unit",
-      }, 
+      },
     }
 
 jest.config.js
@@ -2349,9 +2341,9 @@ jest.config.js
     import { mount } from "@vue/test-utils";
     import FormGroup from "@/components/formGroup";
 
-$bash
+\$bash
 
-  npm test
+npm test
 
 [Back to top](#Content)
 
@@ -2363,11 +2355,11 @@ tsconfig.json
 
       "compilerOptions": {
         // this aligns with Vue's browser support
-        "target": "es5", 
-        // this enables stricter inference for data properties on `this` 
-        "strict": true, 
+        "target": "es5",
+        // this enables stricter inference for data properties on `this`
+        "strict": true,
         // if using webpack 2+ or rollup, to leverage tree shaking:
-        "module": "es2015", 
+        "module": "es2015",
         "moduleResolution": "node"
 
       }
@@ -2439,7 +2431,7 @@ app.modal.js
     name: "app-modal",
     props: [ 'open' ],
 
-  }); 
+});
 
 app.home.js
 
@@ -2454,7 +2446,7 @@ app.home.js
     name: "app-home",
     props: [ 'open' ],
 
-  }); 
+});
 
 ### Named slots
 
@@ -2481,7 +2473,7 @@ app.modal.js
     name: "app-modal",
     props: [ 'open' ],
 
-  }); 
+});
 
 app.home.js
 
@@ -2514,7 +2506,7 @@ app.home.js
     name: "app-home",
     props: [ 'open' ],
 
-  }); 
+});
 
 ### Scoped slots (pass props to slot)
 
@@ -2586,18 +2578,18 @@ store.js
         return dispatch('actionA').then(() => {
           commit('someOtherMutation')
         })
-        
+
       }
 
     });
 
 main.js
 
-  new Vue({
+new Vue({
 
     store,
 
-  }); 
+});
 
 any-component.js
 
@@ -2608,7 +2600,7 @@ any-component.js
       methods: {
         SetUser(){
           this.$store.comit("setUser", value); // call an action
-        }, 
+        },
 
         usingGetters() {
           console.log( this.$store.getters.getUser() )
@@ -2616,25 +2608,25 @@ any-component.js
         },
 
          ...mapMutations([
-          'setUser', // map `this.setUser()` to `this.$store.commit('setUser')` 
-          'incrementBy' // map `this.incrementBy(amount)` to `this.$store.commit('incrementBy', amount)` 
+          'setUser', // map `this.setUser()` to `this.$store.commit('setUser')`
+          'incrementBy' // map `this.incrementBy(amount)` to `this.$store.commit('incrementBy', amount)`
         ]),
 
         ...mapMutations({
-          add: 'increment' // map `this.add()` to `this.$store.commit('increment')` 
+          add: 'increment' // map `this.add()` to `this.$store.commit('increment')`
         }),
 
         ...mapActions([
-          'increment', // map `this.increment()` to `this.$store.dispatch('increment')` 
+          'increment', // map `this.increment()` to `this.$store.dispatch('increment')`
 
           // `mapActions` also supports payloads:
-          'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)` 
+          'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
         ]),
 
         ...mapActions({
-          add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')` 
+          add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
         })
-        
+
       },
 
       computed: {
@@ -2740,18 +2732,16 @@ any-component.js
       },
 
       mounted() {
-        this.getData(this.$route.params.id); 
+        this.getData(this.$route.params.id);
 
       }
     }
-
-  
 
 ### Nested Routes
 
 The problem
 
-    /user/foo/profile                     
+    /user/foo/profile
     /user/foo/posts
 
 The solution
@@ -2842,31 +2832,31 @@ router.replace(location, onComplete?, onAbort?)
 
     module: {
       rules: {
-          test: /\.pug$/, 
+          test: /\.pug$/,
           loader: 'pug-plain-loader'
         }
 
       }
     }
 
-    <template lang="pug">  
-      div 
+    <template lang="pug">
+      div
         | Hello world
-    </template> 
+    </template>
 
 ### Using less
 
     npm install -D less less-loader
 
     // webpack.config.js -> module.rules
-    
+
 
     {
 
-      test: /\.less$/, 
+      test: /\.less$/,
       use: [
-        'vue-style-loader', 
-        'css-loader', 
+        'vue-style-loader',
+        'css-loader',
         'less-loader'
       ]
     }
@@ -2884,7 +2874,7 @@ package.json
       "scripts": {
         "build-bundle": "vue-cli-service build --target lib --name formgroup ./src/components/app-form-group.vue"
 
-      }, 
+      },
       "name": "@formgroup/vue-components",
       "main": "./build/formGroup.common.js",
       "files": [
@@ -2908,7 +2898,7 @@ package.json
 
 ## Typescript
 
-``` 
+```
 npm install typescript ts-loader --save-dev
 npm install vue-property-decorator vue-class-component --save
 <!-- npm install vue-loader --save-dev -->
@@ -2917,7 +2907,7 @@ npm i ts-loader
 
 vue.shims.d.ts
 
-``` 
+```
 declare module "*.vue" {
   import Vue from "vue;
   export default Vue
@@ -2925,4 +2915,5 @@ declare module "*.vue" {
 ```
 
 rename main.js -> main.ts
-## 
+
+##
