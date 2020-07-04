@@ -1,5 +1,8 @@
-<!-- markdownlint-disable MD024 -->
 # Angular
+
+## Content
+
+### [Quick start](Quick+start)
 
 ## 1. Architecture
 
@@ -9,17 +12,17 @@ Basic building blocks of an ng app are NgModules, which:
 - provide a compilation context to components,
 - group related code into functional sets.
 
-An app has atleast a root NgModule (AppModule => app.module.ts) (for bootstrapping) then optional NgModules.
+An app has at least a root NgModule (AppModule => app.module.ts) (for bootstrapping) then optional NgModules.
 
 Components define views and use services which provide specific view non-related functionalities like fetching, calculations, log and are injected into components as dependencies.
 
-Svs and Comps are simple clasess which are decorated. Decorators mark their types and provide metadata that tell ng how to use them.
+Svs and Comps are simple classes which are decorated. Decorators mark their types and provide metadata that tell ng how to use them.
 
 ### & NgModules Modules
 
 NgModules import functionality from other modules as well as export.
 An NgModule is a class decorated by the @NgModule() decorator.
-This decorator is a function that takes a single root paramater object whose props define the component.
+This decorator is a function that takes a single root parameter object whose props define the component.
 
     import { NgModule }      from '@angular/core';
     import { BrowserModule } from '@angular/platform-browser';
@@ -42,7 +45,7 @@ Angular libraries are collection of js modules each lib name is prefixed @angula
 ### Components
 
 A comp + template = view
-Each app has atleast a root component that connects the comp hieraryhy to the DOM.
+Each app has at least a root component that connects the comp hierarchy to the DOM.
 A template combines HTML with ng markup that can modify HTML elements before they are displayed.
 
 @Component metadata
@@ -53,12 +56,7 @@ A template combines HTML with ng markup that can modify HTML elements before the
       template: 'The HTML markup is written directly here (inline) instead of using a separate file with templateUrl',
       providers:  [ An Array of Service Providers that this component requires]
     })
-    export class HeroListComponent implements OnInit {
-    }
-
-They transform values before display
-
-DI
+    export class HeroListComponent implements OnInit { }
 
 ## 2. Components & Templates
 
@@ -86,7 +84,7 @@ Two-way-binding
     @Component({
       selector: 'app-key-up3',
       template: `
-        <input #box 
+        <input #box
         (keyup)="onKeyUpUsingEvent($event)
         (keyup.enter)="onEnter(box.value)
         (blur)="update(box.value)">
@@ -96,7 +94,7 @@ Two-way-binding
     export class KeyUpComponent_v3 {
       value = '';
       onKeyUpUsingEvent(event: any) { this.values += event.target.value + ' | ';}
-      onKeyUpUsingEvent(event: KeyboardEvent) { this.values += event.target.value + ' | ';}
+      onKeyUpUsingEvent(event: KeyboardEvent) { this.value += event.target.value + ' | ';}
       onEnter(value: string) { this.value = value; }
       update(value: string) { this.value = value; } // onblur
     }
@@ -107,14 +105,14 @@ Two-way-binding
 
     ngOnChanges(changes: SimpleChanges) {
       for (let propName in changes) {
-        let chng = changes[propName];
-        let cur  = JSON.stringify(chng.currentValue);
-        let prev = JSON.stringify(chng.previousValue);
+        let change = changes[propName];
+        let cur  = JSON.stringify(change.currentValue);
+        let prev = JSON.stringify(change.previousValue);
         this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
       }
     }
 
-ngOnInit (Called once, after the first ngOnChanges, Initialize the directive/component)
+#### ngOnInit (Called once, after the first ngOnChanges, Initialize the directive/component)
 
 #### ngDoCheck (Called immediately after ngOnChanges and ngOnInit, Detect and act upon changes that Angular can't or won't detect on its own
 
@@ -169,11 +167,12 @@ child.component.ts
     import { Component, Input } from '@angular/core';
 
     @Component({
-      selector: 'app-hero-child',
+      selector: 'app-child',
       template: `
         <h3>{{hero.name}} says:</h3>
         <p>I, {{hero.name}}, am at your service, {{renamedMaster}}.</p>
         <h3>"{{name}}"</h3>
+        <h3>"{{_name}}"</h3>
       `
     })
     export class HeroChildComponent {
@@ -194,16 +193,16 @@ parent.component.ts
 
     @Component({
       template: `
-        <app-hero-child 
+        <app-child
           [hero]="hero"
           [master]="master">
-        </app-hero-child>
+        </app-child>
       `
     })
     export class ParentComponent {
       heroes: Array<Hero>   = HEROES;
       master: Hero          = 'Master';
-      names = Array<String> = ['Dr IQ', '   ', '  Bombasto  '];
+      names = Array<String> = ['Dr IQ', '   ', '  Alpha  '];
     }
 
 #### Intercept input property changes with ngOnChanges
@@ -261,6 +260,7 @@ child.component.ts
         for (let propName in changes) {
           let changedProp = changes[propName];
           let to = JSON.stringify(changedProp.currentValue);
+
           if (changedProp.isFirstChange()) {
             log.push(`Initial value of ${propName} set to ${to}`);
           } else {
@@ -291,7 +291,7 @@ parent.component.ts
     export class VoteTakerComponent {
       agreed = 0;
       disagreed = 0;
-      voters = ['Narco', 'Celeritas', 'Bombasto'];
+      voters = ['Alpha', 'Beta', 'Charlie'];
 
       onVoted(agreed: boolean) {
         agreed ? this.agreed++ : this.disagreed++;
@@ -319,7 +319,7 @@ child.component.ts
         this.voted.emit(agreed); <-- emit change
         this.didVote = true;
       }
-    }  
+    }
 
 #### Parent interacts with child via local variable
 
@@ -419,20 +419,20 @@ mediator.service.ts
     export class MissionService {
 
       // Observable string sources
-      private missionAnnouncedSource = new Subject<string>();
-      private missionConfirmedSource = new Subject<string>();
+      private mas = new Subject<string>();
+      private mcs = new Subject<string>();
 
       // Observable string streams
-      missionAnnounced$ = this.missionAnnouncedSource.asObservable();
-      missionConfirmed$ = this.missionConfirmedSource.asObservable();
+      missionAnnounced$ = this.mas.asObservable();
+      missionConfirmed$ = this.mcs.asObservable();
 
       // Service message commands
       announceMission(mission: string) {
-        this.missionAnnouncedSource.next(mission);
+        this.mas.next(mission);
       }
 
       confirmMission(astronaut: string) {
-        this.missionConfirmedSource.next(astronaut);
+        this.mcs.next(astronaut);
       }
     }
 
@@ -456,11 +456,9 @@ missioncontrol.component.ts
       providers: [MissionService]
     })
     export class MissionControlComponent {
-      astronauts = ['Lovell', 'Swigert', 'Haise'];
+      astronauts = ['Alpha', 'Beta', 'Charlie'];
       history: string[] = [];
-      missions = ['Fly to the moon!',
-                  'Fly to mars!',
-                  'Fly to Vegas!'];
+      missions = ['Fly to the moon!', 'Fly to mars!', 'Fly to Vegas!'];
       nextMission = 0;
 
       constructor(private missionService: MissionService) {
@@ -526,7 +524,7 @@ child.component.ts
 
 ### Component Style
 
-Component scoped style, not inhrited by children, nor parent
+Component scoped style, not inherited by children, nor parent
 
     @Component({
       styles:[
@@ -637,9 +635,9 @@ Components created/loaded at runtime.
     export class AdService {
       getAds() {
         return [
-          new AdItem(HeroProfileComponent, {name: 'Bombasto', bio: 'Brave as they come'}),
+          new AdItem(HeroProfileComponent, {name: 'Charlie', bio: 'Brave as they come'}),
           new AdItem(HeroProfileComponent, {name: 'Dr IQ', bio: 'Smart as they come'}),
-          
+
           new AdItem(HeroJobAdComponent,   {headline: 'Hiring for several positions', body: 'Submit your resume today!'}),
           new AdItem(HeroJobAdComponent,   {headline: 'Openings in all departments', body: 'Apply today'}),
         ];
@@ -760,7 +758,7 @@ Components created/loaded at runtime.
 There are 3 types:
 
 - Component-directive(Component)
-- Attribute-directives(Change the appearance or behavoir of a DOM, Component, Directive)
+- Attribute-directives(Change the appearance or behavior of a DOM, Component, Directive)
 - [Structural-directives](https://angular.io/guide/structural-directives) Changes the DOM layout by ++,-- DOM elements eg NgFor, NgIf
 
 #### Attribute directive
@@ -921,7 +919,7 @@ name-editor.component.ts
 #### FormGroup (Controls a form FormGroup)
 
     // profile-editor.component.ts (imports)
-    
+
     import { Component } from '@angular/core';
     import { FormControl, FormGroup } from '@angular/forms';
 
@@ -948,7 +946,7 @@ name-editor.component.ts
       });
 
       onSubmit() {
-        console.warn(this.profileForm.value); 
+        console.warn(this.profileForm.value);
       }
     }
 
@@ -971,7 +969,7 @@ profile-editor.component.ts
           LastName:
           <input type="text" formControlName="lastName">
         </label>
-        
+
         <div formGroupName="address">
           <h3>Address</h3>
 
@@ -984,7 +982,7 @@ profile-editor.component.ts
             City:
             <input type="text" formControlName="city">
           </label>
-          
+
           <label>
             State:
             <input type="text" formControlName="state">
@@ -994,11 +992,11 @@ profile-editor.component.ts
             Zip Code:
             <input type="text" formControlName="zip">
           </label>
-        </div> 
+        </div>
       `
     })
     export class ProfileEditorComponent {
-      
+
       profileForm = new FormGroup({
         firstName: new FormControl(''),
         lastName: new FormControl(''),
@@ -1090,7 +1088,7 @@ Without Form builder
 
 ### [Template Driven Forms](https://angular.io/guide/forms)
 
-Uses  [(ngModel)] for input-binding
+Uses [(ngModel)] for input-binding
 
 app.module.ts
 
@@ -1102,7 +1100,7 @@ app.module.ts
         FormsModule
       ],
     })
-    export class AppModule { } 
+    export class AppModule { }
 
 hero.model.s
 
@@ -1297,7 +1295,7 @@ Creating forms dynamically based on metadata that describe the business object m
           new TextBox({
             key: 'firstName',
             label: 'First name',
-            value: 'Bombasto',
+            value: 'Charlie',
             required: true,
             order: 1
           }),
@@ -1312,7 +1310,7 @@ Creating forms dynamically based on metadata that describe the business object m
 
         return questions.sort((a, b) => a.order - b.order);
       }
-    } 
+    }
 
 #### app-component.ts
 
@@ -1393,18 +1391,18 @@ Creating forms dynamically based on metadata that describe the business object m
 
           <div [ngSwitch]="question.type">
 
-            <input *ngSwitchCase="'textbox'" 
+            <input *ngSwitchCase="'textbox'"
                     [formControlName]="question.key"
-                    [id]="question.key" 
+                    [id]="question.key"
                     [type]="question.type">
 
             <select *ngSwitchCase="'dropdown'"
-                    [id]="question.key"  
+                    [id]="question.key"
                     [formControlName]="question.key">
               <option *ngFor="let option of question.options" [value]="option.key">{{option.value}}</option>
             </select>
 
-          </div> 
+          </div>
 
           <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>
         </div>
@@ -1481,22 +1479,22 @@ Entry Components: any component that is not refed in the template (dynamic compo
 
 ### Providers (providedIn)
 
-  import { Injectable } from '@angular/core';
-  import { UserModule } from './user.module';
+import { Injectable } from '@angular/core';
+import { UserModule } from './user.module';
 
-  @Injectable({
-    providedIn: 'root', // provide this service to the root injector. This svs will be available to all the app
-    providedIn: UserModule', // This service will be available to the app only iff they inport the to UserModule, alternatively add this svs to the providers: [UserService] of UserModule
-  })
-  export class UserService {}
+@Injectable({
+providedIn: 'root', // provide this service to the root injector. This svs will be available to all the app
+providedIn: UserModule', // This service will be available to the app only iff they inport the to UserModule, alternatively add this svs to the providers: [UserService] of UserModule
+})
+export class UserService {}
 
 my.component.ts
 
-  @Component({
-    providers: [UserService] // The UserService is only available to this component because the UserService set providedIn: empty
-  })
+@Component({
+providers: [UserService] // The UserService is only available to this component because the UserService set providedIn: empty
+})
 
-### Singleton services (A single instance of this svs exist throught out the app)
+### Singleton services (A single instance of this svs exist through out the app)
 
 Can be done by providing specifying the root injector in the service itself
 
@@ -1845,7 +1843,7 @@ A component class can provide services using providers & viewProviders. Each met
 
 ### Service
 
-      ng generate service services/api --module=app // 
+      ng generate service services/api --module=app //
 
 #### api.service.ts
 
@@ -1853,18 +1851,18 @@ A component class can provide services using providers & viewProviders. Each met
     import { Observable, of, pipe} from 'rxjs';
     import { catchError, map, tap } from 'rxjs/operators';
     import {HttpClient, HttpHeaders} from '@angular/common/http';
-    
+
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    
+
     @Injectable()
     export class APIService {
-    
+
       constructor(private http: HttpClient) { }
 
       get(path): Observable<any[]> {
-          return this.http.get<any>(path, httpOptions)        
+          return this.http.get<any>(path, httpOptions)
           .pipe(
             tap(
               data => console.log(data),
@@ -1879,7 +1877,7 @@ A component class can provide services using providers & viewProviders. Each met
 
       update(path:string,item:any): Observable<any[]>{
         return this.http.put<any>('http://localhost:3000/api/Scrum/'+path, item);
-      }   
+      }
 
       remove(path:string,item:any): Observable<any>{
         return this.http.delete<any>('http://localhost:3000/api/Scrum/'+path, item);
@@ -1892,7 +1890,7 @@ A component class can provide services using providers & viewProviders. Each met
     import { HttpClientModule} from '@angular/common/http';
 
     import {APIService} from "./services.api.service";
-    imports: [    
+    imports: [
       BrowserModule,
       HttpClientModule
     ]
@@ -2202,13 +2200,13 @@ my.sevice.ts
       constructor(private cache: RequestCache) {}
 
       intercept(req: HttpRequest<any>, next: HttpHandler) {
-        
+
         if (!isCachable(req)) { return next.handle(req); } // continue if not cachable.
 
         const cachedResponse = this.cache.get(req);
 
-        return cachedResponse ? 
-          of(cachedResponse) : 
+        return cachedResponse ?
+          of(cachedResponse) :
           sendRequest(req, next, this.cache);
       }
 
@@ -2275,7 +2273,7 @@ my.sevice.ts
     searchHeroes(term: string): Observable<Hero[]> {
       term = term.trim();
 
-      
+
       // Add safe, URL encoded search parameter if there is a search term
       const options = term ? { params: new HttpParams().set('name', term) } : {};
 
@@ -2314,7 +2312,7 @@ my.sevice.ts
     ng generate module app-routing --module app --flat
 
     //--flat puts the file in src/app instead of its own folder.
-    //--module=app tells the CLI to register it in the imports array of the AppModule.    
+    //--module=app tells the CLI to register it in the imports array of the AppModule.
 
 ### app-routing.module.ts
 
@@ -2343,7 +2341,7 @@ my.sevice.ts
 ### app.module.ts
 
     import { AppRoutingModule } from './app-routing.module';
-      
+
     @NgModule({
       declarations: [
         ItemDetailComponent,
@@ -2394,9 +2392,9 @@ my.sevice.ts
 
       ngOnInit() {
 
-        this.route.paramMap.subscribe((params : ParamMap) => {  
+        this.route.paramMap.subscribe((params : ParamMap) => {
           this.apiService.getUser(params.get('id')).subscribe(user => this.user = user)
-        });  
+        });
 
         this.hero$ = this.route.paramMap.pipe(
           switchMap((params: ParamMap) =>
@@ -2444,7 +2442,7 @@ my.sevice.ts
 
 ### Deployment
 
-### (Dev Tool Intergration)
+### (Dev Tool Integration)
 
 ## 18. [Glossary](https://angular.io/guide/glossary)
 
@@ -2470,8 +2468,10 @@ my.sevice.ts
 
 ### Misc
 
+### [ng generate](https://angular.io/cli/generate)
+
+## Quick start
+
 Create an app + app.routing.ts
 
     ng new customer-app --routing
-
-### [ng generate](https://angular.io/cli/generate)

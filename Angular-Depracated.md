@@ -6,20 +6,20 @@
 
 ### [Components](https://angular.io/api/core/Component)
 
-  A component controls a view (a patch of the screen)
-  Component + Template = Angular view
-  Each Angular app has atleast a root component that connects the component hierarchy to the DOM.
-  A Component defines a class containing the application data and logic and is associated with an HTML template that defines a view to be displayed in a target env.
+A component controls a view (a patch of the screen)
+Component + Template = Angular view
+Each Angular app has atleast a root component that connects the component hierarchy to the DOM.
+A Component defines a class containing the application data and logic and is associated with an HTML template that defines a view to be displayed in a target env.
 
-  A Template combines HTML with Angular markup that can modify HTML elements before they are displayed.
-  Template directives provide program logic
-  Binding markup connects the app data with the dom.
-  Pipes are functions used by templates to improve user experience by transforming values before display.
+A Template combines HTML with Angular markup that can modify HTML elements before they are displayed.
+Template directives provide program logic
+Binding markup connects the app data with the dom.
+Pipes are functions used by templates to improve user experience by transforming values before display.
 
 #### [Component metadata](https://angular.io/api/core/Component)
 
-  The @Component decorator docorates the class immediately below it as a Component,
-  thereby telling ng where to find the building block required to create and present the component and its view.
+The @Component decorator docorates the class immediately below it as a Component,
+thereby telling ng where to find the building block required to create and present the component and its view.
 
     @Component({
       selector:    'app-hero-list',
@@ -33,10 +33,10 @@
 
 ### [Modules](https://angular.io/guide/architecture-modules)
 
-  NgModules are containers that group application parts in a domain.
-  Each Ng app has atleast the root module AppModule => app.module.ts.
+NgModules are containers that group application parts in a domain.
+Each Ng app has atleast the root module AppModule => app.module.ts.
 
-  Defined by a class and decorated by  @NgModule(), which is a function that takes a single metadata object whose props describe the module
+Defined by a class and decorated by @NgModule(), which is a function that takes a single metadata object whose props describe the module
 
 #### [NgModule](https://angular.io/api/core/NgModule)
 
@@ -51,7 +51,7 @@
     })
     export class AppModule {}
 
-  App.module.ts NOT must export anything because no module will import AppModule
+App.module.ts NOT must export anything because no module will import AppModule
 
 #### Angular libraries
 
@@ -99,7 +99,7 @@ src/app/hero.service.ts
 
 Root
 
-    // By default, the Angular CLI command ng generate service registers a provider with the root injector. ng creates a single instance of the service to be accessible by 
+    // By default, the Angular CLI command ng generate service registers a provider with the root injector. ng creates a single instance of the service to be accessible by
     every component that injects it.
     @Injectable({
       providedIn: 'root',
@@ -123,7 +123,7 @@ component level
       selector:    'app-hero-list',
       templateUrl: './hero-list.component.html',
       providers:  [ HeroService ]
-    }) 
+    })
     export class MyComponent{}
 
 ## [Components & techniques](https://angular.io/guide/displaying-data)
@@ -152,7 +152,7 @@ Two-way-binding
     @Component({
       selector: 'app-key-up3',
       template: `
-        <input #box 
+        <input #box
         (keyup)="onKeyUpUsingEvent($event)
         (keyup.enter)="onEnter(box.value)
         (blur)="update(box.value)">
@@ -203,7 +203,7 @@ parent.component.js
 
     @Component({
       template: `
-        <app-hero-child 
+        <app-hero-child
           [hero]="hero"
           [master]="master">
         </app-hero-child>
@@ -331,7 +331,7 @@ child.component.ts
         this.voted.emit(agreed); <-- emit change
         this.didVote = true;
       }
-    }  
+    }
 
 #### Parent interacts with child via local variable
 
@@ -651,7 +651,7 @@ Components created/loaded at runtime.
         return [
           new AdItem(HeroProfileComponent, {name: 'Bombasto', bio: 'Brave as they come'}),
           new AdItem(HeroProfileComponent, {name: 'Dr IQ', bio: 'Smart as they come'}),
-          
+
           new AdItem(HeroJobAdComponent,   {headline: 'Hiring for several positions', body: 'Submit your resume today!'}),
           new AdItem(HeroJobAdComponent,   {headline: 'Openings in all departments', body: 'Apply today'}),
         ];
@@ -963,7 +963,7 @@ src/app/profile-editor/profile-editor.component.ts (imports)
       });
 
       onSubmit() {
-        console.warn(this.profileForm.value); 
+        console.warn(this.profileForm.value);
       }
     }
 
@@ -986,7 +986,7 @@ src/app/profile-editor/profile-editor.component.ts
           LastName:
           <input type="text" formControlName="lastName">
         </label>
-        
+
         <div formGroupName="address">
           <h3>Address</h3>
 
@@ -999,7 +999,7 @@ src/app/profile-editor/profile-editor.component.ts
             City:
             <input type="text" formControlName="city">
           </label>
-          
+
           <label>
             State:
             <input type="text" formControlName="state">
@@ -1009,11 +1009,11 @@ src/app/profile-editor/profile-editor.component.ts
             Zip Code:
             <input type="text" formControlName="zip">
           </label>
-        </div> 
+        </div>
       `
     })
     export class ProfileEditorComponent {
-      
+
       profileForm = new FormGroup({
         firstName: new FormControl(''),
         lastName: new FormControl(''),
@@ -1110,7 +1110,7 @@ app.module.ts
         FormsModule
       ],
     })
-    export class AppModule { } 
+    export class AppModule { }
 
 hero.model.s
 
@@ -1242,7 +1242,7 @@ src/app/app.component.ts
 
     @Component({
       selector: 'app-root', //The name to be used from other components <app-root></app-root>
-      templateUrl: './app.component.html', //Template file 
+      templateUrl: './app.component.html', //Template file
       template: `<h1>{{title}}</h1> `, //template inline
       styleUrls: ['./app.component.css']
     })
@@ -1307,7 +1307,7 @@ src/app/hero.ts
 src/app/heroes/heroes.component.ts
 
     import { Component, OnInit } from '@angular/core';
-    import { Hero } from '../hero'; 
+    import { Hero } from '../hero';
 
     @Component({
       template: '
@@ -1576,7 +1576,7 @@ src/app/messages/messages.component.ts
     ng generate module app-routing --module app --flat
 
     //--flat puts the file in src/app instead of its own folder.
-    //--module=app tells the CLI to register it in the imports array of the AppModule.    
+    //--module=app tells the CLI to register it in the imports array of the AppModule.
 
 app-routing.module.ts
 
@@ -1615,7 +1615,7 @@ header.component.html
 app.module
 
     import { AppRoutingModule } from './app-routing.module';
-      
+
     @NgModule({
       declarations: [
         ItemDetailComponent,
@@ -1644,8 +1644,8 @@ src/app/hero-detail/hero-detail.component.ts
       this.location.back();
     }
 
-
 # next steps
+
 class property
 
     <div [class.special]="isSpecial">Special</div>
@@ -1683,12 +1683,12 @@ NgStyle
         'font-size':   this.isSpecial    ? '24px'   : '12px'
       };
     }
-      
+
     <div [ngStyle]="currentStyles">
       This div is initially italic, normal weight, and extra large (24px).
     </div>
 
-*NgIf
+\*NgIf
 
     <app-hero-detail *ngIf="isActive"></app-hero-detail>
 
@@ -1715,19 +1715,19 @@ Parent accesses child's methods
     export class ChildComponent implements OnInit {
       start() {}
     }
-    
+
     #Parent
     <button (click)="child.start()">Start</button>
     <app-child #child></app-child>
 
 Parent accesses child Component
-  
+
     #parent
     import {ViewChild } from '@angular/core';
     import {ChildComponent} from "./child.component";
-    
+
     @Component({
-      template: '  
+      template: '
         <button (click)="child.medthod()">Start</button>
         <app-child #child></app-child>',
     })
@@ -1736,7 +1736,7 @@ Parent accesses child Component
       private child: ChildComponent;
       start() { this.child.method(); }
     }
-    
+
     #child see above
 
 Components comunicate via Service
@@ -1753,10 +1753,10 @@ Components comunicate via Service
     confirmMission(anyData: any) {
       this.missionConfirmedSource.next(anyData);
     }
-    
+
     #parent
     <button (click)="announce()">send mission</button>
-    
+
     constructor(private service: Service) {
       service.missionConfirmed$.subscribe(
         data => {
@@ -1765,7 +1765,7 @@ Components comunicate via Service
     announce() {
       this.service.announceMission( anyData );
     }
-    
+
     #children
     import { Subscription }   from 'rxjs';
     subscription: Subscription;
@@ -1782,7 +1782,7 @@ Components comunicate via Service
 
     #AppComponent.html
     <app-child (eventEmitter)="onEventEmitted($event)"></app-new-card-input>
-  
+
     #parent.component
     eventEmitter( data:any ) {}
 
@@ -1795,10 +1795,10 @@ Components comunicate via Service
 
 ## Attribute directives
 
- (create a custom attribute) this attribute just sets the background of the component to yellow
+(create a custom attribute) this attribute just sets the background of the component to yellow
 
     ng generate directive highlight --it --is --flat --module=app
-    
+
     # highlight.directive.ts
 
     import { Directive, ElementRef, HostListener, Input } from '@angular/core';
@@ -1811,14 +1811,13 @@ Components comunicate via Service
       @HostListener('mouseleave') onMouseLeave() { this.highlight(null); }
       private highlight(color: string) { this.el.nativeElement.style.backgroundColor = color; }
     }
-    
+
     # component
 
     <input type="radio" name="colors" (click)="color='lightgreen'">Green
     <input type="radio" name="colors" (click)="color='yellow'">Yellow
     <input type="radio" name="colors" (click)="color='cyan'">Cyan
     <p [appHighlight]="color" defaultColor="violet">Highlight me too!</p>
-
 
 ### Structural Directives (DOM Manipulation)
 
@@ -1835,7 +1834,7 @@ Components comunicate via Service
     <div> Pick your favorite hero
       (<label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
     </div>
-    
+
     <select [(ngModel)]="hero">
       <ng-container *ngFor="let h of heroes">
         <ng-container *ngIf="showSad || h.emotion !== 'sad'">
@@ -1843,7 +1842,7 @@ Components comunicate via Service
         </ng-container>
       </ng-container>
     </select>
-    
+
 ## Forms
 
 template variable
@@ -1853,11 +1852,11 @@ template variable
         <input #box (keyup)="onKey(box.value)">
         <p>{{values}}</p>
       ` })
-      
+
     export class Component {
       onKey(value: string) { }
     }
-  
+
     # Enter key handler
     @Component({ template: `
         <input #box (keyup.enter)="onEnterPressed(box.value)">
@@ -1873,7 +1872,6 @@ Access template variable in component
     inAFunction() {
       this.templateVariable.nativeElement
     }
-
 
 ### Template Driven Form
 
@@ -1897,7 +1895,7 @@ Access template variable in component
         <div class="form-group">
           <input type="text" class="form-control" id="alterEgo" [(ngModel)]="model.alterEgo" name="alterEgo">
         </div>
-      
+
         <div class="form-group">
           <select class="form-control" id="power" required [(ngModel)]="model.power" name="power" #power="ngModel">
              <option *ngFor="let pow of powers" [value]="pow">{{pow}}</option>
@@ -1909,46 +1907,47 @@ Access template variable in component
         <button type="button" class="btn btn-default" (click)="newHero(); heroForm.reset()">New Hero</button>
       </form>
     </div>
-      
+
 [Reactive Forms](https://angular.io/api/forms/FormControlName#use-with-ngmodel)
-    
-    #app.module
-    import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-    
-    #component
-    import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-    loginForm : FormGroup;
-    constructor(private fb: FormBuilder) { 
-	    this.loginForm = this.fb.group({
-	     	UserName: ['', Validators.required ],
-	      	Password: ['', Validators.required ]
-	    });
-	}
-    
-    #template
-    <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm($event)" novalidate>
-      <input #UserName [(ngModel)]="User.UserName" formControlName="UserName" name="UserName">
-      <input #Password [(ngModel)]="User.Password" formControlName="Password" name="Password">
-    
-    
-    
+
+#app.module
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+#component
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+loginForm : FormGroup;
+constructor(private fb: FormBuilder) {
+this.loginForm = this.fb.group({
+UserName: ['', Validators.required ],
+Password: ['', Validators.required ]
+});
+}
+
+#template
+
+<form [formGroup]="loginForm" (ngSubmit)="submitLoginForm(\$event)" novalidate>
+<input #UserName [(ngModel)]="User.UserName" formControlName="UserName" name="UserName">
+<input #Password [(ngModel)]="User.Password" formControlName="Password" name="Password">
+  
+
+
 ## Data binding
 
 1-way binding //value changed in template doesn't change that in component
 
     count: number = 4;
-    text: string = 'Add an Item'; 
+    text: string = 'Add an Item';
     <input type="submit" class="btn" [value]="text">
     <input type="submit" class="btn" value="{{ text }}">
-    
-2-way binding //Value changed both way 
- 
+
+2-way binding //Value changed both way
+
     #app.modules
     import {FormsModule} from "@angular/forms";
     imports: [
         FormsModule
     ],
-      
+
     #component
      attribute: any = { Name:"", Age:"" };
      <input [(ngModel)]="attribute.Name">
@@ -1957,31 +1956,30 @@ Object binding //values changed by the child alse changes that in parent
 
     #parent
     <app-child [cards]="cards"></app-child>
-  
+
     #app-child
     import { Input } from '@angular/core';
     @Input() cards: Array<any>; // @Input() cards: Card[];
-    
+
     <list *ngFor="let card of cards">{{card}}</list>
- 
-   
+
 ## Services
 
         ng generate service data
         ng generate service services/data //into folder /services
-        ng generate service services/data --module=app // 
-      
+        ng generate service services/data --module=app //
+
         import  { Injectable } from '@angular/core';
         import { Observable, of } from 'rxjs';
         import {HttpClient, HttpHeaders} from '@angular/common/http';
-        
+
         const httpOptions = {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' })
         };
-        
+
         @Injectable()
         export class ScrumService {
-        
+
           constructor(private http: HttpClient) { }
 
           get(path:string,project:number): Observable<any[]> {
@@ -1992,42 +1990,42 @@ Object binding //values changed by the child alse changes that in parent
           }
           update(path:string,item:any): Observable<any[]>{
             return this.http.put<any>('http://localhost:3000/api/Scrum/'+path, item);
-          }   
+          }
           remove(path:string,item:any): Observable<any>{
             return this.http.delete<any>('http://localhost:3000/api/Scrum/'+path, item);
           }
         }
 
-
 app.module
-    import {ScrumService} from "./scrum.service";
-    import { HttpClientModule} from '@angular/common/http';
-    imports: [HttpClientModule]
-    providers:[ScrumService]
-    
-    #component
-    constructor(private dataService:ScrumService) { }
-    ngOnInit() { 
-      this.dataService.getProjects("Resources",12345678).subscribe(data => {
-        this.Resources = data;
-      });
-    }
-    <li *ngFor="let resource of Resources">{{resource}}</li>
-    
+import {ScrumService} from "./scrum.service";
+import { HttpClientModule} from '@angular/common/http';
+imports: [HttpClientModule]
+providers:[ScrumService]
+
+#component
+constructor(private dataService:ScrumService) { }
+ngOnInit() {
+this.dataService.getProjects("Resources",12345678).subscribe(data => {
+this.Resources = data;
+});
+}
+
+<li \*ngFor="let resource of Resources">{{resource}}</li>
+
 ### Routing Params
-    
+
 app.routing.module.ts
 
     const routes: Routes = [
       { path: 'detail/:id', component: DetailComponent },
     ];
 
-component 
-    
-    import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-    
-    constructor(private route: ActivatedRoute, private dataService: DataService) { 
-    }
+component
+
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
+constructor(private route: ActivatedRoute, private dataService: DataService) {
+}
 
     ngOnInit() {
         this.item = this.route.paramMap.pipe(
@@ -2040,40 +2038,40 @@ component
     navigateToDetail(id: string) {
       this.router.navigate(['/detail/' +id]);
     }
-    
+
 ### Event binding
 
-    <input type="submit" class="btn" value="{{ btnText }}" (click)="addItem()">   
-    
+    <input type="submit" class="btn" value="{{ btnText }}" (click)="addItem()">
+
     export class HomeComponent implements OnInit {
       itemCount: number = 4;
       btnText: string = 'Add an Item';
       goalText: string = 'My first life goal';
       goals = [];
-    
+
       ngOnInit() { this.itemCount = this.goals.length; }
-    
+
       addItem() {
         this.goals.push(this.goalText);
         this.goalText = '';
         this.itemCount = this.goals.length;
       }
-    
+
     }
 
-
 ## Read JSON file
+
     import { HttpClient } from '@angular/common/http';
     constructor(private http: HttpClient){
       http.get("./assets/vessels.json").subscribe(data => {
         console.log(data)
       });
     }
-    
+
 ## No 'Access-Control-Allow-Origin'
-  
+
     npm install cors --save
-    
+
     #backend.app.js
     const cors = require('cors');
      var corsOptions = {
@@ -2081,7 +2079,7 @@ component
         optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
      };
      app.use(cors(corsOptions));
-  
+
 # Misc
 
 generate components without specs
@@ -2092,7 +2090,7 @@ generate components without specs
           "component": { "spec": false },
           "service": { "spec": false }
         }
-        
+
 Custom validator
 
           <div class="form-group row">
@@ -2110,9 +2108,9 @@ Custom validator
             <div *ngIf="projectName.errors">Cannot contain 'fuck'.</div>
           </div>
         </div>
-        
+
 generate directive ForbiddenPattern
-  
+
         import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
         import { AbstractControl, NG_VALIDATORS, Validator, ValidatorFn, Validators } from '@angular/forms';
 
@@ -2135,7 +2133,7 @@ generate directive ForbiddenPattern
             return this.forbiddenName ? forbiddenNameValidator(new RegExp(this.forbiddenName, 'i'))(control) : null;
           }
         }
-    
+
     #module.app
     import {ForbiddenValidatorDirective} from './forbidden-pattern.directive';
     @NgModule({
@@ -2147,7 +2145,7 @@ Reactive Forms
 
       <form [formGroup]="priorityFormGroup" novalidate>
               <input placeholder="Priority" formControlName="name" #name [(ngModel)] = "Settings.Priority.Name" class="form-control">
-                     
+
               <input formControlName="color" #color [(ngModel)]="Settings.Priority.Color"
                      placeholder="Color"
                      [style.background]="Settings.Priority.Color"
@@ -2156,7 +2154,7 @@ Reactive Forms
                      [cpOKButton]="(true)"
                      [cpOKButtonText]="'ok'"
                      (colorPickerChange)="Settings.Priority.Color=$event"/>
-                     
+
               <button [disabled]="priorityFormGroup.pristine || priorityFormGroup.invalid"
                       class="btn btn-light"
                       (click)="addSetting('Priorities','Priority',Settings.Priority.Name,Settings.Priority.Color)">
@@ -2166,16 +2164,16 @@ Reactive Forms
 
     #component
     import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-    
+
       Settings : Settings ={
         Priorities :[],
         Statuses :[],
         Priority :{Name:"",Color:""},
         Status :{Name:"",Color:""}
       };
-      
+
       priorityFormGroup: FormGroup;
-    
+
       constructor(private fb: FormBuilder) {
         this.priorityFormGroup = this.fb.group({
           name:  ['', Validators.required ],
@@ -2183,39 +2181,39 @@ Reactive Forms
         });
       }
     }
-    
-## Dialog 
+
+## Dialog
 
 npm install --save @angular/material @angular/cdk @angular/animations
-    
-    #app.module.ts
-    import {
-      MatDialogModule,
-      MatFormFieldModule,
-      MatInputModule, MatNativeDateModule,
-      MatOptionModule,
-      MatSelectModule,
-      ...
-    } from '@angular/material';
-    import {MatDatepickerModule} from '@angular/material/datepicker';
-    
-    imports: [
-      MatDialogModule,
-      MatFormFieldModule,
-      BrowserAnimationsModule,
-      MatSelectModule,
-      MatOptionModule,
-      MatInputModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      ...
-    ],
-    entryComponents: [TaskDialogComponent]
+
+#app.module.ts
+import {
+MatDialogModule,
+MatFormFieldModule,
+MatInputModule, MatNativeDateModule,
+MatOptionModule,
+MatSelectModule,
+...
+} from '@angular/material';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
+imports: [
+MatDialogModule,
+MatFormFieldModule,
+BrowserAnimationsModule,
+MatSelectModule,
+MatOptionModule,
+MatInputModule,
+MatDatepickerModule,
+MatNativeDateModule,
+...
+],
+entryComponents: [TaskDialogComponent]
 
 component
 
     <button (click)="openTaskCreationDialog()">Add file</button>
-    
+
     import {MatDialog} from "@angular/material";
     constructor(private dialog: MatDialog) {}
     openTaskCreationDialog() {
@@ -2228,16 +2226,16 @@ component
         }
       });
     }
-    
+
 task-dialog
 
     import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
     import {Component, Inject, OnInit} from "@angular/core";
     import {Task} from "../models/task";
-    
+
     task: task;
     title: string;
-    
+
     constructor(private dialogRef: MatDialogRef<TaskDialogComponent>, @Inject(MAT_DIALOG_DATA) data) {
        this.task  = data.task;
        this.title = data.title;
@@ -2246,25 +2244,25 @@ task-dialog
     save() {
       this.dialogRef.close();
     }
-  
+
     close() {
       this.dialogRef.close();
     }
-  
+
     <div class="container">
-    
+
       <h2 mat-dialog-title>Task Dialog</h2>
-    
+
       <mat-dialog-content class="container task-form-dialog">
-    
+
         <mat-form-field appearance="legacy">
           <input matInput name="Name" #Name [(ngModel)]="task.Name" placeholder="Task Name">
         </mat-form-field>
-    
+
         <mat-form-field appearance="outline">
           <textarea matInput name="Description" #Description [(ngModel)]="task.Description" placeholder="Task Description"></textarea>
         </mat-form-field>
-    
+
         <mat-form-field>
           <mat-select placeholder="Priority">
             <!--<mat-option *ngFor="let food of foods" [value]="food.value">-->
@@ -2275,15 +2273,15 @@ task-dialog
             <mat-option [value]="High">High</mat-option>
           </mat-select>
         </mat-form-field>
-    
+
         <div class="row">
-    
+
           <mat-form-field class="col">
             <input matInput [matDatepicker]="StartDate" placeholder="Starts on">
             <mat-datepicker-toggle matSuffix [for]="StartDate"></mat-datepicker-toggle>
             <mat-datepicker #StartDate></mat-datepicker>
           </mat-form-field>
-    
+
           <mat-form-field class="col">
             <input matInput [matDatepicker]="EndDate" placeholder="Ends on">
             <mat-datepicker-toggle matSuffix [for]="EndDate"></mat-datepicker-toggle>
@@ -2291,35 +2289,34 @@ task-dialog
           </mat-form-field>
         </div>
       </mat-dialog-content>
-      
+
       <mat-dialog-actions>
         <button class="mat-raised-button btn btn-warning"(click)="close()">Close</button>
         <button class="mat-raised-button mat-primary btn btn-primary"(click)="save()">Save</button>
       </mat-dialog-actions>
     </div>
-    
+
 Custom pipe | formatter
-    
-    ng generate pipe DaysRemaining
-    
-    #pipe
-    import { Pipe, PipeTransform } from '@angular/core';
-    import * as moment from 'moment';
-    
-    @Pipe({
-      name: 'daysRemaining'
-    })
-    export class DaysRemainingPipe implements PipeTransform {
-      transform(value: any, unit?: any): any {
-        return moment(value).diff(moment(),unit)+ " "+ unit;
-      }
-    }
-    #template
-    <span class="badge badge-light mr-md-3">
-        {{Sprint.EndDate | daysRemaining:'days'}}
-    </span>
-  
-    
+
+ng generate pipe DaysRemaining
+
+#pipe
+import { Pipe, PipeTransform } from '@angular/core';
+import \* as moment from 'moment';
+
+@Pipe({
+name: 'daysRemaining'
+})
+export class DaysRemainingPipe implements PipeTransform {
+transform(value: any, unit?: any): any {
+return moment(value).diff(moment(),unit)+ " "+ unit;
+}
+}
+#template
+<span class="badge badge-light mr-md-3">
+{{Sprint.EndDate | daysRemaining:'days'}}
+</span>
+
 Font-awesome
 
     https://www.npmjs.com/package/angular-font-awesome
@@ -2330,57 +2327,57 @@ Font-awesome
     imports: [
         AngularFontAwesomeModule
     ],
-   
+
     #angular.cli.json
-  
+
     "styles": [
       "styles.css",
       "../node_modules/font-awesome/css/font-awesome.css"
     ],
-  
+
     #index.html
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    
-Jquery $ 
+
+Jquery \$
 
     npm install --save jquery
-  
+
     #.angular.cli.json
-    scripts": [ 
+    scripts": [
       "./node_modules/jquery/dist/jquery.min.js"
     ]
-  
+
     #component
     import * as $ from 'jquery';
-    
+
     public ngOnInit()
     {
       $(document).ready(function(){
         $("button").click(function(){
-            var div = $("div");  
+            var div = $("div");
             div.animate({left: '100px'}, "slow");
             div.animate({fontSize: '5em'}, "slow");
         });
       });
     }
-    
+
 boostrap
-    
-    npm install --save bootstrap
-    npm install ngx-bootstrap --save
-    
-    #src/style.css
-      @import "~bootstrap/dist/css/bootstrap.min.css";
-      @import "~font-awesome/css/font-awesome.css";
-      
-    #app.modules.ts
-      import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-      imports: [
-        NgbModule,
-      ],
-      
+
+npm install --save bootstrap
+npm install ngx-bootstrap --save
+
+#src/style.css
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
+
+#app.modules.ts
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+imports: [
+NgbModule,
+],
+
 ### Reactive form
-    
+
 app.modules
 
     import { ReactiveFormsModule } from '@angular/forms';
@@ -2391,25 +2388,24 @@ app.modules
 Simple
 
     import { FormGroup, FormControl } from '@angular/forms';
-    
+
     address = new FormGroup({
       street:  new FormControl(''),
       number:  new FormControl(''),
     });
-    
+
     onSubmitSignUpForm() {
       console.log(this.address.value)
     }
-    
+
     <form [formGroup]="address" (ngSubmit)="onSubmitSignUpForm()">
         <label>Street: <input type="text" formControlName="street"> </label>
         <label>Number: <input type="number" formControlName="number"> </label>
         <button type="submit" value="submit" >Submit</button>
     </form>
-    
-    
+
 Nested form group
-  
+
     User = new FormGroup({
       name: new FormControl(''),
       address: new FormGroup({
@@ -2417,7 +2413,7 @@ Nested form group
         ...
       })
     });
-      
+
     //set some values
     updateProfile() {
       this.profileForm.patchValue({
@@ -2427,12 +2423,8 @@ Nested form group
         }
       });
     }
-    
+
     <div formGroupName="address">
       //I guess the name is somewhere else
       <input type="text" formControlName="state">
     </div>
-    
-    
-
-    

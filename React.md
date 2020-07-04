@@ -1,36 +1,37 @@
 # React Cheatset
 
-## Content 
-  - [Init](#Init)
-  - [Element VS Component](#Element-VS-Component)
-  - [Components & Props](#Componentss)
-  - [State & Lifecycle](#State-&-Lifecycle)
-  - [Handling-Events](#Handling-Events)
-  - [Conditional-Rendering](#Conditional-Rendering)
-  - [Lists-&-Keys](#Lists-&-Keys)
-  - [Forms](#Forms)
-  - [Lifting-State-up](#Lifting-State-up)
-  - [Composition-VS-Inheritance](#Composition-VS-Inheritance)
-  - [Accessibility](#Accessibility)
-  - [Code-Splitting](#Code-Splitting)
-  - [Context](#Context)
-  - [Error Boundaries](#Error-Boundaries)
-  - [Refs & DOM](#Refs-&-DOM)
-  - [Forwarding Refs](#Forwarding-Refs)
-  - [Fragments](#Fragments)
-  - [HOC (Higher Order Components)](#HOC-(Higher-Order-Components))
-  - [Router](#Router)
-  - [Profiler](#Profiler)
-  - [Reconciliation](#Reconciliation)
-  - [Render Props](#Render-Props)
-  - [PropTypes](#PropTypes)
-  - [Web Components](#Web-Components)
-  - [Hooks](#Hooks)
-  - [Concurrent Mode](#Concurrent-Mode)
-  - [React Intl](#React-Intl)
-  - [Testing](#Testing)
-  - [Misc](#Misc)
-  - [Back to top](#Content)
+## Content
+
+- [Init](#Init)
+- [Element VS Component](#Element-VS-Component)
+- [Components & Props](#Componentss)
+- [State & Lifecycle](#State-&-Lifecycle)
+- [Handling-Events](#Handling-Events)
+- [Conditional-Rendering](#Conditional-Rendering)
+- [Lists-&-Keys](#Lists-&-Keys)
+- [Forms](#Forms)
+- [Lifting-State-up](#Lifting-State-up)
+- [Composition-VS-Inheritance](#Composition-VS-Inheritance)
+- [Accessibility](#Accessibility)
+- [Code-Splitting](#Code-Splitting)
+- [Context](#Context)
+- [Error Boundaries](#Error-Boundaries)
+- [Refs & DOM](#Refs-&-DOM)
+- [Forwarding Refs](#Forwarding-Refs)
+- [Fragments](#Fragments)
+- [HOC (Higher Order Components)](<#HOC-(Higher-Order-Components)>)
+- [Router](#Router)
+- [Profiler](#Profiler)
+- [Reconciliation](#Reconciliation)
+- [Render Props](#Render-Props)
+- [PropTypes](#PropTypes)
+- [Web Components](#Web-Components)
+- [Hooks](#Hooks)
+- [Concurrent Mode](#Concurrent-Mode)
+- [React Intl](#React-Intl)
+- [Testing](#Testing)
+- [Misc](#Misc)
+- [Back to top](#Content)
 
 ## Init
 
@@ -55,7 +56,6 @@ Online Editors
 
 [Back to top](#Content)
 
-
 ## Element VS Component
 
 ### Element
@@ -63,8 +63,8 @@ Online Editors
     ReactDOM.render(
       React.createElement(
         'div',
-        {id: 'login-btn'}, <-- data-name | id | name  | autocomplete | Events | 
-        ['Login']   <-- children: 
+        {id: 'login-btn'}, <-- data-name | id | name  | autocomplete | Events |
+        ['Login']   <-- children:
       )
     )
 
@@ -74,7 +74,7 @@ Online Editors
 
     #functional
     const  Greeting = ({ message }) => (
-      <h1>{`Hello, ${message}`}</h1>
+      <h1>{ `Hello, ${message}` }</h1>
     )
 
     #Class component
@@ -82,22 +82,24 @@ Online Editors
     class Greeting extends React.Component {
       // render must be implemented
       render() {
-        return <h1>{`Hello, ${this.props.message}`}</h1>
+        return <h1>{ `Hello, ${this.props.message}` }</h1>
+
       }
+
     }
 
-### React.PureComponent
+### React. PureComponent
 
-  Handles the shouldComponentUpdate() by default. by shallow comparing both props and state.
-
+Handles the shouldComponentUpdate() by default. by shallow comparing both props and state.
 
 [Back to top](#Content)
 
-## [Components](https://reactjs.org/docs/react-component.html) 
+## [Components](https://reactjs.org/docs/react-component.html)
 
     <!-- Function component -->
     function FunctionComponent (props) {
       return <h1>Hello, {props.name}</h1>;
+
     }
 
     <!--  -->
@@ -109,7 +111,9 @@ Online Editors
     class ClassComponent extends React.Component {
       render() {
         return <h1>Hello, {this.props.name}</h1>;
+
       }
+
     }
 
 Rendering
@@ -136,6 +140,7 @@ Rendering
       state = {
           count: 0,
           other: ?
+
         }
 
       addOne = () =>
@@ -152,7 +157,9 @@ Rendering
             <button onClick={this.addOne}> +1 </button>
           </div>
         )
+
       }
+
     }
 
 [Back to top](#Content)
@@ -167,15 +174,17 @@ Using .bind() to forward context
       name: "fabrigeas",
       getName() {
         return this.name
+
       }
+
     }
 
 The problem
 
-    const getName = obj.getName; 
+    const getName = obj.getName;
     console.log(getName()) // this is undefinned
 
-    const getName = obj.getName.bind(objs); 
+    const getName = obj.getName.bind(objs);
     console.log(getName()) // This now works
 
 The efficient solution is to bind all the functions in the component|s constructor
@@ -183,6 +192,7 @@ The efficient solution is to bind all the functions in the component|s construct
     constructor(props) {
       super(props);
       this.onclick = this.onclick.bind(this)
+
     }
 
     onclick = () => {}
@@ -190,7 +200,6 @@ The efficient solution is to bind all the functions in the component|s construct
 [Handling Events](https://reactjs.org/docs/handling-events.html)
 
 [Events and Attributes](https://reactjs.org/docs/dom-elements.html)
-
 
 [Back to top](#Content)
 
@@ -204,6 +213,7 @@ Inline if-else
           The user is <b>{this.state.isLoggedIn ? 'currently' : 'not'}</b> logged in.
         </div>
       );
+
     }
 
 Conditional operator
@@ -212,13 +222,14 @@ Conditional operator
       return (
         <div>
           {
-              this.state.isLoggedIn ? 
-              (<LogoutButton onClick={this.handleLogoutClick} />) 
-              : 
+              this.state.isLoggedIn ?
+              (<LogoutButton onClick={this.handleLogoutClick} />)
+              :
               (<LoginButton onClick={this.handleLoginClick} />)
           }
         </div>
       );
+
     }
 
 Preventing Component from Rendering
@@ -226,6 +237,7 @@ Preventing Component from Rendering
     function WarningBanner(props) {
       if (!props.warn) {
         return null;    <-- Return null to prevent a component from rendering
+
       }
 
       return (
@@ -233,6 +245,7 @@ Preventing Component from Rendering
           Warning!
         </div>
       );
+
     }
 
 [Back to top](#Content)
@@ -248,6 +261,7 @@ Preventing Component from Rendering
       return (
         <ul>{listItems}</ul>
       );
+
     }
 
     ReactDOM.render(
@@ -263,6 +277,7 @@ Preventing Component from Rendering
       event.preventDefault();
       console.log(event.target.elements.username.value)
       console.log(event.target.elements.password.value)
+
     }
 
     let content = (
@@ -280,6 +295,7 @@ Array elements must have ids(keys), to enable REACT optimise
           <p key="1">hello</p>,
           <p key="2">hello</p>
         ]
+
       }
 
 [Back to top](#Content)
@@ -327,7 +343,7 @@ FlexCOntainer
     function App = () => (
       <FlexContainer
         left={<Contacts />}
-        right={<Chat />} 
+        right={<Chat />}
       />
     );
 
@@ -360,7 +376,7 @@ FlexCOntainer
 
 Web Accessibility Initiative - Accessible Rich Internet Applications
 
-React supports all aria-* HTML attrs, and must be hyphen-cased (kebap-case, lisp-case)
+React supports all aria-\* HTML attrs, and must be hyphen-cased (kebap-case, lisp-case)
 
 ### WCAG (Web Content Accessibility Guidelines)
 
@@ -372,6 +388,7 @@ React supports all aria-* HTML attrs, and must be hyphen-cased (kebap-case, lisp
 
         this.state = { isOpen: false };
         this.timeOutId = null;
+
       }
 
       onClickHandler = () => this.setState( ({isOpen}) => ({
@@ -391,6 +408,7 @@ React supports all aria-* HTML attrs, and must be hyphen-cased (kebap-case, lisp
       // If a child receives focus, do not close the popover.
       onFocusHandler() {
         clearTimeout(this.timeOutId);
+
       }
 
       render() {
@@ -414,7 +432,9 @@ React supports all aria-* HTML attrs, and must be hyphen-cased (kebap-case, lisp
             )}
           </div>
         );
+
       }
+
     }
 
 [Back to top](#Content)
@@ -435,6 +455,7 @@ React.lazy (default exports only)
           </Suspense>
         </div>
       );
+
     }
 
 Route-based code splitting
@@ -465,7 +486,9 @@ Lreact.lazy with named exports
 
     // MyComponent.js
     export { MyComponent as default } from "./ManyComponents.js";
-    
+
+
+
     // MyApp.js
     import React, { lazy } from 'react';
     const MyComponent = lazy(() => import("./MyComponent.js"));
@@ -473,6 +496,7 @@ Lreact.lazy with named exports
 [Back to top](#Content)
 
 ## [Context](https://reactjs.org/docs/context.html)
+
 ```
 import ApplicationContext, {
   ApplicationContextType,
@@ -491,12 +515,13 @@ export default () => (
 
 ### React Components
 
-  applicationContext.js
+applicationContext.js
 
     import React from 'react';
+
     export default React.createContext();
-  
-  app.component.js
+
+app.component.js
 
     import ApplicationContext from "./ApplicationContext";
 
@@ -522,9 +547,10 @@ export default () => (
           </BrowserRouter>
         </ApplicationContext.Provider>
       );
+
     }
 
-  settings.component.js
+settings.component.js
 
     class Settings extends React.component {
 
@@ -557,7 +583,9 @@ export default () => (
         <SonB />
       </AutenfificationContext.Provider>
     );
-  
+
+
+
     # Grand son
     const SonX = () => (
       <AutenfificationContext.Consumer">
@@ -568,7 +596,6 @@ export default () => (
         )}
       </AutenfificationContext.Consumer>
     );
-
 
 [Back to top](#Content)
 
@@ -584,6 +611,7 @@ Error boundaries are React components that catch JavaScript errors in their chil
         state = {
           hasError: false,
           error: null,
+
         }
 
         static getDerivedStateFromError(error) {
@@ -596,6 +624,7 @@ Error boundaries are React components that catch JavaScript errors in their chil
 
         componentDidCatch(error, errorInfo) {
           console.log({ error, errorInfo });
+
         }
 
         render() {
@@ -606,6 +635,7 @@ Error boundaries are React components that catch JavaScript errors in their chil
           }
 
         }
+
       }
 
       <ErrorBoundary>
@@ -624,13 +654,14 @@ Component.js
     accessAReferencedChild = () => {
       const theDom = this.carouselContainerRef.current;
       const children = theDome.children;
+
     }
 
     render() {
       return (
         <div ref={this.carouselContainerRef}>
       )
-    } 
+    }
 
 [Back to top](#Content)
 
@@ -654,11 +685,14 @@ Forwarding refs to children component to be able to access the grand child.
             </button>
           </div>
         );
+
       }
 
       onClickButton() {
         this.emailRef.current.focus();
+
       }
+
     }
 
 [Back to top](#Content)
@@ -669,13 +703,15 @@ A surrounding Single
 
     render() {
       return (
-        <React.Fragment>
+        <React. Fragment>
           <ChildA />
           <ChildB />
           <ChildC />
-        </React.Fragment>
+        </React. Fragment>
       );
+
     }
+
       render() {
         return (
           <>
@@ -684,7 +720,9 @@ A surrounding Single
             <ChildC />
           </>
         );
+
       }
+
       render() {
         return (
           <dl>
@@ -693,11 +731,12 @@ A surrounding Single
             <ChildC />
           </dl>
         );
+
       }
 
 ### motivation
 
-    class Table extends React.Component {
+    class Table extends React. Component {
       render() {
         return (
           <table>
@@ -706,26 +745,28 @@ A surrounding Single
             </tr>
           </table>
         );
-      }
-    }
 
+      }
+
+    }
 
 ### Keyed Fragments
 
-React.Fragment syntax may have keys
+React. Fragment syntax may have keys
 
     function Glossary(props) {
       return (
         <dl>
           {props.items.map(item => (
-            // Without the `key`, React will fire a key warning
-            <React.Fragment key={item.id}>
+            // Without the `key` , React will fire a key warning
+            <React. Fragment key={item.id}>
               <dt>{item.term}</dt>
               <dd>{item.description}</dd>
-            </React.Fragment>
+            </React. Fragment>
           ))}
         </dl>
       );
+
     }
 
 [Back to top](#Content)
@@ -742,7 +783,7 @@ A function that takes a Component and retuirns a new Component
     const requireAutentication = (ContentToBeDisplayed) => {
           return (props) => (
             <div>
-              {props.isAutenticated ? 
+              {props.isAutenticated ?
                 (<p>;) Welcome, you are autenticated</p>) :
                 (<p>;( Please login to view the content</p>)
               }
@@ -767,6 +808,7 @@ A function that takes a Component and retuirns a new Component
 MyRoutes.js
 
     import React from 'react';
+
     import { BrowserRouter, Route, Switch } from "react-router-dom";
     import {DashBoard, Create, Edit, Help, NotFound} from '../components/??'
 
@@ -795,9 +837,10 @@ App.js
 components/Header.js
 
     import React from 'react';
+
     import {NavLink} from 'react-router-dom';
 
-    # Link vs NavLink is that NavLink can be beatified 
+    # Link vs NavLink is that NavLink can be beatified
 
     const Header = () => (
       <header>
@@ -817,9 +860,11 @@ componentes/MyComponent.js
       console.log(props)
       props contains {
         history,
-        location: 
+        location:
         hash, // in case user baseUrl/contacts#fabrice (the id to be scrolled to)
+
       }
+
       return ?
     )};
 
@@ -836,17 +881,19 @@ componentes/MyComponent.js
 Insert a component into a specific container
 
     render() {
-      // React does *not* create a new div. It renders the children into `domNode`.
+      // React does *not* create a new div. It renders the children into `domNode` .
       // `domNode` is any valid DOM node, regardless of its location in the DOM.
       return ReactDOM.createPortal(
         this.props.children,
         domNode
       );
+
     }
 
 [Back to top](#Content)
 
-## Profiler 
+## Profiler
+
 (Prod mod only)
 
 A component that measures the # and cost of rendering it's child component
@@ -886,6 +933,7 @@ Each Profiler must have an id
       interactions // the Set of interactions belonging to this update
     ) {
       // Aggregate or log render timings...
+
     }
 
 [Back to top](#Content)
@@ -909,14 +957,16 @@ Optimising components update predicitibility
             {this.props.children(this.state)}
           </div>
         )
+
       }
+
     }
 
     const ChildA = ({name}) => <p>{name}</p>}
     const ChildB = ({age}) => <p>{age}</p>}
 
     const App = () => (
-      <Parent>{ 
+      <Parent>{
         ({name, age}) => (
           <div>
             <ChildA name={name} /> }
@@ -941,9 +991,13 @@ Optimising components update predicitibility
             {this.props.anotherRandomProp(this.state.age)}
           </div>
         )
+
       }
+
     }
-    
+
+
+
     const Children1 = props => (<p>{props.name}</p>)
     const Children2 = props => (<p>{props.age}</p>)
 
@@ -974,10 +1028,10 @@ Typecheckers (Flow and Typescript) id problems before execution. Use them instea
 ## Strict Mode (A tool for highlighting potential problems in the application, development mode only)
 
 Helps to:
+
 - id components with unsafe lifecycles
 - warnings about legacy string ref API usage, deprecated findDOMNode usage
 - detecting unexpected side effects, legacy context API
-
 
         import React from 'react';
 
@@ -985,15 +1039,16 @@ Helps to:
           return (
             <div>
               <Header />
-              <React.StrictMode>
+              <React. StrictMode>
                 <div>
                   <ComponentOne />
                   <ComponentTwo />
                 </div>
-              </React.StrictMode>
+              </React. StrictMode>
               <Footer />
             </div>
           );
+
         }
 
 [Back to top](#Content)
@@ -1008,37 +1063,44 @@ Helps to:
       render() {
         return (
           <>
-            <h1>{`Welcome, ${this.props.name}`}</h1>
-            <h2>{`Age, ${this.props.age}`}</h2>
+            <h1>{ `Welcome, ${this.props.name}` }</h1>
+            <h2>{ `Age, ${this.props.age}` }</h2>
           </>
         )
+
       }
+
     }
 
     User.propTypes = {
       name  : PropTypes.string  // value not string will log error,
       age   : PropTypes.number.isRequired,  // make it required
       children: PropTypes.element.isRequired <-- Specify that children must be a single element
+
     };
 
     User.defaultProps = {
       name  : "fabrice",
       age   : 30
+
     }
 
-// or 
+// or
 
     class User extends React.Component {
+
       static propTypes = {
         name: PropTypes.string.isRequired,
         age: PropTypes.number.isRequired
+
       }
 
       static defaultProps = {
         name: 'stranger'
-      }
-    }
 
+      }
+
+    }
 
 [Back to top](#Content)
 
@@ -1075,14 +1137,16 @@ Helps to:
           <input type="submit" value="Submit" />
         </form>
       );
+
     }
 
 ### File (type='file' is always uncontrolled cuz the value is set by the user)
 
-    class FileInput extends React.Component {
+    class FileInput extends React. Component {
       constructor(props) {
         super(props);
         this.fileInput = React.createRef();
+
       }
 
       handleSubmit = event  => {
@@ -1092,6 +1156,7 @@ Helps to:
             this.fileInput.current.files[0].name
           }`
         );
+
       }
 
       render() {
@@ -1105,7 +1170,9 @@ Helps to:
             <button type="submit">Submit</button>
           </form>
         );
+
       }
+
     }
 
     ReactDOM.render(
@@ -1124,7 +1191,7 @@ Helps to:
     import React, { useState } from 'react';
 
     function Example() {
-      
+
       const [count, setCount] = useState(0); // Declare a new state variable (count), as well as it's setter
 
       // Declare multiple state variables!
@@ -1140,6 +1207,7 @@ Helps to:
           </button>
         </div>
       );
+
     }
 
 ### useEffect ([componentDidMount, componentDidUpdate, componentWillUnmount] = useEffect. Effects are operations that can affect other components and can't be done during rendering)
@@ -1151,8 +1219,8 @@ Helps to:
 
       function handleStatusChange(status) {
         setIsOnline(status.isOnline);
-      }
 
+      }
 
       // Similar to componentDidMount and componentDidUpdate:
       // runs after every render
@@ -1169,14 +1237,16 @@ Helps to:
       // You can have multiple useEffect so as to group similar operations,
       // above, you subscribe and unsubscribe, here you update the title
       useEffect(() => {
-        document.title = `You clicked ${count} times`;
+        document.title = `You clicked ${count} times` ;
       });
-
 
       if (isOnline === null) {
         return 'Loading...';
+
       }
+
       return isOnline ? 'Online' : 'Offline';
+
     }
 
 ### useContext
@@ -1190,7 +1260,7 @@ Helps to:
       useEffect( () => {
         console.log("tiggers each time any state variable changes")
       });
-      
+
       useEffect( () => {
         console.log("tiggered only when: count", count)
       }, [count);
@@ -1198,7 +1268,7 @@ Helps to:
       useEffect( () => {
         console.log("triggered like componentDidMount")
       }, [);
-      
+
       // componentDidMount + componentDidUpdate for Stateless function
         useEffect( () => {
           return () => {
@@ -1207,7 +1277,7 @@ Helps to:
         });
 
     const NoteApp = () => {
-      
+
       const [notes, setNotes] = useState([),
             [title, setTitle] = useState(''),
             [body, setBody]    = useState('');
@@ -1223,25 +1293,27 @@ Helps to:
         );
         setTitle('');
         setBody('');
+
       }
 
       const removeNote = (title) => {
         setNotes(notes.filter( note => title !== note.title))
+
       }
 
       return (
-        <div> 
+        <div>
           <h1>Hello</h1>
           <p>Add Note</p>
           <form onSubmit={addNote}>
-            <input name='title' value={title} onChange={ e => setTitle(e.target.value)} 
+            <input name='title' value={title} onChange={ e => setTitle(e.target.value)}
             />
             <textarea name='body' value={body} onChange={ e => setBody(e.target.value)} >
             </textarea>
             <button type='submit'>Add</button>
           </form>
           <ul>
-            {notes.map((note,i) => (
+            {notes.map((note, i) => (
               <div key={i}>
                 <h3>{note.title}</h3>
                 <p>{note.body}</p>
@@ -1251,6 +1323,7 @@ Helps to:
           </ul>
         </div>
       )
+
     }
 
     ReactDOM.render( <NoteApp  /> , document.getElementById('root'));
@@ -1276,9 +1349,8 @@ src/setupTests.js
     import { configure } from 'enzyme';
     import Adapter from 'enzyme-adapter-react-16';
     configure({ adapter: new Adapter() });
-  
+
 [Example](https://github.com/fabrigeas/react-formg-group)
-    
 
 ### [Shallow render](https://reactjs.org/docs/shallow-renderer.html)
 
@@ -1289,8 +1361,8 @@ src/setupTests.js
             <span className={'description'}>{'Description'}</span>
           </div>
         )
-      }
 
+      }
 
       # testfile
       import ShallowRenderer from 'react-test-renderer/shallow'
@@ -1306,10 +1378,10 @@ src/setupTests.js
         <span className={'heading'}>{'Title'}</span>,
         <span className={'description'}>{'Description'}</span>
       ]);
-  
+
 ### [TestRenderer](https://reactjs.org/docs/test-renderer.html)
 
-  Converts a component into JSON
+Converts a component into JSON
 
       import TestRenderer from 'react-test-renderer'
 
@@ -1328,9 +1400,7 @@ src/setupTests.js
 
 ### [ReactTestUtils](https://reactjs.org/docs/test-utils.html)
 
-  Makes it easy to test React components in the testing framework of your choice. eg Jest.
-
-
+Makes it easy to test React components in the testing framework of your choice. eg Jest.
 
 ## Misc
 
@@ -1359,9 +1429,10 @@ However the Virtual Dom ... do not rerender everything but instead ids what elem
 
       console.log({temp})
       ReactDOM.render(temp, document.getElementById('root'));
+
     }
 
-  renderCounterAPP();
+renderCounterAPP();
 
 ### Using scss
 
@@ -1380,11 +1451,9 @@ rename style files to .scss
 
 [Back to top](#Content)
 
-
 ## publish component as npm package
 
 npm i -D rollup rollup-plugin-typescript2 rollup-plugin-sass @rollup/plugin-commonjs @rollup/plugin-node-resolve rollup-plugin-peer-deps-external
-
 
 tsconfig.js
 
@@ -1419,8 +1488,8 @@ tsconfig.js
         "src/components/FormGroup/FormGroup.test.tsx",
         "src/components/index.tsx",
       ]
-    }
 
+    }
 
 rollup.config.js
 
@@ -1444,7 +1513,9 @@ rollup.config.js
           file: packageJson.module,
           format: "esm",
           sourcemap: true
+
         }
+
       ],
       plugins: [
         peerDepsExternal(),
@@ -1479,7 +1550,7 @@ package.json
     npm login || npm whoamI
     npm version 2.0.1
     npm publish --access=public
-  
+
 ## Typescript
 
 ### Context
