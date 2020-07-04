@@ -185,7 +185,11 @@ meld fileA fileB
 # number of processors
 cat /proc/cpuinfo | grep processor | wc -l
 
-
+cut -f2 file.ext # extract row 2 of file
+paste file1 file #merge rows from different files
+tr "h2" "3x" < file # replace all h=>3, 2=>x
+tr "[a-z]" "[A-Z]" < file # toUppercase
+uniq file # remove duplicate lines
 
 ```
 
@@ -212,7 +216,8 @@ cp /etc/fstab path/to/ackup/fstab.orig
 
 # edit the file
 gedit /etc/fstab
-UUID=519CB82E5888AD0FOBTAINEDABOVE  "/media/label obtained above"  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
+UUID=519CB82E5888AD0FOBTAINEDABOVE  "/media/label obtained above"\
+  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0
 
 mount /media/C
 mount -a
@@ -225,7 +230,8 @@ umound label
 ls -al /media/username/
 blkid
 mkdir "/media/label of drive"
-echo "UUID=519CB82E5888AD0FOBTAINEDABOVE  {/media/label obtained above}  ntfs-3g  defaults,windows_names,locale=en_US.utf8  0 0" >> /etc/fstab
+echo "UUID=519CB82E5888AD0FOBTAINEDABOVE  {/media/label obtained above}  ntfs-3g  \
+defaults,windows_names,locale=en_US.utf8  0 0" >> /etc/fstab
 mount /media/C || mount -a || mount "/media/label " -o remount,ro,noatime # readonly(ro)
 ```
 
@@ -320,6 +326,28 @@ nice 20 firefox
 
 # alter the NI(nice) value of an already running process
 renice 0 geany
+
+ps #list all
+ps -ag
+ps ax | grep httpd # is apache running??
+
+# kill process
+kill  1012
+kill 0 #killall except shell
+killall httpd
+
+ps # To see currently running process
+kill  1012 # To stop any process by PID i.e. to kill process
+killall httpd ##kill all apache processes
+ps -ag # get information about all running process
+kill 0 #To stop all process except your shell
+
+#Run in background
+ls / -R | wc -l &
+ps aux # display the owner of the processes along with the processes
+ps ax | grep  process-U-want-to see #To see if a particular process is running or not
+ps ax | grep httpd #see whether Apache web server process is running or not then give command
+
 ```
 
 ## SORT
@@ -716,6 +744,8 @@ netsh advfirewall firewall add rule name='SSH Port' dir=in action=allow protocol
 
 ## AWK
 
+[awk printf](http://www.freeos.com/guides/lsst/ch07sec05.html)
+
 ```bash
 awk '/pattern/ {action} ' file1List
 awk -F ":" '/pattern/ {action} ' file1List #set separator
@@ -728,7 +758,71 @@ awk ' ($1+$2 > 10) && ($3 < $4) {action} '
 awk ' BEGIN {action_B}
 /pattern1/ {action1}
 /pattern2/ {action2}
-END {action_E} fileList
+END {action_E} fileList'
+
+awk '/good/ { print $3 }' file  # foreach line containing /good/, print the 3$ column
+awk '{ print $1 $2 "--> Rs." $3 * $4 }' file # $2:name, $3: quantity $4: price thus, compute each price
+
+echo /bla/ { print $3 } > pattern.txt && awk -f pattern.txt file  # print the $3 colum of each line containing 'bla'
+
+cat > comp_inv
+3 > 5 { print $0 }
+&& awk -f comp_inv file
+
+# variables
+
+# math
+{
+  total = $3 * $4
+  recno = $1
+    item = $2
+  gtotal = gtotal + total
+  print recno item " Rs." total " [Total Rs." gtotal "] "
+}
+
+# bill
+{
+  total = $3 * $4
+  recno = $1
+    item = $2
+  print recno item " Rs." total
+}
+
+# file
+1. Pen 5 20.00
+2. Pencil 10 2.00
+3. Rubber 3 3.50
+4. Cock 2 45.50
+
+# $ awk -f bill file
+
+1.Pen Rs.100
+2.Pencil Rs.20
+3.Rubber Rs.10.5
+4.Cock Rs.91
+
+# bill2
+BEGIN {
+  print "---------------------------"
+  print "Bill for the 4-March-2001. "
+  print "By Vivek G Gite. "
+  print "---------------------------"
+}
+
+{
+  total = $3 * $4
+  recno = $1
+    item = $2
+  gtotal += total
+  print recno item " Rs." total
+}
+
+END {
+  print "---------------------------"
+  print "Total Rs." gtotal
+  print "==========================="
+}
+
 ```
 
 ## cut
