@@ -666,7 +666,7 @@ add fabrigeas as sudoer
 
 ## ssh
 
-```bash
+```sh
 
 sudo apt-get install openssh-server
 sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.original
@@ -704,6 +704,18 @@ scp /path/to/file/file.ext  username@theOtherComputer:/path/to/dest
 # examples
 ssh fabrigeas@10.0.0.1 pwd
 ssh fabrigeas@10.0.0.1 (any command)
+scp your_username@remotehost.edu:foobar.txt /some/local/directory
+scp foobar.txt your_username@remotehost.edu:/some/remote/directory
+scp -r foo your_username@remotehost.edu:/some/remote/directory/bar
+scp your_username@rh1.edu:/some/remote/directory/foobar.txt \
+your_username@rh2.edu:/some/remote/directory/
+
+scp foo.txt bar.txt your_username@remotehost.edu:~
+scp -P 2264 foobar.txt your_username@remotehost.edu:/some/remote/directory
+scp your_username@remotehost.edu:/some/remote/directory/\{a,b,c\} .
+scp your_username@remotehost.edu:~/\{foo.txt,bar.txt\} .
+scp -c blowfish some_file your_username@remotehost.edu:~
+scp -c blowfish -C local_file your_username@remotehost.edu:~
 
 ```
 

@@ -1,8 +1,11 @@
+# Javascript utilities
+
+```js
 /** This script contains some useful js functions.
  * Author: Fabrice Feugang Kemegni
  */
 
-/** Makes a HTTP request and returns a Promis
+/** Makes a HTTP request and returns a Promise
  * @param {String} url the backend url
  * @param {String} method GET, POST ...
  * @param {Object} data The Object
@@ -356,3 +359,4 @@ function removeAllChildren(element) {
     element.removeChild(element.firstChild);
   }
 }
+```
