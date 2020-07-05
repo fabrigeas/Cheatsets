@@ -3,8 +3,7 @@
 ## Content
 
 - [Init](#Init)
-- [Element VS Component](#Element-VS-Component)
-- [Components & Props](#Componentss)
+- [Components & Props](#Components)
 - [State & Lifecycle](#State-&-Lifecycle)
 - [Handling-Events](#Handling-Events)
 - [Conditional-Rendering](#Conditional-Rendering)
@@ -43,328 +42,253 @@ Online Editors
 
 [Create app](https://www.npmjs.com/package/react-create)
 
-    npx create-react-app my-app
-    cd my-app
-    npm start
+```bash
+npx create-react-app my-app
+cd my-app
+npm start
 
-    npx create-react-app my-app --template typescript
+npx create-react-app my-app --template typescript
+```
 
 ### [Create component](https://www.npmjs.com/package/react-create)
 
-    npm install -g create-components-react
-    ccr create src/components/ContactUs
-
-[Back to top](#Content)
-
-## Element VS Component
-
-### Element
-
-    ReactDOM.render(
-      React.createElement(
-        'div',
-        {id: 'login-btn'}, <-- data-name | id | name  | autocomplete | Events |
-        ['Login']   <-- children:
-      )
-    )
-
-[example](https://github.com/fabrigeas/react-formg-group/blob/master/src/components/FormGroup/FormGroup.test.tsx)
-
-### Component
-
-    #functional
-    const  Greeting = ({ message }) => (
-      <h1>{ `Hello, ${message}` }</h1>
-    )
-
-    #Class component
-    //Use class when you need lifecycle methods, although Hooks add state to functional components
-    class Greeting extends React.Component {
-      // render must be implemented
-      render() {
-        return <h1>{ `Hello, ${this.props.message}` }</h1>
-
-      }
-
-    }
-
-### React. PureComponent
-
-Handles the shouldComponentUpdate() by default. by shallow comparing both props and state.
+```bash
+npm install -g create-components-react
+ccr create src/components/ContactUs
+```
 
 [Back to top](#Content)
 
 ## [Components](https://reactjs.org/docs/react-component.html)
 
-    <!-- Function component -->
-    function FunctionComponent (props) {
-      return <h1>Hello, {props.name}</h1>;
+```js
 
-    }
+// React.Element
+// github.com/fabrigeas/react-form-group/blob/master/src/components/FormGroup/FormGroup.test.tsx
+ReactDOM.render(
+  React.createElement(
+    "div",
+    { id: "login-btn" }, // data-name | id | name  | autocomplete | Events |
+    ["Login"] // children:
+  )
+);
 
-    <!--  -->
-    const FunctionComponent (props) => (
-      <h1>Hello, {props.name}</h1>;
-    )
+function FunctionComponent (props) {
+  return <h1>Hello, {props.name}</h1>;
+}
 
-    <!-- Class component -->
-    class ClassComponent extends React.Component {
-      render() {
-        return <h1>Hello, {this.props.name}</h1>;
+const FunctionComponent (props) => (
+  <h1>Hello, {props.name}</h1>;
+)
 
-      }
+class ClassComponent extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
 
-    }
+ReactDOM.render(
+  <FunctionComponent name="Function component"/>,
+  document.getElementById('root')
+);
 
-Rendering
+ReactDOM.render(
+  <div>
+    <FunctionComponent name="Function component"/>
+    <ClassComponent name="class Component"/>
+  </div>,
+  document.getElementById('root')
+);
 
-    ReactDOM.render(
-      <FunctionComponent name="Funtion component"/>,
-      document.getElementById('root')
-    );
-
-    ReactDOM.render(
-      <div>
-        <FunctionComponent name="Funtion component"/>
-        <ClassComponent name="class Component"/>
-      </div>,
-      document.getElementById('root')
-    );
+// React.PureComponent
+// Handles the shouldComponentUpdate() by default. by shallow comparing both props and state.
+```
 
 [Back to top](#Content)
 
 ## [State & Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
 
-    class Counter extends React.Component {
+```js
+class Counter extends React.Component {
 
-      state = {
-          count: 0,
-          other: ?
-
-        }
-
-      addOne = () =>
-        this.setState( (previousState) => {
-          return {
-            count: previousState.count + 1,
-          }
-        })
-
-      render() {
-        return (
-          <div>
-            <h1>Count: {this.state.count}</h1>
-            <button onClick={this.addOne}> +1 </button>
-          </div>
-        )
-
-      }
-
+  state = {
+      count: 0,
+      other: ?
     }
+
+  addOne = () =>
+    this.setState( (previousState) => {
+      return {
+        count: previousState.count + 1,
+      }
+    })
+
+  render() {
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={this.addOne}> +1 </button>
+      </div>
+    )
+  }
+}
+```
 
 [Back to top](#Content)
 
 ## Handling Events
 
-### Method Binding (this binding)
-
-Using .bind() to forward context
-
-    const obj = {
-      name: "fabrigeas",
-      getName() {
-        return this.name
-
-      }
-
-    }
-
-The problem
-
-    const getName = obj.getName;
-    console.log(getName()) // this is undefinned
-
-    const getName = obj.getName.bind(objs);
-    console.log(getName()) // This now works
-
-The efficient solution is to bind all the functions in the component|s constructor
-
-    constructor(props) {
-      super(props);
-      this.onclick = this.onclick.bind(this)
-
-    }
-
-    onclick = () => {}
-
-[Handling Events](https://reactjs.org/docs/handling-events.html)
-
-[Events and Attributes](https://reactjs.org/docs/dom-elements.html)
-
+[Handling Events](https://reactjs.org/docs/handling-events.html)\
+[Events and Attributes](https://reactjs.org/docs/dom-elements.html)\
 [Back to top](#Content)
 
 ## Conditional-Rendering
 
-Inline if-else
+```js
 
-    render() {
-      return (
-        <div>
-          The user is <b>{this.state.isLoggedIn ? 'currently' : 'not'}</b> logged in.
-        </div>
-      );
+// if
+render() {
+  return (
+    <div>
+      The user is <b>{this.state.isLoggedIn ? 'currently' : 'not'}</b> logged in.
+    </div>
+  );
+}
 
+// Conditional operator
+render() {
+  return (
+    <div>
+    {
+      this.state.isLoggedIn ?
+      (<LogoutButton onClick={this.handleLogoutClick} />)
+      :
+      (<LoginButton onClick={this.handleLoginClick} />)
     }
+    </div>
+  );
+}
 
-Conditional operator
+// Preventing Component from Rendering
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null;  // Return null to prevent a component from rendering
+  }
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
 
-    render() {
-      return (
-        <div>
-          {
-              this.state.isLoggedIn ?
-              (<LogoutButton onClick={this.handleLogoutClick} />)
-              :
-              (<LoginButton onClick={this.handleLoginClick} />)
-          }
-        </div>
-      );
-
-    }
-
-Preventing Component from Rendering
-
-    function WarningBanner(props) {
-      if (!props.warn) {
-        return null;    <-- Return null to prevent a component from rendering
-
-      }
-
-      return (
-        <div className="warning">
-          Warning!
-        </div>
-      );
-
-    }
+}
+```
 
 [Back to top](#Content)
 
 ## Lists-&-Keys
 
-    const NumberList = props => {
+Array elements must have ids(keys), to enable REACT optimise
 
-      const listItems =  props.numbers.map((number) =>
-        <li key={number.toString()} >{number}</li>  // Each list item in [].map must have a unique key, that react will use to if the DOM
-      );
+```javascript
+const NumberList = (props) => {
+  const listItems = props.numbers.map((number) => (
+    <li key={number.toString()}>{number}</li>
+  ));
+  return <ul>{listItems}</ul>;
+};
 
-      return (
-        <ul>{listItems}</ul>
-      );
-
-    }
-
-    ReactDOM.render(
-      <NumberList numbers={[1, 2, 3, 4, 5]} />,
-      document.getElementById('root')
-    );
+ReactDOM.render(
+  <NumberList numbers={[1, 2, 3, 4, 5]} />,
+  document.getElementById("root")
+);
+```
 
 [Back to top](#Content)
 
 ## Forms
 
-    const onFormSubmit = (event) => {
-      event.preventDefault();
-      console.log(event.target.elements.username.value)
-      console.log(event.target.elements.password.value)
+```js
+const onFormSubmit = (event) => {
+  event.preventDefault();
+  const { username, password } = event.target.element;
 
-    }
+  console.log(username.value);
+  console.log(password.value);
+};
 
-    let content = (
-      <form onSubmit={onFormSubmit}>
-        <input type="text" name="username"></input>
-        <input type="password" name="password"></input>
-        <button type="submit">submit</button>
-      </form>
-    );
-
-Array elements must have ids(keys), to enable REACT optimise
-
-    {
-        [
-          <p key="1">hello</p>,
-          <p key="2">hello</p>
-        ]
-
-      }
+let content = (
+  <form onSubmit={onFormSubmit}>
+    <input type="text" name="username"></input>
+    <input type="password" name="password"></input>
+    <button type="submit">submit</button>
+  </form>
+);
+```
 
 [Back to top](#Content)
 
 ## Lifting-State-up
 
-Set the state in the parent instead of in each child.
+Set the state in the parent instead of in each children.
 
 [Back to top](#Content)
 
 ## Composition-VS-Inheritance
 
-### Containment (A Comp containing another component)
+```js
+// Containment (A Comp containing another component)
+const Border = props => (
+  <div className={'Border Border-' + props.color}>
+    {props.children}
+  </div>
+);
 
-    const Border = props => (
-      <div className={'Border Border-' + props.color}>
-        {props.children}
-      </div>
-    );
+const WelcomeDialog = () => (
+  <Border color="blue">
+    <h1 className="Dialog-title">
+      Welcome
+    </h1>
+    <p className="Dialog-message">
+      Thank you for visiting our spacecraft!
+    </p>
+  </Border>
+);
 
-    const WelcomeDialog = () => (
-      <Border color="blue">
-        <h1 className="Dialog-title">
-          Welcome
-        </h1>
-        <p className="Dialog-message">
-          Thank you for visiting our spacecraft!
-        </p>
-      </Border>
-    );
+function FlexContainer = (props) => (
+  <div className='FlexContainer' >
+    <div className='FlexContainer-left' >
+      { props.left }
+    </div>
+    <div className="FlexContainer-right">
+      {props.right}
+    </div>
+  </div>
+);
 
-FlexCOntainer
+function App = () => (
+  <FlexContainer
+    left={<Contacts />}
+    right={<Chat />}
+  />
+);
 
-    function FlexContainer = props => (
-      <div className="FlexContainer">
-        <div className="FlexContainer-left">
-          {props.left}
-        </div>
-        <div className="FlexContainer-right">
-          {props.right}
-        </div>
-      </div>
-    );
+// Specialization (A component being a special type of another component)
+const Dialog = props => (
+  <Border color="blue">
+    <h1 className="Dialog-title">
+      {props.title}
+    </h1>
+    <p className="Dialog-message">
+      {props.message}
+    </p>
+  </Border>
+);
 
-    function App = () => (
-      <FlexContainer
-        left={<Contacts />}
-        right={<Chat />}
-      />
-    );
-
-### Specialization (A component being a special type of another component)
-
-    const Dialog = props => (
-      <Border color="blue">
-        <h1 className="Dialog-title">
-          {props.title}
-        </h1>
-        <p className="Dialog-message">
-          {props.message}
-        </p>
-      </Border>
-    );
-
-    const WelcomeDialog = () =>
-      <Dialog
-        title="Welcome"
-        message="Thank you for visiting our spacecraft!" />
-    );
+const WelcomeDialog = () =>
+  <Dialog title="Welcome"
+    message="Thank you for visiting our spacecraft!" />
+);
+```
 
 [Back to top](#Content)
 
@@ -382,122 +306,122 @@ React supports all aria-\* HTML attrs, and must be hyphen-cased (kebap-case, lis
 
 ### Mouse and pointer events
 
-    class BlurExample extends React.Component {
-      constructor(props) {
-        super(props);
+```js
+class BlurExample extends React.Component {
+  constructor(props) {
+    super(props);
 
-        this.state = { isOpen: false };
-        this.timeOutId = null;
+    this.state = { isOpen: false };
+    this.timeOutId = null;
+  }
 
-      }
+  onClickHandler = () =>
+    this.setState(({ isOpen }) => ({
+      isOpen: !isOpen,
+    }));
 
-      onClickHandler = () => this.setState( ({isOpen}) => ({
-        isOpen: !isOpen
-      }));
-
-      // We close the popover on the next tick by using setTimeout.
-      // This is necessary because we need to first check if
-      // another child of the element has received focus as
-      // the blur event fires prior to the new focus event.
-      onBlurHandler = () => this.timeOutId = setTimeout(() => {
-        this.setState({
-          isOpen: false
-        });
+  // We close the popover on the next tick by using setTimeout.
+  // This is necessary because we need to first check if
+  // another child of the element has received focus as
+  // the blur event fires prior to the new focus event.
+  onBlurHandler = () =>
+    (this.timeOutId = setTimeout(() => {
+      this.setState({
+        isOpen: false,
       });
+    }));
 
-      // If a child receives focus, do not close the popover.
-      onFocusHandler() {
-        clearTimeout(this.timeOutId);
+  // If a child receives focus, do not close the popover.
+  onFocusHandler() {
+    clearTimeout(this.timeOutId);
+  }
 
-      }
-
-      render() {
-        // React assists us by bubbling the blur and
-        // focus events to the parent.
-        return (
-          <div onBlur={this.onBlurHandler}
-              onFocus={this.onFocusHandler}>
-
-            <button onClick={this.onClickHandler}
-                    aria-haspopup="true"
-                    aria-expanded={this.state.isOpen}>
-              Select an option
-            </button>
-            {this.state.isOpen && (
-              <ul>
-                <li>Option 1</li>
-                <li>Option 2</li>
-                <li>Option 3</li>
-              </ul>
-            )}
-          </div>
-        );
-
-      }
-
-    }
+  render() {
+    // React assists us by bubbling the blur and
+    // focus events to the parent.
+    return (
+      <div onBlur={this.onBlurHandler} onFocus={this.onFocusHandler}>
+        <button
+          onClick={this.onClickHandler}
+          aria-haspopup="true"
+          aria-expanded={this.state.isOpen}
+        >
+          Select an option
+        </button>
+        {this.state.isOpen && (
+          <ul>
+            <li>Option 1</li>
+            <li>Option 2</li>
+            <li>Option 3</li>
+          </ul>
+        )}
+      </div>
+    );
+  }
+}
+```
 
 [Back to top](#Content)
 
 ## Code Splitting
 
-React.lazy (default exports only)
+```js
 
-    const LazyComponent  = React.lazy(() => import('./LazyComponent'));// returns a promise and must be rendered in a Suspense component
-    const LazyComponent2 = React.lazy(() => import('./LazyComponent2'));
+// React.lazy (default exports only)
 
-    function MyComponent() {
-      return (
-        <div>
-          <Suspense fallback={<div>Loading...</div>}>
-            <LazyComponent />
-            <LazyComponent2 />
-          </Suspense>
-        </div>
-      );
+// returns a promise and must be rendered in a Suspense component
+const LazyComponent  = React.lazy(() => import('./LazyComponent'));
+const LazyComponent2 = React.lazy(() => import('./LazyComponent2'));
 
-    }
+function MyComponent() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+        <LazyComponent2 />
+      </Suspense>
+    </div>
+  );
+}
 
-Route-based code splitting
+// Route-based code splitting
 
-    import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-    import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
 
-    const Home = lazy(() => import('./routes/Home'));
-    const About = lazy(() => import('./routes/About'));
-    import {Spinner} from './spinner';
+const Home = lazy(() => import('./routes/Home'));
+const About = lazy(() => import('./routes/About'));
+import {Spinner} from './spinner';
 
-    const App = () => (
-      <Router>
-        <Suspense fallback={<Spinner/>}>
-          <Switch>
-            <Route exact path="/" component={Home}/>
-            <Route path="/about" component={About}/>
-          </Switch>
-        </Suspense>
-      </Router>
-    );
+const App = () => (
+  <Router>
+    <Suspense fallback={<Spinner/>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
 
-Lreact.lazy with named exports
+// react.lazy with named exports
 
-    // ManyComponents.js
-    export const MyComponent = /* ... */;
-    export const MyUnusedComponent = /* ... */;
+export const MyComponent = /* ... */;
+export const MyUnusedComponent = /* ... */;
 
-    // MyComponent.js
-    export { MyComponent as default } from "./ManyComponents.js";
+// MyComponent.js
+export { MyComponent as default } from "./ManyComponents.js";
 
-
-
-    // MyApp.js
-    import React, { lazy } from 'react';
-    const MyComponent = lazy(() => import("./MyComponent.js"));
+// MyApp.js
+import React, { lazy } from 'react';
+const MyComponent = lazy(() => import("./MyComponent.js"));
+```
 
 [Back to top](#Content)
 
 ## [Context](https://reactjs.org/docs/context.html)
 
-```
+```jsx
 import ApplicationContext, {
   ApplicationContextType,
 } from "../../ApplicationContext";
@@ -505,97 +429,83 @@ import { UserType } from "../User/User.model";
 
 export default () => (
   <ApplicationContext.Consumer>
-    {({ user }: ApplicationContextType) => (
-      <nav >
-      </nav>
-    )}
+    {({ user }: ApplicationContextType) => <nav></nav>}
   </ApplicationContext.Consumer>
 );
-```
 
-### React Components
+// applicationContext.js
+import React from 'react';
+export default React.createContext();
 
-applicationContext.js
+// app.component.js
+import ApplicationContext from "./ApplicationContext";
+render () {
+  return (
+    <ApplicationContext.Provider value={this.state}>
+      <BrowserRouter>
+        <Header />
+        <div id="content" className="m-auto">
+          <Suspense fallback={<Spinner/>}>
+            <Switch>
+              <Route exact path="/" component={Projects}/>
+              <Route path="/sign-up" component={User}/>
+              <Route path="/sign-in" component={SignIn}/>
+              <Route path="/settings" component={Settings}/>
+              <Route path="/projects" exact={true} component={Projects}/>
+              <Route path="/projects/:id"  exact={true} component={Project}/>
+              <Route path="/kanban/:id"  exact={true} component={Kanban}/>
+              <Route path="/task" exact={true} component={Task}/>
+            </Switch>
+          </Suspense>
+        </div>
+      </BrowserRouter>
+    </ApplicationContext.Provider>
+  );
+}
 
-    import React from 'react';
+// settings.component.js
 
-    export default React.createContext();
+class Settings extends React.component {
+  componentDidMount(){
+    const {settings} = this.context;  // get settings from the context
+    settings && this.setState({settings});
+  }
+}
 
-app.component.js
-
-    import ApplicationContext from "./ApplicationContext";
-
-    render () {
-      return (
-        <ApplicationContext.Provider value={this.state}>
-          <BrowserRouter>
-            <Header />
-            <div id="content" className="m-auto">
-              <Suspense fallback={<Spinner/>}>
-                <Switch>
-                  <Route exact path="/" component={Projects}/>
-                  <Route path="/sign-up" component={User}/>
-                  <Route path="/sign-in" component={SignIn}/>
-                  <Route path="/settings" component={Settings}/>
-                  <Route path="/projects" exact={true} component={Projects}/>
-                  <Route path="/projects/:id"  exact={true} component={Project}/>
-                  <Route path="/kanban/:id"  exact={true} component={Kanban}/>
-                  <Route path="/task" exact={true} component={Task}/>
-                </Switch>
-              </Suspense>
-            </div>
-          </BrowserRouter>
-        </ApplicationContext.Provider>
-      );
-
-    }
-
-settings.component.js
-
-    class Settings extends React.component {
-
-      componentDidMount(){
-
-        const {settings} = this.context;  // get settings from the context
-        settings && this.setState({settings});
-
-      }
-
-    }
-
-    Settings.contextType = ApplicationContext;
-    export default  Settings;
+Settings.contextType = ApplicationContext;
+export default  Settings;
 
 ### Functional components
 
-    # AutenfificationContext
-    import React from 'react';
-    export default React.createContext(null);
+# AutenfificationContext
+import React from 'react';
+export default React.createContext(null);
 
-    # Father.js
-    import React from 'react';
-    import AutenfificationContext from './AutenfificationContext';
+# Father.js
+import React from 'react';
+import AutenfificationContext from './AutenfificationContext';
 
-    # Father
-    const Father = () => (
-      <AutenfificationContext.Provider value={ContextData}">
-        <SonA />
-        <SonB />
-      </AutenfificationContext.Provider>
-    );
+# Father
+const Father = () => (
+  <AutenfificationContext.Provider value={ContextData}">
+    <SonA />
+    <SonB />
+  </AutenfificationContext.Provider>
+);
 
 
 
-    # Grand son
-    const SonX = () => (
-      <AutenfificationContext.Consumer">
-        {ContextData => (
-          <>
-            // use the contextData here
-          </>
-        )}
-      </AutenfificationContext.Consumer>
-    );
+# Grand son
+const SonX = () => (
+  <AutenfificationContext.Consumer">
+    {ContextData => (
+      <>
+        // use the contextData here
+      </>
+    )}
+  </AutenfificationContext.Consumer>
+);
+```
 
 [Back to top](#Content)
 
@@ -1564,3 +1474,15 @@ package.json
 [ErrorBoundary](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/blob/master/src/components/ErrorBoundary/ErrorBoundary.tsx)
 
 ### [Redux](https://gitlab.com/fabrigeas1/tasks-frontend-react.tsx/-/tree/master/src/redux)
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
