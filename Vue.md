@@ -53,45 +53,40 @@ npm run serve
 var vm = new Vue({});
 ```
 
-[Back to top](#Content)
-
 ### Data and methods
 
 ```js
+
 // Properties init in data become reactive (view is re-rendered when they change)
+var data = { a: 1 }
+var vm = new Vue({
+  data,
+})
 
-    var data = { a: 1 }
+vm.a == data.a // => true
 
-    var vm = new Vue({
-      data,
-    })
+vm.a = 2
+data.a // => 2
 
-    vm.a == data.a // => true
+data.a = 3
+vm.a // => 3
 
-    vm.a = 2
-    data.a // => 2
+vm.b = 'hi' will not re-render because 'b' is not part of the initial state
 
-    data.a = 3
-    vm.a // => 3
+// Freezing (makes vm.data un-reactive)
 
-    vm.b = 'hi' will not re-render because 'b' is not part of the initial state
+var data = {
+  foo: 'bar'
+}
 
-    // Freezing (makes vm.data un-reactive)
-    var data = {
-      foo: 'bar'
-    }
+Object.freeze(data); // data is not reactive anymore
 
-    Object.freeze(data); // data is not reactive anymore
+new Vue({
+  el: '#app',
+  data,
+})
 
-    new Vue({
-      el: '#app',
-      data,
-    })
-```
-
-<!-- Instance properties (\$) -->
-
-```js
+// Instance properties (\$)
 var data = { a: 1 };
 
 var vm = new Vue({
@@ -135,16 +130,12 @@ new Vue({
 <script>
   export default {
     data: () => ({
-      todos: [
-        { text: "Learn JavaScript" },
-        { text: "Learn Vue" },
-        { text: "Build something awesome" },
-      ],
+      todos: [{ text: "Learn JavaScript" }],
     }),
   };
 </script>
 
-<h1>Yes</h1>
+<!-- v-if v-else-if v-else -->
 <div v-if="type === 'A'">A</div>
 <div v-else-if="type === 'B'">B</div>
 <div v-else-if="type === 'C'">C</div>
