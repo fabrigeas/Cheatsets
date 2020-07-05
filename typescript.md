@@ -366,3 +366,398 @@ pet.swim();
 Property 'swim' does not exist on type 'Bird | Fish'.
   Property 'swim' does not exist on type 'Bird'.
 ```
+
+## Generics
+
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+let output = identity<string>("myString"); // type of output will be 'string'
+let output = identity("myString"); // type of output will be 'string'(cleaner)
+```
+
+### Generic Type Variables
+
+```ts
+function loggingIdentity<T>(arg: T): T {
+  console.log(arg.length); // Error: T doesn't have .length
+  return arg;
+}
+
+function loggingIdentity<T>(arg: T[]): T[] {
+  console.log(arg.length); // Array has a .length, so no more error
+  return arg;
+}
+
+function loggingIdentity<T>(arg: Array<T>): Array<T> {
+  console.log(arg.length); // Array has a .length, so no more error
+  return arg;
+}
+```
+
+### Generic Types
+
+```ts
+function identity<T>(arg: T): T {
+  return arg;
+}
+let myIdentity: <T>(arg: T) => T = identity;
+let myIdentity: <U>(arg: U) => U = identity; // can use any upperCase letter
+
+// We can also write the generic type as a call signature of an object literal type:
+interface GenericIdentityFn {
+  <T>(arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+let myIdentity: GenericIdentityFn = identity;
+
+interface GenericIdentityFn<T> {
+  (arg: T): T;
+}
+
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+let myIdentity: GenericIdentityFn<number> = identity;
+```
+
+### Generic Classes
+
+```ts
+// Generic classes
+class GenericCls<T> {
+  zeroValue: T;
+  add: (x: T, y: T) => T;
+}
+
+let genericNum = new GenericCls<number>();
+genericNum.zeroValue = 0;
+genericNum.add = function (x, y) {
+  return x + y;
+};
+
+let genericStr = new GenericCls<string>();
+genericStr.zeroValue = "";
+genericStr.add = function (x, y) {
+  return x + y;
+};
+
+console.log(genericStr.add(genericStr.zeroValue, "test"));
+
+// Generic Constraints
+interface Lengthwise {
+  length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length); // Now we know it has a .length property, so no more error
+  return arg;
+}
+loggingIdentity(3); // Error, number doesn't have a .length property
+loggingIdentity({ length: 10, value: 3 }); // ok
+```
+
+### Using Type Parameters in Generic Constraints
+
+```ts
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
+}
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+getProperty(x, "a"); // okay
+getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
+```
+
+### Using Class Types in Generics
+
+```ts
+function create<T>(c: { new (): T }): T {
+  return new c();
+}
+
+class BeeKeeper {
+  hasMask: boolean;
+}
+
+class ZooKeeper {
+  nameTag: string;
+}
+
+class Animal {
+  numLegs: number;
+}
+
+class Bee extends Animal {
+  keeper: BeeKeeper;
+}
+
+class Lion extends Animal {
+  keeper: ZooKeeper;
+}
+
+function createInstance<A extends Animal>(c: new () => A): A {
+  return new c();
+}
+
+createInstance(Lion).keeper.nameTag; // typechecks!
+createInstance(Bee).keeper.hasMask; // typechecks!
+```
+
+## Decorators
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "experimentalDecorators": true
+  }
+}
+```
+
+### Decorator Factories
+
+```ts
+// a function that returns the expression that will be called by the decorator at runtime.
+function color(value: string) {
+  // this is the decorator factory
+  return function (target) {
+    // this is the decorator
+    // do something with 'target' and 'value'...
+  };
+}
+
+// Example
+function configurable(value: boolean) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    descriptor.configurable = value;
+  };
+}
+```
+
+### Decorator Composition
+
+```ts
+// On single line:
+@f @g x
+
+// On multiple lines:
+@f
+@g
+x
+
+function f() {
+  console.log("f(): evaluated");
+  return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("f(): called");
+  };
+}
+
+function g() {
+  console.log("g(): evaluated");
+  return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("g(): called");
+  };
+}
+
+class C {
+  @f()
+  @g()
+  method() {}
+}
+
+// output
+f(): evaluated
+g(): evaluated
+g(): called
+f(): called
+
+// Parameter Decorators, followed by Method, Accessor, or Property Decorators are applied for each instance member.
+// P arameter Decorators, followed by Method, Accessor, or Property Decorators are applied for each static member.
+// Parameter Decorators are applied for the constructor.
+// Class Decorators are applied for the class.
+```
+
+### Decorator Evaluation
+
+There is a well defined order to how decorators applied to various declarations inside of a class are applied:
+
+Parameter Decorators, followed by Method, Accessor, or Property Decorators are applied for each instance member.
+Parameter Decorators, followed by Method, Accessor, or Property Decorators are applied for each static member.
+Parameter Decorators are applied for the constructor.
+Class Decorators are applied for the class.
+
+### Class Decorators
+
+```ts
+function sealed(constructor: Function) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+@sealed
+class Greeter {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  greet() {
+    return "Hello, " + this.greeting;
+  }
+}
+
+// Override the constructor
+function classDecorator<T extends { new (...args: any[]): {} }>(
+  constructor: T
+) {
+  return class extends constructor {
+    newProperty = "new property";
+    hello = "override";
+  };
+}
+
+@classDecorator
+class Greeter {
+  property = "property";
+  hello: string;
+  constructor(m: string) {
+    this.hello = m;
+  }
+}
+
+console.log(new Greeter("world"));
+```
+
+### Method Decorators
+
+```ts
+function enumerable(value: boolean) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    descriptor.enumerable = value;
+  };
+}
+
+class Greeter {
+  greeting: string;
+  constructor(message: string) {
+    this.greeting = message;
+  }
+
+  @enumerable(false)
+  greet() {
+    return "Hello, " + this.greeting;
+  }
+}
+```
+
+### Accessor Decorators
+
+```ts
+class Point {
+  private _x: number;
+  private _y: number;
+  constructor(x: number, y: number) {
+    this._x = x;
+    this._y = y;
+  }
+
+  @configurable(false)
+  get x() {
+    return this._x;
+  }
+
+  @configurable(false)
+  get y() {
+    return this._y;
+  }
+}
+
+function configurable(value: boolean) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    descriptor.configurable = value;
+  };
+}
+```
+
+### Parameter Decorators
+
+```ts
+class Greeter {
+  greeting: string;
+
+  constructor(message: string) {
+    this.greeting = message;
+  }
+
+  @validate
+  greet(@required name: string) {
+    return "Hello " + name + ", " + this.greeting;
+  }
+}
+
+import "reflect-metadata";
+
+const requiredMetadataKey = Symbol("required");
+
+function required(
+  target: Object,
+  propertyKey: string | symbol,
+  parameterIndex: number
+) {
+  let existingRequiredParameters: number[] =
+    Reflect.getOwnMetadata(requiredMetadataKey, target, propertyKey) || [];
+  existingRequiredParameters.push(parameterIndex);
+  Reflect.defineMetadata(
+    requiredMetadataKey,
+    existingRequiredParameters,
+    target,
+    propertyKey
+  );
+}
+
+function validate(
+  target: any,
+  propertyName: string,
+  descriptor: TypedPropertyDescriptor<Function>
+) {
+  let method = descriptor.value;
+  descriptor.value = function () {
+    let requiredParameters: number[] = Reflect.getOwnMetadata(
+      requiredMetadataKey,
+      target,
+      propertyName
+    );
+    if (requiredParameters) {
+      for (let parameterIndex of requiredParameters) {
+        if (
+          parameterIndex >= arguments.length ||
+          arguments[parameterIndex] === undefined
+        ) {
+          throw new Error("Missing required argument.");
+        }
+      }
+    }
+
+    return method.apply(this, arguments);
+  };
+}
+```
