@@ -9,7 +9,6 @@
 - [Conditional-Rendering](#Conditional-Rendering)
 - [Lists-&-Keys](#Lists-&-Keys)
 - [Forms](#Forms)
-- [Lifting-State-up](#Lifting-State-up)
 - [Composition-VS-Inheritance](#Composition-VS-Inheritance)
 - [Accessibility](#Accessibility)
 - [Code-Splitting](#Code-Splitting)
@@ -21,12 +20,9 @@
 - [HOC (Higher Order Components)](<#HOC-(Higher-Order-Components)>)
 - [Router](#Router)
 - [Profiler](#Profiler)
-- [Reconciliation](#Reconciliation)
 - [Render Props](#Render-Props)
 - [PropTypes](#PropTypes)
-- [Web Components](#Web-Components)
 - [Hooks](#Hooks)
-- [Concurrent Mode](#Concurrent-Mode)
 - [React Intl](#React-Intl)
 - [Testing](#Testing)
 - [Misc](#Misc)
@@ -43,27 +39,31 @@ Online Editors
 [Create app](https://www.npmjs.com/package/react-create)
 
 ```bash
+# Create app without typescript support
 npx create-react-app my-app
+
+# typescript support
+npx create-react-app my-app --template typescript
+
+# use scss
+npm install node-sass --save
+
+# start
 cd my-app
 npm start
 
-npx create-react-app my-app --template typescript
-```
-
-### [Create component](https://www.npmjs.com/package/react-create)
-
-```bash
+# create components
+# https://www.npmjs.com/package/react-create
 npm install -g create-components-react
 ccr create src/components/ContactUs
 ```
-
-[Back to top](#Content)
 
 ## [Components](https://reactjs.org/docs/react-component.html)
 
 ```js
 
 // React.Element
+// example
 // github.com/fabrigeas/react-form-group/blob/master/src/components/FormGroup/FormGroup.test.tsx
 ReactDOM.render(
   React.createElement(
@@ -101,20 +101,20 @@ ReactDOM.render(
 );
 
 // React.PureComponent
-// Handles the shouldComponentUpdate() by default. by shallow comparing both props and state.
+// Handles the shouldComponentUpdate() by default.\
+// by shallow comparing both props and state.
+// use Pure components when you re render the same content \
+// without updating props
 ```
-
-[Back to top](#Content)
 
 ## [State & Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
 
 ```js
 class Counter extends React.Component {
-
   state = {
-      count: 0,
-      other: ?
-    }
+    count: 0,
+    other: ?
+  }
 
   addOne = () =>
     this.setState( (previousState) => {
@@ -133,8 +133,6 @@ class Counter extends React.Component {
   }
 }
 ```
-
-[Back to top](#Content)
 
 ## Handling Events
 
@@ -224,12 +222,6 @@ let content = (
   </form>
 );
 ```
-
-[Back to top](#Content)
-
-## Lifting-State-up
-
-Set the state in the parent instead of in each children.
 
 [Back to top](#Content)
 
@@ -368,7 +360,6 @@ class BlurExample extends React.Component {
 ```js
 
 // React.lazy (default exports only)
-
 // returns a promise and must be rendered in a Suspense component
 const LazyComponent  = React.lazy(() => import('./LazyComponent'));
 const LazyComponent2 = React.lazy(() => import('./LazyComponent2'));
@@ -385,7 +376,6 @@ function MyComponent() {
 }
 
 // Route-based code splitting
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import React, { Suspense, lazy } from 'react';
 
@@ -405,7 +395,6 @@ const App = () => (
 );
 
 // react.lazy with named exports
-
 export const MyComponent = /* ... */;
 export const MyUnusedComponent = /* ... */;
 
@@ -426,9 +415,7 @@ import ApplicationContext, {
   ApplicationContextType,
 } from "../../ApplicationContext";
 
-
 import { UserType } from "../User/User.model";
-
 export default () => (
   <ApplicationContext.Consumer>
     {({ user }: ApplicationContextType) => <nav></nav>}
@@ -477,7 +464,6 @@ Settings.contextType = ApplicationContext;
 export default  Settings;
 
 // Functional components
-
 //  AutenfificationContext
 import React from 'react';
 export default React.createContext(null);
@@ -485,7 +471,6 @@ export default React.createContext(null);
 //  Father.js
 import React from 'react';
 import AutenfificationContext from './AutenfificationContext';
-
 
 //  Father
 const Father = () => (
@@ -510,11 +495,6 @@ const SonX = () => (
 [Back to top](#Content)
 
 ## Error Boundaries
-
-Error boundaries are React components that catch JavaScript errors in their child component tree, partially handle thatm and display a fallback UI instead of the crashed component. IE EB are Components that define 1 or both of the lifecycle methods. Uncought EB errors will lead to componentUnmount
-
-- static getDerivedStateFromError() // Render fallback UI
-- componentDidCatch() // log error information
 
 ```js
 export default class ErrorBoundary extends React.Component {
@@ -576,7 +556,7 @@ Forwarding refs to children component to be able to access the grand child.
 
 ```js
 const EmailInput = React.forwardRef((props, ref) => (
-  <input ref={ref} {...props} type="email" className="AppEmailInput" />
+  <input ref={ref} {...props} type="email" />
 ));
 
 class App extends Component {
@@ -636,8 +616,7 @@ render() {
 }
 
 // motivation
-
-class Table extends React. Component {
+class Table extends React.Component {
   render() {
     return (
       <table>
@@ -699,10 +678,6 @@ ReactDOM.render(
   document.getElementById("root")
 );
 ```
-
-[Back to top](#Content)
-
-## [Integration with other Libraries](https://reactjs.org/docs/integrating-with-other-libraries.html)
 
 [Back to top](#Content)
 
@@ -771,10 +746,6 @@ export default DashBoard;
 
 [Back to top](#Content)
 
-## Optimizing Performance
-
-[Back to top](#Content)
-
 ## Portals
 
 Insert a component into a specific container
@@ -792,9 +763,7 @@ render() {
 
 [Back to top](#Content)
 
-## Profiler
-
-(Prod mod only)
+## Profiler (Prod mod only)
 
 A component that measures the # and cost of rendering it's child component
 Each Profiler must have an id
@@ -837,12 +806,6 @@ function onRenderCallback(
   // Aggregate or log render timings...
 }
 ```
-
-[Back to top](#Content)
-
-## [Reconciliation](https://reactjs.org/docs/reconciliation.html)
-
-Optimising components update predicitibility
 
 [Back to top](#Content)
 
@@ -906,23 +869,6 @@ const App = () => (
 
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
-
-[Back to top](#Content)
-
-## [Static Type Checking](https://reactjs.org/docs/static-type-checking.html)
-
-Typecheckers (Flow and Typescript) id problems before execution. Use them instead of PropTypes.
-
-### [Flow](https://flow.org/en/docs/getting-started/)
-
-### TypeScript
-
-    npm install --save-dev typescript
-    npx create-react-app my-app --typescript
-
-[Back to top](#Content)
-
-## Strict Mode (A tool for highlighting potential problems in the application, development mode only)
 
 [Back to top](#Content)
 
@@ -1008,7 +954,6 @@ render() {
 }
 
 // File (type='file' is always uncontrolled cuz the value is set by the user)
-
 class FileInput extends React. Component {
   constructor(props) {
     super(props);
@@ -1045,8 +990,6 @@ ReactDOM.render(
 ```
 
 [Back to top](#Content)
-
-## Web Components
 
 ## [Hooks](https://reactjs.org/docs/hooks-reference.html) (Addition in React 16.8 that let you use state and other React features without writing a class)
 
@@ -1197,8 +1140,6 @@ ReactDOM.render( <NoteApp  /> , document.getElementById('root'));
 
 [Back to top](#Content)
 
-## Concurrent Mode
-
 ## [React Intl](https://github.com/formatjs/react-intl/blob/master/docs/API.md)
 
 ## [Testing]
@@ -1276,7 +1217,6 @@ npm install node-sass --save
 
 ### Resources
 
-- Hello world
 - [regex101](https://regex101.com/)
 - [react-dates](https://github.com/airbnb/react-dates)
 - [react-addons-shallow-compare](https://www.npmjs.com/package/react-addons-shallow-compare)
