@@ -119,6 +119,8 @@ docker rmi $(docker images -a -q)
 # remove dangling images
 docker images purge
 docker images -a | grep "pattern" | awk '{print $3}' | xargs docker rmi
+#remove all images
+docker rmi --force $(docker images -a | awk '{print $3}')
 
 #### Containers
 

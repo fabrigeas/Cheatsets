@@ -14,7 +14,7 @@ npm test
 ember test
 ```
 
-## Routes
+## Routing
 
 ```js
 // app/router.js
@@ -27,11 +27,23 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function () {
+  // index route can be omitted because included by default
+  this.route("index", { path: "/" });
+
   // http://localhost:4200/about => app/templates/about.hbs
   this.route("about");
 
   //http://localhost:4200/getting-in-touch => app/templates/contact.hbs
   this.route("contact", { path: "/getting-in-touch" });
+
+  //http://localhost:4200/posts
+  //http://localhost:4200/posts/new
+  //http://localhost:4200/posts/favourites
+  this.route("posts", function () {
+    this.route("index", { path: "/" }); // also optional
+    this.route("favorites");
+    this.route("new");
+  });
 });
 ```
 
@@ -39,6 +51,137 @@ Router.map(function () {
   <LinkTo @route="about" class="button">About Us</LinkTo>
   <LinkTo @route="contact" class="button">Contact Us</LinkTo>
   <LinkTo @route="about" class="button">About</LinkTo>
+```
+
+### Generate routes
+
+```sh
+ember generate route route-name
+# generates
+# app/routes/route-name.js
+# app/templates/route-name.hbs
+# tests/unit/routes/route-name-test.js
+```
+
+### Route Params, dynamic segments
+
+```sh
+ember generate component rental/detailed
+
+# app/routes/rental
+# app/routes/rental/detail
+```
+
+```js
+// app/router.js
+Router.map(function () {
+  this.route("rental", { path: "/rentals/:rental_id" });
+});
+
+// app/routes/rental.js
+import Route from "@ember/routing/route";
+import { inject as service } from "@ember/service";
+
+export default class RentalRoute extends Route {
+  @service store;
+  async model(params) {
+    return this.store.find("rental", params.rental_id);
+  }
+}
+```
+
+```hbs
+<LinkTo
+  @route="rental"
+  @model={{@rental}}> <!-- pass a model argument for dynamic segments-->
+  {{@rental.title}}
+</LinkTo>
+
+<!-- app/templates/rental.hbs -->
+<Rental::Detailed @rental={{@model}} />
+
+<!-- app/components/rental/detailed.hbs -->
+<!-- renders a rental -->
+```
+
+### Query Parameters
+
+```hbs
+http://example.com/articles?category=recent
+
+// Explicitly set target query params
+<LinkTo @route="posts" @query={{hash category="foo" direction="asc"}}>Sort</LinkTo>
+
+// Binding is also supported
+<LinkTo @route="posts" @query={{hash category=this.category direction=this.otherDirection}}>Sort</LinkTo>
+```
+
+```js
+// app/controllers/articles.js
+import Controller from "@ember/controller";
+import { tracked } from "@glimmer/tracking";
+
+export default class ArticlesController extends Controller {
+  queryParams = ["category"];
+
+  @tracked category = null;
+  @tracked model;
+
+  get filteredArticles() {
+    let category = this.category;
+    let articles = this.model;
+
+    if (category) {
+      return articles.filterBy("category", category);
+    } else {
+      return articles;
+    }
+  }
+}
+```
+
+### Controller
+
+```sh
+ember generate controller blog-post
+# app/controllers/blog-post.js
+# tests/unit/controllers/blog-post-test.js
+```
+
+```hbs
+<!-- app/templates/blog-post.hbs -->
+<h1>{{@model.title}}</h1>
+<h2>by {{@model.author}}</h2>
+
+<div class='intro'>
+  {{@model.intro}}
+</div>
+<hr>
+
+{{#if this.isExpanded}}
+  <button type="button" {{on "click" this.toggleBody}}>Hide Body</button>
+  <div class="body">
+    {{@model.body}}
+  </div>
+{{else}}
+  <button type="button" {{on "click" this.toggleBody}}>Show Body</button>
+{{/if}}
+
+```
+
+```js
+// app/controllers/blog-post.js
+import Controller from "@ember/controller";
+import { action } from "@ember/object";
+
+export default class BlogPostController extends Controller {
+  isExpanded = false;
+
+  @action
+  toggleBody() {
+    this.toggleProperty("isExpanded");
+  }
+}
 ```
 
 ## Automated Testing
@@ -65,6 +208,7 @@ super
 ### state(tracked), actions(methods)
 
 ```sh
+ember generate component-class rental
 ember generate component-class rental/image
 ```
 
@@ -146,7 +290,30 @@ export default class MapComponent extends Component {
 </div>
 ```
 
-## Working with Data
+### Contextual Components
+
+```hbs
+<!-- app/components/foo-component.hbs -->
+<h3>Hello from foo!</h3>
+<p>{{this.post.body}}</p>
+
+<!-- app/components/bar-component.hbs -->
+<h3>Hello from bar!</h3>
+<div>{{this.post.author}}</div>
+
+<!-- app/templates/index.hbs -->
+<!-- myPosts = ['FooComponent', 'BarComponent] -->
+{{#each this.myPosts as |post|}}
+  {{!-- either foo-component or bar-component --}}
+  {{component post.postType post=post}}
+  <!-- equivalently -->
+  {{#let (component post.postType) as |Post|}}
+    <Post @post={{post}} />
+  {{/let}}
+{{/each}}
+```
+
+## Ember Data
 
 ```js
 // routes/index.js
@@ -180,19 +347,47 @@ export default class IndexRoute extends Route {
 </article>
 ```
 
-## Route Params, dynamic segments
+### rental store
 
 ```sh
-ember generate component rental/detailed
+ember generate model-test rental
 ```
 
 ```js
-// app/router.js
-Router.map(function () {
-  this.route("rental", { path: "/rentals/:rental_id" });
-});
+// app/models/rental.js
+import Model, { attr } from "@ember-data/model";
 
-// routes/rental.js
+const COMMUNITY_CATEGORIES = ["Condo", "Townhouse", "Apartment"];
+
+export default class RentalModel extends Model {
+  @attr title;
+  @attr owner;
+  @attr city;
+  @attr location;
+  @attr category;
+  @attr image;
+  @attr bedrooms;
+  @attr description;
+
+  get type() {
+    return COMMUNITY_CATEGORIES.includes(this.category)
+      ? "Community"
+      : "Standalone";
+  }
+}
+
+// app/routes/index.js
+import Route from "@ember/routing/route";
+import { inject as service } from "@ember/service";
+
+export default class IndexRoute extends Route {
+  @service store;
+  async model() {
+    return this.store.findAll("rental");
+  }
+}
+
+// app/routes/rental.js
 import Route from "@ember/routing/route";
 import { inject as service } from "@ember/service";
 
@@ -202,20 +397,22 @@ export default class RentalRoute extends Route {
     return this.store.find("rental", params.rental_id);
   }
 }
-```
 
-```hbs
-<LinkTo
-  @route="rental"
-  @model={{@rental}}> <!-- pass a model argument for dynamic segments-->
-  {{@rental.title}}
-</LinkTo>
+// app/adapters/application.js
+import JSONAPIAdapter from "@ember-data/adapter/json-api";
 
-<!-- app/templates/rental.hbs -->
-<Rental::Detailed @rental={{@model}} />
+export default class ApplicationAdapter extends JSONAPIAdapter {
+  namespace = "api";
 
-<!-- app/components/rental/detailed.hbs -->
-<!-- renders a rental -->
+  buildURL(...args) {
+    return `${super.buildURL(...args)}.json`;
+  }
+}
+
+// app/serializers/application.js
+import JSONAPISerializer from "@ember-data/serializer/json-api";
+
+export default class ApplicationSerializer extends JSONAPISerializer {}
 ```
 
 ## Service Injection
@@ -314,74 +511,6 @@ export default class ShareButtonComponent extends Component {
     return url;
   }
 }
-```
-
-## Ember Data
-
-```sh
-ember generate model-test rental
-```
-
-```js
-// app/models/rental.js
-import Model, { attr } from "@ember-data/model";
-
-const COMMUNITY_CATEGORIES = ["Condo", "Townhouse", "Apartment"];
-
-export default class RentalModel extends Model {
-  @attr title;
-  @attr owner;
-  @attr city;
-  @attr location;
-  @attr category;
-  @attr image;
-  @attr bedrooms;
-  @attr description;
-
-  get type() {
-    return COMMUNITY_CATEGORIES.includes(this.category)
-      ? "Community"
-      : "Standalone";
-  }
-}
-
-// app/routes/index.js
-import Route from "@ember/routing/route";
-import { inject as service } from "@ember/service";
-
-export default class IndexRoute extends Route {
-  @service store;
-  async model() {
-    return this.store.findAll("rental");
-  }
-}
-
-// app/routes/rental.js
-import Route from "@ember/routing/route";
-import { inject as service } from "@ember/service";
-
-export default class RentalRoute extends Route {
-  @service store;
-  async model(params) {
-    return this.store.find("rental", params.rental_id);
-  }
-}
-
-// app/adapters/application.js
-import JSONAPIAdapter from "@ember-data/adapter/json-api";
-
-export default class ApplicationAdapter extends JSONAPIAdapter {
-  namespace = "api";
-
-  buildURL(...args) {
-    return `${super.buildURL(...args)}.json`;
-  }
-}
-
-// app/serializers/application.js
-import JSONAPISerializer from "@ember-data/serializer/json-api";
-
-export default class ApplicationSerializer extends JSONAPISerializer {}
 ```
 
 ## Provider Components
