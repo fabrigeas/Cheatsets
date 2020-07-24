@@ -43,6 +43,9 @@ Router.map(function () {
     this.route("index", { path: "/" }); // also optional
     this.route("favorites");
     this.route("new");
+    this.route("edit", {
+      path: ":post_id/edit",
+    });
   });
 });
 ```
