@@ -1,5 +1,49 @@
 # Typescript
 
+
+## Create typescript Registry
+
+A registry permits autocompletion 
+
+### 1 Create default registry
+
+```ts
+/* types/fabrice/types/registries/name.d.ts */
+export default interface MyCustomRegistry {}
+```
+
+### 2 extend registry
+
+Create several components that extend the registry
+```ts
+// pseudonym for creating 10 files
+for(let i =; i < 10; i++)  {
+  declare module 'fabrice/types/registries/name' {
+    export default interface MyCustomRegistry {
+      `component-${i}`: class {};
+    }
+  }
+}
+```
+
+### 3 Define a type that uses the registry
+```ts
+import MyCustomRegistry from 'fabrice/types/registries/name';
+
+export default interface Fabrice {
+  name: keyof MyCustomRegistry
+}
+```
+
+### 4 Using the type and register
+```ts
+const test: Fabrice = {
+  name: 'alpha'; // name can only be alpha | beta |
+}
+```
+
+### All together
+
 [Basic Types](https://www.typescriptlang.org/docs/handbook/basic-types.html)\
 [Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
 
