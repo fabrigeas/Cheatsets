@@ -677,11 +677,13 @@ sudo netstat -anp | grep sshd
 
 # connect
 # fab is the name of a user registered on the host
-ssh fab@ip.of.host.ie.remote.pc
-ssh fab@dell # if the remote(server hostname -f =>dell)
+ssh fab@ip.remote.worskstation
+ssh fab@dell # if the remote_uname==fab && remote_hostname==dell
+ssh dell # remote_hostname == dell
+ssh ip.remote.worskstation
 
 # username not required because username is same in both client and server
-ssh ip.of.remote.pc
+ssh ip.remote.worskstation
 ssh dell # (hostname -f on the remote returned dell)
 
 # disconnect
@@ -691,12 +693,16 @@ exit
 # on client
 # copies public key client -> server.known hosts
 ssh remote_uname@remote_hostname; ssh-copy-id username@ip.of.server.pc
+```
+### scp
+
+```sh
 scp copy files between computers
 
 # without ssh login to the remte host
-#  cd to your dest
-scp fabrigeas@remote:/path/to/file/file.ext  /path/in/local/computer
-scp jenny@192.168.2.113: C:/Users/feugang/Desktop/install-ssh-win8.txt .
+
+scp fabrigeas@remote:path/to/file/file.ext  /path/in/local/computer
+scp jenny@192.168.2.113:C:/Users/feugang/Desktop/install-ssh-win8.txt .
 
 # already ssh logged in to the remote
 scp /path/to/file/file.ext  username@theOtherComputer:/path/to/dest
