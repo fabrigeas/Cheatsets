@@ -690,7 +690,7 @@ exit
 # login without password => using rsa-key
 # on client
 # copies public key client -> server.known hosts
-ssh-copy-id username@ip.of.server.pc
+ssh remote_uname@remote_hostname; ssh-copy-id username@ip.of.server.pc
 scp copy files between computers
 
 # without ssh login to the remte host
